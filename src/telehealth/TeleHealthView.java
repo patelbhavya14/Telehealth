@@ -317,7 +317,19 @@ public class TeleHealthView extends FrameView {
         currentPanel.invalidate();
         
         PatientPanel patientPanel = new PatientPanel(this, system);
+        currentPanel = patientPanel;
+        Dimension dim = getMainPanelDimension();
+        titlePanel.setTitle("Patient Panel");
+        titlePanel.setSize(1200, 50);
+        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        mainPanel.add(titlePanel);
+        mainPanel.add(currentPanel);
         
+        currentPanel.repaint();
+        currentPanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_jmiPatientActionPerformed
     
     public void login(){
