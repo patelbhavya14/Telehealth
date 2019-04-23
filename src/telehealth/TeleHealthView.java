@@ -205,6 +205,11 @@ public class TeleHealthView extends FrameView {
         jmiPatient.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.META_MASK));
         jmiPatient.setText(resourceMap.getString("jmiPatient.text")); // NOI18N
         jmiPatient.setName("jmiPatient"); // NOI18N
+        jmiPatient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiPatientActionPerformed(evt);
+            }
+        });
         fileMenu.add(jmiPatient);
 
         jSeparator1.setName("jSeparator1"); // NOI18N
@@ -305,6 +310,27 @@ public class TeleHealthView extends FrameView {
         currentPanel.setBounds((int)dim.getWidth(),(int)dim.getHeight()+55,1200,640);
         titlePanel.setBounds((int)dim.getWidth(),(int)dim.getHeight(),1200,50);
     }//GEN-LAST:event_mainPanelComponentResized
+
+    private void jmiPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPatientActionPerformed
+        // TODO add your handling code here:
+        currentPanel.removeAll();
+        currentPanel.invalidate();
+        
+        PatientPanel patientPanel = new PatientPanel(this, system);
+        currentPanel = patientPanel;
+        Dimension dim = getMainPanelDimension();
+        titlePanel.setTitle("Patient Panel");
+        titlePanel.setSize(1200, 50);
+        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        mainPanel.add(titlePanel);
+        mainPanel.add(currentPanel);
+        
+        currentPanel.repaint();
+        currentPanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }//GEN-LAST:event_jmiPatientActionPerformed
     
     public void login(){
         boolean loginFlag = true;
