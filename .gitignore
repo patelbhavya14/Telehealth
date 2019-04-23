@@ -1,4 +1,5 @@
 build
 dist
-/nbproject/private/
+/nbproject/
 TeleHealthData.db4o
+/TeleHealthData.db4o
