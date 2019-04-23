@@ -56,6 +56,33 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiNetworkActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiOrganization">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Meta+O"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="jmiOrganization.text"/>
+                <Property name="name" type="java.lang.String" value="jmiOrganization" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiUserAccount">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Meta+U"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="jmiUserAccount.text"/>
+                <Property name="name" type="java.lang.String" value="jmiUserAccount" noResource="true"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiPatient">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Meta+P"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="jmiPatient.text"/>
+                <Property name="name" type="java.lang.String" value="jmiPatient" noResource="true"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
               <Properties>
                 <Property name="name" type="java.lang.String" value="jSeparator1" noResource="true"/>
