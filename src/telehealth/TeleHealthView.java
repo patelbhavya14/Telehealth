@@ -135,6 +135,9 @@ public class TeleHealthView extends FrameView {
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         jmiNetwork = new javax.swing.JMenuItem();
+        jmiOrganization = new javax.swing.JMenuItem();
+        jmiUserAccount = new javax.swing.JMenuItem();
+        jmiPatient = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
@@ -188,6 +191,21 @@ public class TeleHealthView extends FrameView {
             }
         });
         fileMenu.add(jmiNetwork);
+
+        jmiOrganization.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.META_MASK));
+        jmiOrganization.setText(resourceMap.getString("jmiOrganization.text")); // NOI18N
+        jmiOrganization.setName("jmiOrganization"); // NOI18N
+        fileMenu.add(jmiOrganization);
+
+        jmiUserAccount.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.META_MASK));
+        jmiUserAccount.setText(resourceMap.getString("jmiUserAccount.text")); // NOI18N
+        jmiUserAccount.setName("jmiUserAccount"); // NOI18N
+        fileMenu.add(jmiUserAccount);
+
+        jmiPatient.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.META_MASK));
+        jmiPatient.setText(resourceMap.getString("jmiPatient.text")); // NOI18N
+        jmiPatient.setName("jmiPatient"); // NOI18N
+        fileMenu.add(jmiPatient);
 
         jSeparator1.setName("jSeparator1"); // NOI18N
         fileMenu.add(jSeparator1);
@@ -360,6 +378,9 @@ public class TeleHealthView extends FrameView {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuItem jmiNetwork;
+    private javax.swing.JMenuItem jmiOrganization;
+    private javax.swing.JMenuItem jmiPatient;
+    private javax.swing.JMenuItem jmiUserAccount;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JProgressBar progressBar;
