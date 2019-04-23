@@ -20,11 +20,11 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="445" max="32767" attributes="0"/>
-              <Component id="jLabel2" min="-2" pref="87" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblTitle" min="-2" pref="128" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="534" max="-2" attributes="0"/>
+              <EmptySpace pref="402" max="32767" attributes="0"/>
+              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <Component id="lblTitle" min="-2" pref="312" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="329" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -43,7 +43,6 @@
     <Component class="javax.swing.JLabel" name="lblTitle">
       <Properties>
         <Property name="font" type="java.awt.Font" resourceKey="lblTitle.font"/>
-        <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" resourceKey="lblTitle.text"/>
         <Property name="name" type="java.lang.String" value="lblTitle" noResource="true"/>
       </Properties>
