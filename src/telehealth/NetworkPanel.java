@@ -161,23 +161,44 @@ public class NetworkPanel extends javax.swing.JPanel {
 //        network.setName(networkName);
 
         if(networkName != null && !networkName.equals("")){
+            boolean networkExists = false;
             if(btnAddNetwork.getText().equals("Add")){
-                Network network = system.createAndAddNetwork();
-                network.setName(networkName);
-                dB4OUtil.storeSystem(system);
-                JOptionPane.showMessageDialog(null, "Network added successfully");
-                clearFields();
+                
+                for(Network network: system.getNetworkList()){
+                    if(network.getName().equals(networkName)){
+                        networkExists = true;
+                    }
+                }
+                if(!networkExists){
+                    Network network = system.createAndAddNetwork();
+                    network.setName(networkName);
+                    dB4OUtil.storeSystem(system);
+                    JOptionPane.showMessageDialog(null, "Network added successfully");
+                    clearFields();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Validation Error", "Network with entere name already exists", JOptionPane.WARNING_MESSAGE);
+                }
             } else {
                 int table_selected_row = tblNetwork.getSelectedRow();
                 int networkId = Integer.parseInt(tblNetwork.getValueAt(table_selected_row, 0).toString());
+                Network networkToBeUpdated = null;
                 for(Network network : system.getNetworkList()){
-                    if(network.getNetworkId() == networkId){
-                        network.setName(networkName);
-                        dB4OUtil.storeSystem(system);
-                        JOptionPane.showMessageDialog(null, "Network updated successfully");
-                        clearFields();
+                    if(network.getNetworkId() != networkId && network.getName().equals(networkName)){
+                        networkExists = true;
                         break;
+                    } else {
+                        if(network.getNetworkId() == networkId){
+                            networkToBeUpdated = network;
+                        }
                     }
+                }
+                if(networkToBeUpdated != null && !networkExists){
+                    networkToBeUpdated.setName(networkName);
+                    dB4OUtil.storeSystem(system);
+                    JOptionPane.showMessageDialog(null, "Network updated successfully");
+                    clearFields();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Validation Error", "Network with entere name already exists", JOptionPane.WARNING_MESSAGE);
                 }
             }
             populateTable();        

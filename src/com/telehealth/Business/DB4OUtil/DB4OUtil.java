@@ -74,6 +74,7 @@ public class DB4OUtil {
             system = systems.get(systems.size() - 1);
         }
         conn.close();
+        
         if(flag){
             storeSystem(system);
             System.out.println("stored in system");
