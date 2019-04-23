@@ -4,6 +4,16 @@
 
 package telehealth;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.telehealth.Business.DB4OUtil.DB4OUtil;
+import com.telehealth.Business.EcoSystem;
+import com.telehealth.Business.Enterprise.Enterprise;
+import com.telehealth.Business.Network.Network;
+import com.telehealth.Business.Organization.Organization;
+import com.telehealth.Business.UserAccount.UserAccount;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -15,16 +25,37 @@ import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 /**
  * The application's main frame.
  */
 public class TeleHealthView extends FrameView {
 
+    private EcoSystem system;
+    private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+    private String message;
+    private JPanel currentPanel;
+    private TitlePanel titlePanel;
+    
     public TeleHealthView(SingleFrameApplication app) {
         super(app);
 
         initComponents();
+        
+        currentPanel = new JPanel(new BorderLayout());
+        titlePanel = new TitlePanel();
+        
+        GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting().serializeNulls();
+        Gson gson = builder.create();
+        System.out.println(gson.toJson(system));
+        
+        system = dB4OUtil.retrieveSystem();
+        
+//        dB4OUtil.storeSystem(system);
 
         // status bar initialization - message timeout, idle icon and busy animation, etc
         ResourceMap resourceMap = getResourceMap();
@@ -103,6 +134,8 @@ public class TeleHealthView extends FrameView {
         mainPanel = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
+        jmiNetwork = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
@@ -113,35 +146,66 @@ public class TeleHealthView extends FrameView {
         progressBar = new javax.swing.JProgressBar();
 
         mainPanel.setName("mainPanel"); // NOI18N
+        mainPanel.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                mainPanelAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        mainPanel.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                mainPanelComponentResized(evt);
+            }
+        });
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 1210, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 252, Short.MAX_VALUE)
+            .addGap(0, 703, Short.MAX_VALUE)
         );
 
         menuBar.setName("menuBar"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(telehealth.TeleHealthApp.class).getContext().getResourceMap(TeleHealthView.class);
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
+        fileMenu.setFont(resourceMap.getFont("fileMenu.font")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
+
+        jmiNetwork.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        jmiNetwork.setText(resourceMap.getString("jmiNetwork.text")); // NOI18N
+        jmiNetwork.setName("jmiNetwork"); // NOI18N
+        jmiNetwork.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiNetworkActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jmiNetwork);
+
+        jSeparator1.setName("jSeparator1"); // NOI18N
+        fileMenu.add(jSeparator1);
 
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(telehealth.TeleHealthApp.class).getContext().getActionMap(TeleHealthView.class, this);
         exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
+        exitMenuItem.setFont(resourceMap.getFont("exitMenuItem.font")); // NOI18N
         exitMenuItem.setName("exitMenuItem"); // NOI18N
         fileMenu.add(exitMenuItem);
 
         menuBar.add(fileMenu);
 
         helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
+        helpMenu.setFont(resourceMap.getFont("helpMenu.font")); // NOI18N
         helpMenu.setName("helpMenu"); // NOI18N
 
         aboutMenuItem.setAction(actionMap.get("showAboutBox")); // NOI18N
+        aboutMenuItem.setFont(resourceMap.getFont("aboutMenuItem.font")); // NOI18N
         aboutMenuItem.setName("aboutMenuItem"); // NOI18N
         helpMenu.add(aboutMenuItem);
 
@@ -162,11 +226,11 @@ public class TeleHealthView extends FrameView {
         statusPanel.setLayout(statusPanelLayout);
         statusPanelLayout.setHorizontalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 1210, Short.MAX_VALUE)
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusMessageLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 226, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1040, Short.MAX_VALUE)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(statusAnimationLabel)
@@ -189,7 +253,113 @@ public class TeleHealthView extends FrameView {
         setStatusBar(statusPanel);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void mainPanelAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_mainPanelAncestorAdded
+        // TODO add your handling code here:
+        
+        boolean loginFlag = true;
+        login();
+    }//GEN-LAST:event_mainPanelAncestorAdded
+
+    private void jmiNetworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNetworkActionPerformed
+        // TODO add your handling code here:
+        currentPanel.removeAll();
+        currentPanel.invalidate();
+        
+        NetworkPanel networkPanel = new NetworkPanel(this, system);
+        currentPanel = networkPanel;
+        Dimension dim = getMainPanelDimension();
+        titlePanel.setTitle("Network Panel");
+        titlePanel.setSize(1200, 50);
+        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        mainPanel.add(titlePanel);
+        mainPanel.add(currentPanel);
+        
+        currentPanel.repaint();
+        currentPanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }//GEN-LAST:event_jmiNetworkActionPerformed
+
+    private void mainPanelComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_mainPanelComponentResized
+        // TODO add your handling code here:
+        Dimension dim=getMainPanelDimension();
+        currentPanel.setBounds((int)dim.getWidth(),(int)dim.getHeight()+55,1200,640);
+        titlePanel.setBounds((int)dim.getWidth(),(int)dim.getHeight(),1200,50);
+    }//GEN-LAST:event_mainPanelComponentResized
+    
+    public void login(){
+        boolean loginFlag = true;
+        UserAccount userAccount1 = new UserAccount();
+        LoginPanel _login = new LoginPanel(userAccount1);
+                
+        while (loginFlag) {
+            UIManager.put("OptionPane.okButtonText", "LOGIN");
+            UIManager.put("OptionPane.cancelButtonText", "CLOSE");
+            int option = JOptionPane.showConfirmDialog(mainPanel, _login, "PLEASE LOGIN", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            UIManager.put("OptionPane.okButtonText", "OK");
+            UIManager.put("OptionPane.cancelButtonText", "CLOSE");
+            
+            Enterprise inEnterprise=null;
+            Organization inOrganization=null;
+        
+            if (option == 0)
+            {
+                UserAccount userAccount = system.getUserAccountDirectory().authenticateUser(userAccount1.getUsername(), userAccount1.getPassword());
+                    if(userAccount==null){
+                    //Step 2: Go inside each network and check each enterprise
+                    for(Network network:system.getNetworkList()){
+                        //Step 2.a: check against each enterprise
+                        for(Enterprise enterprise:network.getEnterpriseDirectory().getEnterpriseList()){
+                            userAccount=enterprise.getUserAccountDirectory().authenticateUser(userAccount1.getUsername(), userAccount1.getPassword());
+                            if(userAccount==null){
+                               //Step 3:check against each organization for each enterprise
+                               for(Organization organization:enterprise.getOrganizationDirectory().getOrganizationList()){
+                                   userAccount=organization.getUserAccountDirectory().authenticateUser(userAccount1.getUsername(), userAccount1.getPassword());
+                                   if(userAccount!=null){
+                                       inEnterprise=enterprise;
+                                       inOrganization=organization;
+                                       break;
+                                   }
+                               }
+                            }
+                            else{
+                               inEnterprise=enterprise;
+                               break;
+                            }
+                            if(inOrganization!=null){
+                                break;
+                            }  
+                        }
+                        if(inEnterprise!=null){
+                            break;
+                        }
+                    }
+                }
+                if(userAccount==null){
+                    JOptionPane.showMessageDialog(null, "Invalid credentials");                    
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Login successful!!");
+                    GsonBuilder builder = new GsonBuilder();
+                    builder.setPrettyPrinting().serializeNulls();
+                    Gson gson = builder.create();
+                    System.out.println(gson.toJson(system));
+                    
+                    system.getUserAccountDirectory().getUserAccountList().get(0).setUsername("a");
+                    system.getUserAccountDirectory().getUserAccountList().get(0).setPassword("a");
+                    dB4OUtil.storeSystem(system);
+                    
+                    loginFlag = false;
+                }
+            } else {              
+                System.exit(0);
+            }
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JMenuItem jmiNetwork;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JProgressBar progressBar;
@@ -205,4 +375,27 @@ public class TeleHealthView extends FrameView {
     private int busyIconIndex = 0;
 
     private JDialog aboutBox;
+    
+    public Dimension getMainPanelDimension()
+    {
+        Dimension d = mainPanel.getSize();
+        if(d.getWidth()>1200 && d.getHeight()<=700)
+        {
+            d.setSize((d.getWidth()-1200)/2, 0);
+        }
+        else if(d.getWidth()<=1200 && d.getHeight()>700)
+        {
+            d.setSize(0, (d.getWidth()-1200)/2-10);
+        }
+        else if(d.getWidth()>1200 && d.getHeight()>700)
+        {
+            d.setSize((d.getWidth()-1200)/2, ((d.getHeight()-700)/2)-10);
+        }
+        else
+        {
+            d.setSize(0,0);
+        }
+        return d;
+
+    }
 }
