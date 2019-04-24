@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -374,18 +376,15 @@ public class PatientPanel extends javax.swing.JPanel {
         String patientDOB = txtPatientDOB.getText();
         String patientBloodGroup = comboPatientBloodGroup.getItemAt(comboPatientBloodGroup.getSelectedIndex());
         
-        
-        
-        if(patientName.equals("") || patientAddress1.equals("") || patientAddress2.equals("") || patientCity.equals("") || patientZipcode.equals("") ||
-                patientCountry.equals("") || patientPhone.equals("(   )   -    ") || patientEmail.equals("") || patientDOB.equals("  /  /    ") || comboPatientBloodGroup.getSelectedIndex() == -1) {
-            JOptionPane.showMessageDialog(null, "Validation Error", "Please enter all the field", JOptionPane.WARNING_MESSAGE);
+        if(!validateFields()) {
             return;
         }
         
-        Date date;
-                
+        SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+        date.setLenient(false);
+        Date DOB;
         try {
-            date = new SimpleDateFormat("MM/dd/yyyy").parse(patientDOB);
+            DOB = date.parse(patientDOB);
         } catch (ParseException ex) {
            JOptionPane.showMessageDialog(null, "Date Validation Error", "Please enter proper date", JOptionPane.WARNING_MESSAGE);
            return;
@@ -393,7 +392,7 @@ public class PatientPanel extends javax.swing.JPanel {
         
         if(btnAddPatient.getText().equals("Add")){
             
-            Patient patient = new Patient(1, patientName, patientAddress1, patientAddress2, patientCity, patientState, patientZipcode, patientCountry, patientPhone, patientEmail, patientBloodGroup, date);
+            Patient patient = new Patient(1, patientName, patientAddress1, patientAddress2, patientCity, patientState, patientZipcode, patientCountry, patientPhone, patientEmail, patientBloodGroup, DOB);
             system.getPatientDirectory().createAndAddPatient(patient);
             
             dB4OUtil.storeSystem(system);
@@ -415,7 +414,7 @@ public class PatientPanel extends javax.swing.JPanel {
             patient.setPatientPhoneNumber(patientPhone);
             patient.setPatientEmailId(patientEmail);
             patient.setPatientBloodGroup(patientBloodGroup);
-            patient.setDateOfBirth(date);
+            patient.setDateOfBirth(DOB);
             
             dB4OUtil.storeSystem(system);
             clearFields();
@@ -474,7 +473,7 @@ public class PatientPanel extends javax.swing.JPanel {
         if(selectedOption == JOptionPane.OK_OPTION){
             int table_selected_row = tblPatient.getSelectedRow();
             Patient patient = (Patient) tblPatient.getValueAt(table_selected_row, 1);
-            system.getPatientDirectory().getPatientDirectory().remove(patient);
+            system.getPatientDirectory().getPatientList().remove(patient);
             dB4OUtil.storeSystem(system);
             JOptionPane.showMessageDialog(null, "Patient deleted successfully");
             clearFields();
@@ -516,6 +515,43 @@ public class PatientPanel extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField txtPatientZipcode;
     // End of variables declaration//GEN-END:variables
 
+    private boolean validateFields() {
+        String patientName = txtPatientName.getText();
+        String patientAddress1 = txtPatientAddress1.getText();
+        String patientAddress2 = txtPatientAddress2.getText();
+        String patientCity = txtPatientCity.getText();
+        String patientState = txtPatientState.getText();
+        String patientZipcode = txtPatientZipcode.getText();
+        String patientCountry = txtPatientCountry.getText();
+        String patientPhone = txtPatientPhone.getText();
+        String patientEmail = txtPatientEmail.getText();
+        String patientDOB = txtPatientDOB.getText();
+        String patientBloodGroup = comboPatientBloodGroup.getItemAt(comboPatientBloodGroup.getSelectedIndex());
+        
+        if(patientName.trim().equals("") || patientAddress1.trim().equals("") || patientAddress2.trim().equals("") || patientCity.trim().equals("") || patientZipcode.trim().equals("") ||
+                patientCountry.trim().equals("") || patientPhone.equals("(   )   -    ") || patientEmail.trim().equals("") || patientDOB.equals("  /  /    ") || comboPatientBloodGroup.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(null, "Please enter all the field", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        if(!validateEmail()) {
+            JOptionPane.showMessageDialog(null, "Email address is invalid", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        
+        SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+        date.setLenient(false);
+        Date DOB;
+        try {
+            DOB = date.parse(patientDOB);
+        } catch (ParseException ex) {
+           JOptionPane.showMessageDialog(null, "Please enter proper date", "Validation Error", JOptionPane.WARNING_MESSAGE);
+           return false;
+        }
+        return true;
+    }
+    
     private void clearFields() {
         txtPatientName.setText("");
         txtPatientAddress1.setText("");
@@ -534,7 +570,7 @@ public class PatientPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblPatient.getModel();
 
         model.setRowCount(0);
-        for (Patient patient : system.getPatientDirectory().getPatientDirectory()) {
+        for (Patient patient : system.getPatientDirectory().getPatientList()) {
             Object[] row = new Object[10];
             row[0] = patient.getPatientId();
             row[1] = patient;
@@ -550,5 +586,18 @@ public class PatientPanel extends javax.swing.JPanel {
             row[9] = patient.getPatientBloodGroup();
             model.addRow(row);
         }
+    }
+    
+    private boolean validateEmail(){
+        String regex = "^[A-Za-z0-9]+[A-Za-z0-9+_]+@[A-Za-z0-9.-]+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(txtPatientEmail.getText());
+
+        if (matcher.matches()) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 }

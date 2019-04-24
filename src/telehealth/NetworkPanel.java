@@ -7,6 +7,7 @@ package telehealth;
 
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
+import com.telehealth.Business.Enterprise.Enterprise;
 import com.telehealth.Business.Network.Network;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -173,6 +174,18 @@ public class NetworkPanel extends javax.swing.JPanel {
                 if(!networkExists){
                     Network network = system.createAndAddNetwork();
                     network.setName(networkName);
+                    
+                    Enterprise enterprise = network.getEnterpriseDirectory().createAndAddEnterprise(
+                            "Hospital Enterprise", Enterprise.EnterpriseType.Hospital,
+                            "", "", "", "", "", "", "" , "");
+
+                    enterprise = network.getEnterpriseDirectory().createAndAddEnterprise(
+                            "Pharmacy Enterprise", Enterprise.EnterpriseType.Pharmacy,
+                            "", "", "", "", "", "", "" , "");
+
+                    enterprise = network.getEnterpriseDirectory().createAndAddEnterprise(
+                            "Insurance Enterprise", Enterprise.EnterpriseType.Insurance,
+                            "", "", "", "", "", "", "" , "");
                     dB4OUtil.storeSystem(system);
                     JOptionPane.showMessageDialog(null, "Network added successfully");
                     clearFields();

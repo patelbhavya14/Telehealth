@@ -12,6 +12,7 @@ import com.telehealth.Business.Enterprise.Enterprise;
 import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.Role.AdminRole;
 import com.telehealth.Business.UserAccount.UserAccount;
+import com.telehealth.Utility.CommonUtility;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -84,7 +85,7 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
             }
         });
 
-        cmbEnterprise.setFont(resourceMap.getFont("jLabel2.font")); // NOI18N
+        cmbEnterprise.setFont(resourceMap.getFont("cmbEnterprise.font")); // NOI18N
         cmbEnterprise.setName("cmbEnterprise"); // NOI18N
 
         jLabel2.setFont(resourceMap.getFont("jLabel2.font")); // NOI18N
@@ -137,6 +138,11 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
         btnDelete.setFont(resourceMap.getFont("btnDelete.font")); // NOI18N
         btnDelete.setText(resourceMap.getString("btnDelete.text")); // NOI18N
         btnDelete.setName("btnDelete"); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
@@ -378,6 +384,21 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tblEntAdminMouseClicked
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int selectedOption = JOptionPane.showConfirmDialog(null, "Delete User Account", "Are you sure you want to delete this account?", JOptionPane.YES_NO_OPTION);
+        if(selectedOption == JOptionPane.OK_OPTION){
+            enterprise.getUserAccountDirectory().getUserAccountList().remove(userAccount);            
+            try{
+                dB4OUtil.storeSystem(system);
+                clearFields();
+                populateTable();
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     private void populateNetworkComboBox(){
         cmbNetwork.removeAllItems();
         
@@ -429,16 +450,9 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
             return false;
         }
         
-        for (Network network : system.getNetworkList()) {
-            for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {
-                for (UserAccount userAccount : enterprise.getUserAccountDirectory().getUserAccountList()) {
-                    if(userAccount.getUsername().equals(txtUsername.getText())){                        
-                        JOptionPane.showMessageDialog(null, "Username already exists", "Validation Error", JOptionPane.WARNING_MESSAGE);
-                        return false;
-                    }                        
-                }
-            }
-        }
+        if(!CommonUtility.checkUserIfExists(txtUsername.getText())){
+            return false;
+        }            
         
         if(String.valueOf(pwdPassword.getPassword()).length()<6){
             JOptionPane.showMessageDialog(null, "Password length should be at least 6 characters", "Validation Error", JOptionPane.WARNING_MESSAGE);
