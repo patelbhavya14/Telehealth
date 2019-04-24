@@ -64,6 +64,9 @@
                 <Property name="text" type="java.lang.String" resourceKey="jmiOrganization.text"/>
                 <Property name="name" type="java.lang.String" value="jmiOrganization" noResource="true"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiOrganizationActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiUserAccount">
               <Properties>
