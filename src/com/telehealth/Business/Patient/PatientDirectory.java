@@ -13,23 +13,23 @@ import java.util.ArrayList;
  */
 public class PatientDirectory {
     
-    private ArrayList<Patient> patientDirectory;
+    private ArrayList<Patient> patientList;
     
     public PatientDirectory(){
-        patientDirectory = new ArrayList<Patient>();
+        patientList = new ArrayList<Patient>();
     }
 
-    public ArrayList<Patient> getPatientDirectory() {
-        return patientDirectory;
+    public ArrayList<Patient> getPatientList() {
+        return patientList;
     }
 
-    public void setPatientDirectory(ArrayList<Patient> patientDirectory) {
-        this.patientDirectory = patientDirectory;
+    public void setPatientList(ArrayList<Patient> patientDirectory) {
+        this.patientList = patientDirectory;
     }
     
     public ArrayList<Patient> createAndAddPatient(Patient patient){
-        patient.setPatientId(patientDirectory.size()+1);
-        patientDirectory.add(patient);
-        return patientDirectory;
+        patient.setPatientId(patientList.size()+1);
+        patientList.add(patient);
+        return patientList;
     }
 }
