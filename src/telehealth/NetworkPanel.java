@@ -22,6 +22,7 @@ public class NetworkPanel extends javax.swing.JPanel {
      */
     private EcoSystem system;
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+    private int networkId;
     
     public NetworkPanel(TeleHealthView teleHealthView, EcoSystem system) {
         initComponents();
@@ -161,28 +162,50 @@ public class NetworkPanel extends javax.swing.JPanel {
 //        network.setName(networkName);
 
         if(networkName != null && !networkName.equals("")){
+            boolean networkExists = false;
             if(btnAddNetwork.getText().equals("Add")){
-                Network network = system.createAndAddNetwork();
-                network.setName(networkName);
-                dB4OUtil.storeSystem(system);
-                JOptionPane.showMessageDialog(null, "Network added successfully");
-                clearFields();
+                
+                for(Network network: system.getNetworkList()){
+                    if(network.getName().equals(networkName)){
+                        networkExists = true;
+                    }
+                }
+                if(!networkExists){
+                    Network network = system.createAndAddNetwork();
+                    network.setName(networkName);
+                    dB4OUtil.storeSystem(system);
+                    JOptionPane.showMessageDialog(null, "Network added successfully");
+                    clearFields();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Network with entered name already exists", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                }
             } else {
                 int table_selected_row = tblNetwork.getSelectedRow();
-                int networkId = Integer.parseInt(tblNetwork.getValueAt(table_selected_row, 0).toString());
+//                int networkId = Integer.parseInt(tblNetwork.getValueAt(table_selected_row, 0).toString());
+                Network networkToBeUpdated = null;               
                 for(Network network : system.getNetworkList()){
-                    if(network.getNetworkId() == networkId){
-                        network.setName(networkName);
-                        dB4OUtil.storeSystem(system);
-                        JOptionPane.showMessageDialog(null, "Network updated successfully");
-                        clearFields();
+                    if(network.getNetworkId() != networkId && network.getName().equals(networkName)){                        
+                        networkExists = true;
                         break;
+                    } else {                        
+                        if(network.getNetworkId() == networkId){
+                            System.out.println(network.getNetworkId()+"-"+network.getName());
+                            networkToBeUpdated = network;
+                        }
                     }
+                }
+                if(networkToBeUpdated != null && !networkExists){
+                    networkToBeUpdated.setName(networkName);
+                    dB4OUtil.storeSystem(system);
+                    JOptionPane.showMessageDialog(null, "Network updated successfully");
+                    clearFields();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Network with entered name already exists", "Validation Error", JOptionPane.WARNING_MESSAGE);
                 }
             }
             populateTable();        
         } else {
-            JOptionPane.showMessageDialog(null, "Validation Error", "Please enter Network Name", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please enter Network Name", "Validation Error", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnAddNetworkActionPerformed
 
@@ -193,7 +216,7 @@ public class NetworkPanel extends javax.swing.JPanel {
             int table_selected_row;
             if (evt.getClickCount() == 2){
                 table_selected_row = tblNetwork.getSelectedRow();
-                int networkId = Integer.parseInt(tblNetwork.getValueAt(table_selected_row, 0).toString());
+                networkId = Integer.parseInt(tblNetwork.getValueAt(table_selected_row, 0).toString());
                 String networkName = tblNetwork.getValueAt(table_selected_row, 1).toString();
                 txtNetworkName.setText(tblNetwork.getValueAt(table_selected_row, 1).toString());
                 btnAddNetwork.setText("Update");
@@ -210,7 +233,7 @@ public class NetworkPanel extends javax.swing.JPanel {
         int selectedOption = JOptionPane.showConfirmDialog(null, "Delete Network", "Are you sure you want to delete this network?", JOptionPane.YES_NO_OPTION);
         if(selectedOption == JOptionPane.OK_OPTION){
             int table_selected_row = tblNetwork.getSelectedRow();
-            int networkId = Integer.parseInt(tblNetwork.getValueAt(table_selected_row, 0).toString());
+            networkId = Integer.parseInt(tblNetwork.getValueAt(table_selected_row, 0).toString());
             for(Network network : system.getNetworkList()){
                 if(network.getNetworkId() == networkId){
                     system.getNetworkList().remove(network);
