@@ -5,6 +5,7 @@
 package com.telehealth.Business.Organization;
 
 import com.telehealth.Business.Role.AdminRole;
+import com.telehealth.Business.Role.HospitalRole;
 import com.telehealth.Business.Role.Role;
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class HospitalOrganization extends Organization{
     @Override
     public ArrayList<Role> getSupportedRole() {
         ArrayList<Role> roles = new ArrayList();
-        roles.add(new AdminRole());
+        roles.add(new HospitalRole());
         return roles;
     }
      

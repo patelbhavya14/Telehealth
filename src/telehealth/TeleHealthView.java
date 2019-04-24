@@ -180,6 +180,7 @@ public class TeleHealthView extends FrameView {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(telehealth.TeleHealthApp.class).getContext().getResourceMap(TeleHealthView.class);
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
         fileMenu.setFont(resourceMap.getFont("fileMenu.font")); // NOI18N
+        fileMenu.setMargin(new java.awt.Insets(0, 20, 0, 20));
         fileMenu.setName("fileMenu"); // NOI18N
 
         jmiNetwork.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
@@ -192,17 +193,22 @@ public class TeleHealthView extends FrameView {
         });
         fileMenu.add(jmiNetwork);
 
-        jmiOrganization.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.META_MASK));
+        jmiOrganization.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         jmiOrganization.setText(resourceMap.getString("jmiOrganization.text")); // NOI18N
         jmiOrganization.setName("jmiOrganization"); // NOI18N
         fileMenu.add(jmiOrganization);
 
-        jmiUserAccount.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.META_MASK));
+        jmiUserAccount.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         jmiUserAccount.setText(resourceMap.getString("jmiUserAccount.text")); // NOI18N
         jmiUserAccount.setName("jmiUserAccount"); // NOI18N
+        jmiUserAccount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiUserAccountActionPerformed(evt);
+            }
+        });
         fileMenu.add(jmiUserAccount);
 
-        jmiPatient.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.META_MASK));
+        jmiPatient.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         jmiPatient.setText(resourceMap.getString("jmiPatient.text")); // NOI18N
         jmiPatient.setName("jmiPatient"); // NOI18N
         jmiPatient.addActionListener(new java.awt.event.ActionListener() {
@@ -225,6 +231,7 @@ public class TeleHealthView extends FrameView {
 
         helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
         helpMenu.setFont(resourceMap.getFont("helpMenu.font")); // NOI18N
+        helpMenu.setMargin(new java.awt.Insets(0, 20, 0, 20));
         helpMenu.setName("helpMenu"); // NOI18N
 
         aboutMenuItem.setAction(actionMap.get("showAboutBox")); // NOI18N
@@ -289,7 +296,7 @@ public class TeleHealthView extends FrameView {
         currentPanel.invalidate();
         
         NetworkPanel networkPanel = new NetworkPanel(this, system);
-        currentPanel = networkPanel;
+        currentPanel.add(networkPanel, BorderLayout.CENTER);
         Dimension dim = getMainPanelDimension();
         titlePanel.setTitle("Network Panel");
         titlePanel.setSize(1200, 50);
@@ -300,6 +307,8 @@ public class TeleHealthView extends FrameView {
         
         currentPanel.repaint();
         currentPanel.revalidate();
+        titlePanel.repaint();
+        titlePanel.revalidate();
         mainPanel.repaint();
         mainPanel.revalidate();
     }//GEN-LAST:event_jmiNetworkActionPerformed
@@ -331,6 +340,30 @@ public class TeleHealthView extends FrameView {
         mainPanel.repaint();
         mainPanel.revalidate();
     }//GEN-LAST:event_jmiPatientActionPerformed
+
+    private void jmiUserAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiUserAccountActionPerformed
+        // TODO add your handling code here:
+        currentPanel.removeAll();
+        currentPanel.invalidate();
+        
+        EnterpriseAdminPanel enterpriseAdminPanel = new EnterpriseAdminPanel(this, system);
+        currentPanel.add(enterpriseAdminPanel, BorderLayout.CENTER);
+//        currentPanel = enterpriseAdminPanel;
+        Dimension dim = getMainPanelDimension();
+        titlePanel.setTitle("User Panel");
+        titlePanel.setSize(1200, 50);
+        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        mainPanel.add(titlePanel);
+        mainPanel.add(currentPanel);
+        
+        currentPanel.repaint();
+        currentPanel.revalidate();
+        titlePanel.repaint();
+        titlePanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }//GEN-LAST:event_jmiUserAccountActionPerformed
     
     public void login(){
         boolean loginFlag = true;
