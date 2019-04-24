@@ -374,6 +374,8 @@ public class PatientPanel extends javax.swing.JPanel {
         String patientDOB = txtPatientDOB.getText();
         String patientBloodGroup = comboPatientBloodGroup.getItemAt(comboPatientBloodGroup.getSelectedIndex());
         
+        
+        
         if(patientName.equals("") || patientAddress1.equals("") || patientAddress2.equals("") || patientCity.equals("") || patientZipcode.equals("") ||
                 patientCountry.equals("") || patientPhone.equals("(   )   -    ") || patientEmail.equals("") || patientDOB.equals("  /  /    ") || comboPatientBloodGroup.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(null, "Validation Error", "Please enter all the field", JOptionPane.WARNING_MESSAGE);
