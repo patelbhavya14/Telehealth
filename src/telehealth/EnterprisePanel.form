@@ -215,17 +215,17 @@
             <Property name="font" type="java.awt.Font" resourceKey="tblEnterprise.font"/>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="11" rowCount="0">
-                <Column editable="true" title="Name" type="java.lang.Object"/>
-                <Column editable="true" title="Enterprise Type" type="java.lang.String"/>
-                <Column editable="true" title="Address 1" type="java.lang.String"/>
-                <Column editable="true" title="Address 2" type="java.lang.String"/>
+                <Column editable="false" title="Name" type="java.lang.Object"/>
+                <Column editable="false" title="Enterprise Type" type="java.lang.String"/>
+                <Column editable="false" title="Address 1" type="java.lang.String"/>
+                <Column editable="false" title="Address 2" type="java.lang.String"/>
                 <Column editable="true" title="City" type="java.lang.String"/>
-                <Column editable="true" title="State" type="java.lang.String"/>
-                <Column editable="true" title="Zip" type="java.lang.String"/>
-                <Column editable="true" title="Phone" type="java.lang.String"/>
-                <Column editable="true" title="Email" type="java.lang.String"/>
-                <Column editable="true" title="Contact Person" type="java.lang.String"/>
-                <Column editable="true" title="Network" type="java.lang.String"/>
+                <Column editable="false" title="State" type="java.lang.String"/>
+                <Column editable="false" title="Zip" type="java.lang.String"/>
+                <Column editable="false" title="Phone" type="java.lang.String"/>
+                <Column editable="false" title="Email" type="java.lang.String"/>
+                <Column editable="false" title="Contact Person" type="java.lang.String"/>
+                <Column editable="false" title="Network" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

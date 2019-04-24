@@ -13,6 +13,9 @@ import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.Organization.Organization;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -25,6 +28,7 @@ public class EnterprisePanel extends javax.swing.JPanel {
      */
     private EcoSystem system;
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+
     @SuppressWarnings("empty-statement")
     public EnterprisePanel(TeleHealthView teleHealthView, EcoSystem system) {
         initComponents();
@@ -97,9 +101,16 @@ public class EnterprisePanel extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblEnterprise.setName("tblEnterprise"); // NOI18N
@@ -337,77 +348,111 @@ public class EnterprisePanel extends javax.swing.JPanel {
 
     private void tblEnterpriseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEnterpriseMouseClicked
         // TODO add your handling code here:
-         
-        
+        try {
+            int table_selected_row;
+            if (evt.getClickCount() == 2) {
+                table_selected_row = tblEnterprise.getSelectedRow();
+                Enterprise enterprise = (Enterprise) tblEnterprise.getValueAt(table_selected_row, 0);
+                txtName.setText(enterprise.getName());
+                txtAddress1.setText(enterprise.getAddress1());
+                txtAddress2.setText(enterprise.getAddress2());
+                txtCity.setText(enterprise.getCity());
+                txtState.setText(enterprise.getState());
+                txtZip.setText(enterprise.getZip());
+                txtPhone.setText(enterprise.getPhone());
+                txtEmail1.setText(enterprise.getEmail());
+                txtContactPerson.setText(enterprise.getContactPerson());
+//                int enterpriseID = Integer.parseInt(tblEnterprise.getValueAt(table_selected_row, 0).toString());
+                btnSubmit.setText("Update");
+                btnDelete.setVisible(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }//GEN-LAST:event_tblEnterpriseMouseClicked
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
-       
-        String EnterpriseName=txtName.getText();
-        if(EnterpriseName != null && !EnterpriseName.equals(""))
-        {
-       Network network = (Network) networkJComboBox.getSelectedItem();
-       Enterprise.EnterpriseType type = (Enterprise.EnterpriseType) ComboBoxEnterpriseType.getSelectedItem();
-        
-        if (network == null || type == null) {
-            JOptionPane.showMessageDialog(null, "Invalid Input!");
-            return;
-        
-        }
-       String name = txtName.getText();
-       String address1 = txtAddress1.getText();
-       String address2 = txtAddress2.getText();
-       String city = txtCity.getText();
-       String state = txtState.getText();
-       String zip = txtZip.getText();
-       String phone = txtPhone.getText();
-       String email = txtEmail1.getText();
-       String contactPerson = txtContactPerson.getText();
-       
-       
-       Enterprise enterprise = network.getEnterpriseDirectory().createAndAddEnterprise(name, type, address1, address2, 
-               city, state, zip, phone, email, contactPerson);
-            dB4OUtil.storeSystem(system);
+//         String regex = "^[A-Za-z0-9]+[A-Za-z0-9+_]+@[A-Za-z0-9.-]+$";
+//        Pattern pattern = Pattern.compile(regex);
+//        Matcher matcher = pattern.matcher(txtEmail1.getText());
+//        if(txtEmail1.getText().equals("emailID with _ and @ only")) {
+//            JOptionPane.showMessageDialog(null, "email id format is invalid");
+//            return;
+//        }
+        String EnterpriseName = txtName.getText();
+        String Address1 =txtAddress1.getText();
+        String Address2 =txtAddress2.getText();
+        String City =txtCity.getText();
+        String State =txtState.getText();
+        String Zip =txtZip.getText();
+        String Phone =txtPhone.getText();
+        String Email =txtEmail1.getText();
+        String ContactPeroson =txtContactPerson.getText();
+
+
+        if (EnterpriseName != null && !EnterpriseName.equals("") || Address1 != null && !Address1.equals("") ||
+            Address2 != null && !Address2.equals("") || City != null && !City.equals("")|| 
+            State != null && !State.equals("")|| Zip != null && !Zip.equals("") ||
+            Phone != null && !Phone.equals("") || Email != null && !Email.equals("")||
+            ContactPeroson != null && !ContactPeroson.equals("")) {
+            if (btnSubmit.getText().equals("Submit")) {
+                Network network = (Network) networkJComboBox.getSelectedItem();
+                Enterprise.EnterpriseType type = (Enterprise.EnterpriseType) ComboBoxEnterpriseType.getSelectedItem();
+//                if (network == null || type == null) {
+//                    JOptionPane.showMessageDialog(null, "Invalid Input!");
+//                    return;
+//                }
+                String name = txtName.getText();
+                String address1 = txtAddress1.getText();
+                String address2 = txtAddress2.getText();
+                String city = txtCity.getText();
+                String state = txtState.getText();
+                String zip = txtZip.getText();
+                String phone = txtPhone.getText();
+                String email = txtEmail1.getText();
+                String contactPerson = txtContactPerson.getText();
+                Enterprise enterprise = network.getEnterpriseDirectory().createAndAddEnterprise(name, type, address1, address2,
+                        city, state, zip, phone, email, contactPerson);
+                dB4OUtil.storeSystem(system);
                 JOptionPane.showMessageDialog(null, "Enterprise added successfully");
                 clearFields();
-        populateTable();
-        } 
-        
+                populateTable();
+        } else {
+            int table_selected_row = tblEnterprise.getSelectedRow();
+//            int enterpriseId = Integer.parseInt(tblEnterprise.getValueAt(table_selected_row, 0).toString());
+            Enterprise enterprise = (Enterprise) tblEnterprise.getValueAt(table_selected_row, 0);
+            enterprise.setName(txtName.getText());
+            enterprise.setAddress1(txtAddress1.getText());
+            enterprise.setAddress2(txtAddress2.getText());
+            enterprise.setCity(txtCity.getText());
+            enterprise.setState(txtState.getText());
+            enterprise.setZip(txtZip.getText());
+            enterprise.setPhone(txtPhone.getText());
+            enterprise.setEmail(txtEmail1.getText());
+            enterprise.setContactPerson(txtContactPerson.getText());
+            dB4OUtil.storeSystem(system);
+            JOptionPane.showMessageDialog(null, "Enterprise updated successfully");
+            clearFields();
+        }
+        }
         else {
-                int table_selected_row = tblEnterprise.getSelectedRow();
-                int enterpriseId = Integer.parseInt(tblEnterprise.getValueAt(table_selected_row, 0).toString());
-                
-                Enterprise enterprise = (Enterprise)tblEnterprise.getValueAt(table_selected_row, 0);
-                
-                        enterprise.setName(txtName.getText());
-                        enterprise.setAddress1(txtAddress1.getText());
-                        enterprise.setAddress2(txtAddress2.getText());
-                        enterprise.setCity(txtCity.getText());
-                        enterprise.setState(txtState.getText());
-                        enterprise.setZip(txtZip.getText());
-                        enterprise.setPhone(txtPhone.getText());
-                        enterprise.setEmail(txtEmail1.getText());
-                        enterprise.setContactPerson(txtContactPerson.getText());
-                        
-                        dB4OUtil.storeSystem(system);
-                        JOptionPane.showMessageDialog(null, "Enterprise updated successfully");
-                        clearFields();
-                       
-                    
-            }
-        
+            JOptionPane.showMessageDialog(null, "Validation Error", "Please enter all feilds", JOptionPane.WARNING_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        
+
         int selectedOption = JOptionPane.showConfirmDialog(null, "Delete Enterprise", "Are you sure you want to delete this enterprise?", JOptionPane.YES_NO_OPTION);
-        if(selectedOption == JOptionPane.OK_OPTION){
+        if (selectedOption == JOptionPane.OK_OPTION) {
             int table_selected_row = tblEnterprise.getSelectedRow();
-            System.out.println("Selected Enterprise:"+tblEnterprise.getValueAt(table_selected_row, 0).toString());
+            System.out.println("Selected Enterprise:" + tblEnterprise.getValueAt(table_selected_row, 0).toString());
 //            int enterpriseId = Integer.parseInt(tblEnterprise.getValueAt(table_selected_row, 0).toString());
-            for(Network network : system.getNetworkList()){
-                if(network.getEnterpriseDirectory().getEnterpriseList().contains(tblEnterprise.getValueAt(table_selected_row, 0))){
+            for (Network network : system.getNetworkList()) {
+                if (network.getEnterpriseDirectory().getEnterpriseList().contains(tblEnterprise.getValueAt(table_selected_row, 0))) {
                     network.getEnterpriseDirectory().getEnterpriseList().remove(tblEnterprise.getValueAt(table_selected_row, 0));
                     dB4OUtil.storeSystem(system);
                     clearFields();
@@ -416,11 +461,11 @@ public class EnterprisePanel extends javax.swing.JPanel {
                 }
             }
         }
-        
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
- 
-        
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox ComboBoxEnterpriseType;
     private javax.swing.JButton btnDelete;
@@ -452,44 +497,43 @@ public class EnterprisePanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void populateTable() {
-        
+
         DefaultTableModel model = (DefaultTableModel) tblEnterprise.getModel();
         model.setRowCount(0);
 
         model.setRowCount(0);
         for (Network network : system.getNetworkList()) {
-            for(Enterprise organization : network.getEnterpriseDirectory().getEnterpriseList())
-            {
-            Object[] row = new Object[11];
-            row[0] = organization;
-            row[1] = organization.getEnterpriseType().getValue();
-            row[2] = organization.getAddress1();
-            row[3] = organization.getAddress2();
-            row[4] = organization.getCity();
-            row[5] = organization.getState();
-            row[6] = organization.getZip();
-            row[7] = organization.getPhone();
-            row[8] = organization.getEmail();
-            row[9] = organization.getContactPerson();
-            row[10]= organization.getName();
-            model.addRow(row);
+            for (Enterprise organization : network.getEnterpriseDirectory().getEnterpriseList()) {
+                Object[] row = new Object[11];
+                row[0] = organization;
+                row[1] = organization.getEnterpriseType().getValue();
+                row[2] = organization.getAddress1();
+                row[3] = organization.getAddress2();
+                row[4] = organization.getCity();
+                row[5] = organization.getState();
+                row[6] = organization.getZip();
+                row[7] = organization.getPhone();
+                row[8] = organization.getEmail();
+                row[9] = organization.getContactPerson();
+                row[10] = network.getName();
+                model.addRow(row);
             }
         }
     }
 
     private void populateComboBox() {
-         ComboBoxEnterpriseType.removeAllItems();
-         networkJComboBox.removeAllItems();
-         for (Enterprise.EnterpriseType type : Enterprise.EnterpriseType.values()) {
+        ComboBoxEnterpriseType.removeAllItems();
+        networkJComboBox.removeAllItems();
+        for (Enterprise.EnterpriseType type : Enterprise.EnterpriseType.values()) {
             ComboBoxEnterpriseType.addItem(type);
         }
-         
-         for (Network network : system.getNetworkList()) {
+
+        for (Network network : system.getNetworkList()) {
             networkJComboBox.addItem(network);
         }
     }
-    
-    public void clearFields(){
+
+    public void clearFields() {
         txtName.setText("");
         txtAddress1.setText("");
         txtAddress2.setText("");
@@ -503,5 +547,4 @@ public class EnterprisePanel extends javax.swing.JPanel {
         btnDelete.setVisible(false);
     }
 
-    
 }
