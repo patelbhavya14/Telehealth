@@ -13,6 +13,7 @@ import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.UserAccount.UserAccount;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
@@ -39,6 +40,7 @@ public class TeleHealthView extends FrameView {
     private String message;
     private JPanel currentPanel;
     private TitlePanel titlePanel;
+    private UserAccount userAccount;
     
     public TeleHealthView(SingleFrameApplication app) {
         super(app);
@@ -48,10 +50,10 @@ public class TeleHealthView extends FrameView {
         currentPanel = new JPanel(new BorderLayout());
         titlePanel = new TitlePanel();
         
-        GsonBuilder builder = new GsonBuilder();
-        builder.setPrettyPrinting().serializeNulls();
-        Gson gson = builder.create();
-        System.out.println(gson.toJson(system));
+//        GsonBuilder builder = new GsonBuilder();
+//        builder.setPrettyPrinting().serializeNulls();
+//        Gson gson = builder.create();
+//        System.out.println(gson.toJson(system));
         
         system = dB4OUtil.retrieveSystem();
         
@@ -139,6 +141,8 @@ public class TeleHealthView extends FrameView {
         jmiUserAccount = new javax.swing.JMenuItem();
         jmiPatient = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
@@ -225,6 +229,19 @@ public class TeleHealthView extends FrameView {
 
         jSeparator1.setName("jSeparator1"); // NOI18N
         fileMenu.add(jSeparator1);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText(resourceMap.getString("jMenuItem1.text")); // NOI18N
+        jMenuItem1.setName("jMenuItem1"); // NOI18N
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem1);
+
+        jSeparator2.setName("jSeparator2"); // NOI18N
+        fileMenu.add(jSeparator2);
 
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(telehealth.TeleHealthApp.class).getContext().getActionMap(TeleHealthView.class, this);
         exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
@@ -394,6 +411,15 @@ public class TeleHealthView extends FrameView {
         mainPanel.repaint();
         mainPanel.revalidate();
     }//GEN-LAST:event_jmiUserAccountActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        int selectedOption = JOptionPane.showConfirmDialog(null, "Confirm logout", "Are you sure you want to logout?", JOptionPane.YES_NO_OPTION);
+        if(selectedOption == JOptionPane.OK_OPTION){
+            mainPanel.removeAll();
+            login();
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
     
     public void login(){
         boolean loginFlag = true;
@@ -412,8 +438,8 @@ public class TeleHealthView extends FrameView {
         
             if (option == 0)
             {
-                UserAccount userAccount = system.getUserAccountDirectory().authenticateUser(userAccount1.getUsername(), userAccount1.getPassword());
-                    if(userAccount==null){
+                userAccount = system.getUserAccountDirectory().authenticateUser(userAccount1.getUsername(), userAccount1.getPassword());
+                if(userAccount==null){
                     //Step 2: Go inside each network and check each enterprise
                     for(Network network:system.getNetworkList()){
                         //Step 2.a: check against each enterprise
@@ -453,10 +479,11 @@ public class TeleHealthView extends FrameView {
                     Gson gson = builder.create();
                     System.out.println(gson.toJson(system));
                     
-                    system.getUserAccountDirectory().getUserAccountList().get(0).setUsername("a");
-                    system.getUserAccountDirectory().getUserAccountList().get(0).setPassword("a");
-                    dB4OUtil.storeSystem(system);
+//                    CardLayout layout=(CardLayout)container.getLayout();
+//                    container.add("workArea",userAccount.getRole().createWorkArea(container, userAccount, inOrganization, inEnterprise, system));
+//                    layout.next(container);
                     
+                    System.out.println("User Role:" + userAccount.getRole());
                     loginFlag = false;
                 }
             } else {              
@@ -465,7 +492,9 @@ public class TeleHealthView extends FrameView {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuItem jmiNetwork;
     private javax.swing.JMenuItem jmiOrganization;
     private javax.swing.JMenuItem jmiPatient;
