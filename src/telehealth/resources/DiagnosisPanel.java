@@ -343,7 +343,7 @@ public class DiagnosisPanel extends javax.swing.JPanel {
     
 //        
            
-    }
+    
 
     
 }
