@@ -196,6 +196,11 @@ public class TeleHealthView extends FrameView {
         jmiOrganization.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         jmiOrganization.setText(resourceMap.getString("jmiOrganization.text")); // NOI18N
         jmiOrganization.setName("jmiOrganization"); // NOI18N
+        jmiOrganization.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiOrganizationActionPerformed(evt);
+            }
+        });
         fileMenu.add(jmiOrganization);
 
         jmiUserAccount.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
@@ -319,6 +324,29 @@ public class TeleHealthView extends FrameView {
         currentPanel.setBounds((int)dim.getWidth(),(int)dim.getHeight()+55,1200,640);
         titlePanel.setBounds((int)dim.getWidth(),(int)dim.getHeight(),1200,50);
     }//GEN-LAST:event_mainPanelComponentResized
+
+    private void jmiOrganizationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiOrganizationActionPerformed
+        // TODO add your handling code here:
+        
+        currentPanel.removeAll();
+        currentPanel.invalidate();
+        
+        EnterprisePanel enterprisePanel = new EnterprisePanel(this, system);
+        currentPanel = enterprisePanel;
+        Dimension dim = getMainPanelDimension();
+        titlePanel.setTitle("Enterprise Panel");
+        titlePanel.setSize(1200, 50);
+        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        mainPanel.add(titlePanel);
+        mainPanel.add(currentPanel);
+        
+        currentPanel.repaint();
+        mainPanel.revalidate();
+         mainPanel.repaint();
+        mainPanel.revalidate();
+        
+    }//GEN-LAST:event_jmiOrganizationActionPerformed
 
     private void jmiPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPatientActionPerformed
         // TODO add your handling code here:
