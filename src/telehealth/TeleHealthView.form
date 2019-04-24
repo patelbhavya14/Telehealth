@@ -37,6 +37,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" resourceKey="fileMenu.text"/>
             <Property name="font" type="java.awt.Font" resourceKey="fileMenu.font"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[0, 20, 0, 20]"/>
+            </Property>
             <Property name="name" type="java.lang.String" value="fileMenu" noResource="true"/>
           </Properties>
           <AuxValues>
@@ -59,7 +62,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmiOrganization">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Meta+O"/>
+                  <KeyStroke key="Ctrl+O"/>
                 </Property>
                 <Property name="text" type="java.lang.String" resourceKey="jmiOrganization.text"/>
                 <Property name="name" type="java.lang.String" value="jmiOrganization" noResource="true"/>
@@ -71,16 +74,19 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmiUserAccount">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Meta+U"/>
+                  <KeyStroke key="Ctrl+U"/>
                 </Property>
                 <Property name="text" type="java.lang.String" resourceKey="jmiUserAccount.text"/>
                 <Property name="name" type="java.lang.String" value="jmiUserAccount" noResource="true"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiUserAccountActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiPatient">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Meta+P"/>
+                  <KeyStroke key="Ctrl+P"/>
                 </Property>
                 <Property name="text" type="java.lang.String" resourceKey="jmiPatient.text"/>
                 <Property name="name" type="java.lang.String" value="jmiPatient" noResource="true"/>
@@ -113,6 +119,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" resourceKey="helpMenu.text"/>
             <Property name="font" type="java.awt.Font" resourceKey="helpMenu.font"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[0, 20, 0, 20]"/>
+            </Property>
             <Property name="name" type="java.lang.String" value="helpMenu" noResource="true"/>
           </Properties>
           <AuxValues>
