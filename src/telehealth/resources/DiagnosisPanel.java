@@ -31,8 +31,6 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         initComponents();
         this.system = system;
         btnDelete.setVisible(false);
-        populateTable();
-        populateComboBox();
     }
 
     /**
@@ -306,46 +304,7 @@ public class DiagnosisPanel extends javax.swing.JPanel {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
         
-        int bpSystolic = Integer.parseInt(bloodPressureSystolicTextFeild.getText());
-        int bpDiastolic = Integer.parseInt(bloodPressureDiastolicTextFeild.getText());
-        int heartRate = Integer.parseInt(heartRateTextFeild.getText());
-        int respiratoryRate = Integer.parseInt(respiratoryRateTextFeild.getText());
-        double weigth = Double.parseDouble(weightTextFeild.getText());
-        String diagnosisDate = diagnosisDateTextField.getText();
-        String nextDiagnosisDate = nextDiagnosisDateTextField.getText();
-        String diagnosisDetails = diagnosisDetailTextFeild.getText();
-        String notes=notesTextArea.getText();
-       
-        Date diagnosisdate;
-                
-        try {
-            diagnosisdate = new SimpleDateFormat("MM/dd/yyyy").parse(diagnosisDate);
-        } catch (ParseException ex) {
-           JOptionPane.showMessageDialog(null, "Date Validation Error", "Please enter proper date", JOptionPane.WARNING_MESSAGE);
-           return;
-        }
         
-        Date nextdiagnosisdate;
-                
-        try {
-            nextdiagnosisdate = new SimpleDateFormat("MM/dd/yyyy").parse(nextDiagnosisDate);
-        } catch (ParseException ex) {
-           JOptionPane.showMessageDialog(null, "Date Validation Error", "Please enter proper date", JOptionPane.WARNING_MESSAGE);
-           return;
-        }
-        
-        
-        
-        if(btnAdd.getText().equals("Add")){
-        
-            PatientDiagnosis patientDiagnosis = new  PatientDiagnosis(bpSystolic, bpDiastolic, heartRate, respiratoryRate,
-            weigth, diagnosisdate, nextdiagnosisdate, diagnosisDetails, notes);
-//            system.getPatientDirectory().getPatientDirectory().get;
-            dB4OUtil.storeSystem(system);
-             JOptionPane.showMessageDialog(null, "Diagnosis added successfully");
-             populateTable();
-             clearFeilds();
-        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     
@@ -381,34 +340,10 @@ public class DiagnosisPanel extends javax.swing.JPanel {
     private javax.swing.JTextField weightTextFeild;
     // End of variables declaration//GEN-END:variables
 
-    private void populateTable() {
-        DefaultTableModel model = (DefaultTableModel) tblDiagnosis.getModel();
-
-        model.setRowCount(0);
-       
-        for(PatientDiagnosis patientDiagnosis : system.getPatientDirectory())
-        {
-            Object[] row = new Object[9];
-            row[0] = patientDiagnosis.getBpSystolic();
-            row[1] = patientDiagnosis.getBpDiastolic();
-            row[2] = patientDiagnosis.getHeartRate();
-            row[3] = patientDiagnosis.getRespiratoryRate();
-            row[4] = patientDiagnosis.getWeight();
-            row[5] = patientDiagnosis.getDiagnosisDate();
-            row[6] = patientDiagnosis.getNextDiagnosisDate();
-            row[7] = patientDiagnosis.getDiagnosisDetails();
-            row[8] = patientDiagnosis.getNotes();
-        }
+    
+//        
            
     }
 
-    private void clearFeilds() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void populateComboBox() {
-        for (Patient patient : system.getPatientDirectory().getPatientDirectory()) {
-            jComboBox1.addItem(patient);
-        }
-    }
+    
 }
