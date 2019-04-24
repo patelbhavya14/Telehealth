@@ -12,6 +12,7 @@ import com.telehealth.Business.Enterprise.Enterprise;
 import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.Role.AdminRole;
 import com.telehealth.Business.UserAccount.UserAccount;
+import com.telehealth.Utility.CommonUtility;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -429,16 +430,9 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
             return false;
         }
         
-        for (Network network : system.getNetworkList()) {
-            for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {
-                for (UserAccount userAccount : enterprise.getUserAccountDirectory().getUserAccountList()) {
-                    if(userAccount.getUsername().equals(txtUsername.getText())){                        
-                        JOptionPane.showMessageDialog(null, "Username already exists", "Validation Error", JOptionPane.WARNING_MESSAGE);
-                        return false;
-                    }                        
-                }
-            }
-        }
+        if(!CommonUtility.checkUserIfExists(txtUsername.getText())){
+            return false;
+        }            
         
         if(String.valueOf(pwdPassword.getPassword()).length()<6){
             JOptionPane.showMessageDialog(null, "Password length should be at least 6 characters", "Validation Error", JOptionPane.WARNING_MESSAGE);
