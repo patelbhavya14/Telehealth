@@ -33,6 +33,8 @@ public class EnterprisePanel extends javax.swing.JPanel {
     public EnterprisePanel(TeleHealthView teleHealthView, EcoSystem system) {
         initComponents();
         this.system = system;
+        ComboBoxEnterpriseType.setSelectedItem(null);
+        networkJComboBox.setSelectedItem(null);
         populateTable();
         populateComboBox();
     }
@@ -102,7 +104,7 @@ public class EnterprisePanel extends javax.swing.JPanel {
                 java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -285,9 +287,9 @@ public class EnterprisePanel extends javax.swing.JPanel {
                                                         .addComponent(btnDelete))
                                                     .addComponent(txtContactPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))))))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(123, 123, 123)
+                        .addGap(125, 125, 125)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 954, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(316, Short.MAX_VALUE))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,9 +341,9 @@ public class EnterprisePanel extends javax.swing.JPanel {
                     .addComponent(jLabel13)
                     .addComponent(networkJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete))
-                .addGap(37, 37, 37)
+                .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                 .addComponent(jLabel7))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -392,11 +394,9 @@ public class EnterprisePanel extends javax.swing.JPanel {
         String ContactPeroson =txtContactPerson.getText();
 
 
-        if (EnterpriseName != null && !EnterpriseName.equals("") || Address1 != null && !Address1.equals("") ||
-            Address2 != null && !Address2.equals("") || City != null && !City.equals("")|| 
-            State != null && !State.equals("")|| Zip != null && !Zip.equals("") ||
-            Phone != null && !Phone.equals("") || Email != null && !Email.equals("")||
-            ContactPeroson != null && !ContactPeroson.equals("")) {
+        if (!validateFields()) {
+            return;
+        }
             if (btnSubmit.getText().equals("Submit")) {
                 Network network = (Network) networkJComboBox.getSelectedItem();
                 Enterprise.EnterpriseType type = (Enterprise.EnterpriseType) ComboBoxEnterpriseType.getSelectedItem();
@@ -423,6 +423,7 @@ public class EnterprisePanel extends javax.swing.JPanel {
             int table_selected_row = tblEnterprise.getSelectedRow();
 //            int enterpriseId = Integer.parseInt(tblEnterprise.getValueAt(table_selected_row, 0).toString());
             Enterprise enterprise = (Enterprise) tblEnterprise.getValueAt(table_selected_row, 0);
+            
             enterprise.setName(txtName.getText());
             enterprise.setAddress1(txtAddress1.getText());
             enterprise.setAddress2(txtAddress2.getText());
@@ -434,12 +435,11 @@ public class EnterprisePanel extends javax.swing.JPanel {
             enterprise.setContactPerson(txtContactPerson.getText());
             dB4OUtil.storeSystem(system);
             JOptionPane.showMessageDialog(null, "Enterprise updated successfully");
+            populateTable();
             clearFields();
         }
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Validation Error", "Please enter all feilds", JOptionPane.WARNING_MESSAGE);
-        }
+        
+       
 
     }//GEN-LAST:event_btnSubmitActionPerformed
 
@@ -545,6 +545,27 @@ public class EnterprisePanel extends javax.swing.JPanel {
         txtContactPerson.setText("");
         btnSubmit.setText("Add");
         btnDelete.setVisible(false);
+    }
+    
+    public boolean validateFields(){
+        String EnterpriseName = txtName.getText();
+        String Address1 =txtAddress1.getText();
+        String Address2 =txtAddress2.getText();
+        String City =txtCity.getText();
+        String State =txtState.getText();
+        String Zip =txtZip.getText();
+        String Phone =txtPhone.getText();
+        String Email =txtEmail1.getText();
+        String ContactPeroson =txtContactPerson.getText();
+        if(EnterpriseName.trim().equals("") || ComboBoxEnterpriseType.getSelectedIndex()==-1 ||Address1.trim().equals("") ||
+             Address2.trim().equals("") ||City.trim().equals("")|| 
+            State.trim().equals("")||Zip.trim().equals("") ||
+            Phone.trim().equals("") ||Email.trim().equals("")||
+            ContactPeroson.trim().equals("") || networkJComboBox.getSelectedIndex()==-1) {
+            JOptionPane.showMessageDialog(null, "All fields are mandatory", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
 }
