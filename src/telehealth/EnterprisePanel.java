@@ -415,6 +415,12 @@ public class EnterprisePanel extends javax.swing.JPanel {
                 String contactPerson = txtContactPerson.getText();
                 Enterprise enterprise = network.getEnterpriseDirectory().createAndAddEnterprise(name, type, address1, address2,
                         city, state, zip, phone, email, contactPerson);
+                Organization org = enterprise.getOrganizationDirectory().createOrganization(Organization.Type.Hospital);
+                org.setName(name);
+                org.setAddress1(address1);
+                org.setAddress2(address2);
+                org.setCity(city);
+                
                 dB4OUtil.storeSystem(system);
                 JOptionPane.showMessageDialog(null, "Enterprise added successfully");
                 clearFields();
@@ -499,8 +505,6 @@ public class EnterprisePanel extends javax.swing.JPanel {
     private void populateTable() {
 
         DefaultTableModel model = (DefaultTableModel) tblEnterprise.getModel();
-        model.setRowCount(0);
-
         model.setRowCount(0);
         for (Network network : system.getNetworkList()) {
             for (Enterprise organization : network.getEnterpriseDirectory().getEnterpriseList()) {
