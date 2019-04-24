@@ -85,7 +85,7 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
             }
         });
 
-        cmbEnterprise.setFont(resourceMap.getFont("jLabel2.font")); // NOI18N
+        cmbEnterprise.setFont(resourceMap.getFont("cmbEnterprise.font")); // NOI18N
         cmbEnterprise.setName("cmbEnterprise"); // NOI18N
 
         jLabel2.setFont(resourceMap.getFont("jLabel2.font")); // NOI18N
@@ -138,6 +138,11 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
         btnDelete.setFont(resourceMap.getFont("btnDelete.font")); // NOI18N
         btnDelete.setText(resourceMap.getString("btnDelete.text")); // NOI18N
         btnDelete.setName("btnDelete"); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
@@ -378,6 +383,21 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }//GEN-LAST:event_tblEntAdminMouseClicked
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int selectedOption = JOptionPane.showConfirmDialog(null, "Delete User Account", "Are you sure you want to delete this account?", JOptionPane.YES_NO_OPTION);
+        if(selectedOption == JOptionPane.OK_OPTION){
+            enterprise.getUserAccountDirectory().getUserAccountList().remove(userAccount);            
+            try{
+                dB4OUtil.storeSystem(system);
+                clearFields();
+                populateTable();
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void populateNetworkComboBox(){
         cmbNetwork.removeAllItems();
