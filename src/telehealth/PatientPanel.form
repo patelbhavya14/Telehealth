@@ -127,11 +127,13 @@
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtPatientCity" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblPatientCity" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblPatientZipcode" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="txtPatientZipcode" alignment="0" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="txtPatientCity" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPatientCity" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPatientZipcode" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
