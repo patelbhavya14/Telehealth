@@ -180,4 +180,8 @@ public class Patient {
         return patientInsuranceList;
     }
 
+    @Override
+    public String toString() {
+        return this.patientName;
+    }
 }
