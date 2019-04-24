@@ -7,9 +7,14 @@ package telehealth;
 
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
+import com.telehealth.Business.Employee.Employee;
 import com.telehealth.Business.Enterprise.Enterprise;
 import com.telehealth.Business.Network.Network;
+import com.telehealth.Business.Role.AdminRole;
 import com.telehealth.Business.UserAccount.UserAccount;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,7 +30,7 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     private int networkId;
     
-    public EnterpriseAdminPanel() {
+    public EnterpriseAdminPanel(TeleHealthView teleHealthView, EcoSystem system) {
         initComponents();
         this.system = system;
         btnDelete.setVisible(false);
@@ -184,44 +189,41 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(438, 438, 438)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtEmail)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
-                            .addComponent(txtPhone)))
+                .addGap(368, 368, 368)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cmbNetwork, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(413, 413, 413)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(38, 38, 38)
-                                .addComponent(cmbNetwork, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addGap(38, 38, 38)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(cmbEnterprise, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtUsername)
-                                        .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(cmbEnterprise, 0, 199, Short.MAX_VALUE))
+                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtPhone, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                                    .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 199, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(161, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 879, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(160, 160, 160))
         );
         layout.setVerticalGroup(
@@ -259,15 +261,43 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnDelete))
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(60, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        
+        if(btnAdd.getText().equals("Add")){            
+            
+            if(validateFields()){
+                Enterprise enterprise = (Enterprise) cmbEnterprise.getSelectedItem();
+
+                String username = txtUsername.getText();
+                String password = String.valueOf(pwdPassword.getPassword());
+                String name = txtName.getText();
+                String email = txtEmail.getText();
+                String phone = txtPhone.getText();
+
+                Employee employee = enterprise.getEmployeeDirectory().createEmployee(name);
+                employee.setEmail(email);
+                employee.setPhone(phone);
+
+                UserAccount account = enterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new AdminRole());            
+
+                try{
+                    dB4OUtil.storeSystem(system);
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+                
+                clearFields();
+                populateTable();
+            }
+        } else {
+            
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void cmbNetworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNetworkActionPerformed
@@ -294,6 +324,7 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
         }
         
     }
+    
     public void populateTable(){
         DefaultTableModel model = (DefaultTableModel) tblEntAdmin.getModel();
 
@@ -302,8 +333,8 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
             for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {
                 for (UserAccount userAccount : enterprise.getUserAccountDirectory().getUserAccountList()) {
                     Object[] row = new Object[6];
-                    row[0] = enterprise.getName();
-                    row[1] = network.getName();
+                    row[0] = network.getName();
+                    row[1] = enterprise.getName();                    
                     row[2] = userAccount.getUsername();
                     row[3] = userAccount.getEmployee().getName();
                     row[4] = userAccount.getEmployee().getEmail();
@@ -312,6 +343,64 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
                 }
             }
         }
+    }
+    
+    public boolean validateFields(){
+        
+        if(cmbNetwork.getSelectedItem().toString().equals("") || 
+                cmbEnterprise.getSelectedItem().toString().equals("")||
+                txtUsername.getText().equals("") || 
+                String.valueOf(pwdPassword.getPassword()).equals("") ||
+                txtName.getText().equals("") ||
+                txtEmail.getText().equals("") ||
+                txtPhone.getText().equals("")
+                ) {
+            JOptionPane.showMessageDialog(null, "All fields are mandatory", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        for (Network network : system.getNetworkList()) {
+            for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {
+                for (UserAccount userAccount : enterprise.getUserAccountDirectory().getUserAccountList()) {
+                    if(userAccount.getUsername().equals(txtUsername.getText())){                        
+                        JOptionPane.showMessageDialog(null, "Username already exists", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                        return false;
+                    }                        
+                }
+            }
+        }
+        
+        if(String.valueOf(pwdPassword.getPassword()).length()<6){
+            JOptionPane.showMessageDialog(null, "Password length should be at least 6 characters", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        String regex = "([A-Z]+[A-Z0-9._+-]*)@[A-Z0-9.-]+\\.[A-Z0-9.-]+[^-|^.|^0-9]";
+//        String regex = "^[A-Za-z0-9]+[A-Za-z0-9+_.]+@[A-Za-z0-9.-]+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(txtEmail.getText());
+        if(!matcher.matches()){
+            JOptionPane.showMessageDialog(null, "Please enter valid email id", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        regex = "^\\(\\d{3}\\)\\d{3}-\\d{4}$";
+        pattern = Pattern.compile(regex);
+        matcher = pattern.matcher(txtPhone.getText());
+        if(!matcher.matches()){
+            JOptionPane.showMessageDialog(null, "Please enter valid phone number", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }        
+        
+        return true;
+    }
+    public void clearFields(){
+        populateNetworkComboBox();
+        txtUsername.setText("");
+        pwdPassword.setText("");
+        txtName.setText("");
+        txtEmail.setText("");
+        txtPhone.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
