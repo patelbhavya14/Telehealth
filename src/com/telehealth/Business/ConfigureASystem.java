@@ -34,7 +34,15 @@ public class ConfigureASystem {
         
         Enterprise enterprise = system.getNetworkList().get(0).getEnterpriseDirectory().createAndAddEnterprise(
                 "Hospital Enterprise", Enterprise.EnterpriseType.Hospital,
-                "260 Huntington Ave", "Mass", "Boston", "MA", "02120", "5163436447", "asdf@asdf.com" , "Daniel Pirbudagov");
+                "", "", "", "", "", "", "" , "");
+        
+        enterprise = system.getNetworkList().get(0).getEnterpriseDirectory().createAndAddEnterprise(
+                "Pharmacy Enterprise", Enterprise.EnterpriseType.Pharmacy,
+                "", "", "", "", "", "", "" , "");
+        
+        enterprise = system.getNetworkList().get(0).getEnterpriseDirectory().createAndAddEnterprise(
+                "Insurance Enterprise", Enterprise.EnterpriseType.Insurance,
+                "", "", "", "", "", "", "" , "");
         
         Patient patient = new Patient(1, "Kinnar Kansara", "75 St Alphonsus", "Apt 602", "Boston", "MA", "02120", "US", "5163436447", "kinnar@gmail.com", "B +ve", new Date());
         system.getPatientDirectory().createAndAddPatient(patient);
