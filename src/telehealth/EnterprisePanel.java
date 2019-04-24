@@ -5,6 +5,18 @@
  */
 package telehealth;
 
+import com.telehealth.Business.DB4OUtil.DB4OUtil;
+import com.telehealth.Business.EcoSystem;
+import com.telehealth.Business.Enterprise.Enterprise;
+import com.telehealth.Business.Enterprise.EnterpriseDirectory;
+import com.telehealth.Business.Network.Network;
+import com.telehealth.Business.Organization.Organization;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  *
  * @author RASHMI
@@ -14,8 +26,15 @@ public class EnterprisePanel extends javax.swing.JPanel {
     /**
      * Creates new form EnterprisePanel
      */
-    public EnterprisePanel() {
+    private EcoSystem system;
+    private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+
+    @SuppressWarnings("empty-statement")
+    public EnterprisePanel(TeleHealthView teleHealthView, EcoSystem system) {
         initComponents();
+        this.system = system;
+        populateTable();
+        populateComboBox();
     }
 
     /**
@@ -28,6 +47,32 @@ public class EnterprisePanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel7 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        txtAddress1 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblEnterprise = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        txtAddress2 = new javax.swing.JTextField();
+        txtZip = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtEmail1 = new javax.swing.JTextField();
+        txtCity = new javax.swing.JTextField();
+        txtPhone = new javax.swing.JTextField();
+        txtState = new javax.swing.JTextField();
+        txtContactPerson = new javax.swing.JTextField();
+        ComboBoxEnterpriseType = new javax.swing.JComboBox();
+        jLabel12 = new javax.swing.JLabel();
+        btnSubmit = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        networkJComboBox = new javax.swing.JComboBox();
+        btnDelete = new javax.swing.JButton();
 
         setName("Form"); // NOI18N
 
@@ -35,26 +80,471 @@ public class EnterprisePanel extends javax.swing.JPanel {
         jLabel7.setText(resourceMap.getString("jLabel7.text")); // NOI18N
         jLabel7.setName("jLabel7"); // NOI18N
 
+        jLabel1.setFont(resourceMap.getFont("jLabel1.font")); // NOI18N
+        jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
+        jLabel1.setName("jLabel1"); // NOI18N
+
+        txtAddress1.setFont(resourceMap.getFont("txtAddress1.font")); // NOI18N
+        txtAddress1.setName("txtAddress1"); // NOI18N
+
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        tblEnterprise.setFont(resourceMap.getFont("tblEnterprise.font")); // NOI18N
+        tblEnterprise.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Enterprise Type", "Address 1", "Address 2", "City", "State", "Zip", "Phone", "Email", "Contact Person", "Network"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblEnterprise.setName("tblEnterprise"); // NOI18N
+        tblEnterprise.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblEnterpriseMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblEnterprise);
+        if (tblEnterprise.getColumnModel().getColumnCount() > 0) {
+            tblEnterprise.getColumnModel().getColumn(0).setPreferredWidth(25);
+            tblEnterprise.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblEnterprise.columnModel.title0")); // NOI18N
+            tblEnterprise.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblEnterprise.columnModel.title1")); // NOI18N
+            tblEnterprise.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblEnterprise.columnModel.title2")); // NOI18N
+            tblEnterprise.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("tblEnterprise.columnModel.title3")); // NOI18N
+            tblEnterprise.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("tblEnterprise.columnModel.title4")); // NOI18N
+            tblEnterprise.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("tblEnterprise.columnModel.title5")); // NOI18N
+            tblEnterprise.getColumnModel().getColumn(6).setHeaderValue(resourceMap.getString("tblEnterprise.columnModel.title6")); // NOI18N
+            tblEnterprise.getColumnModel().getColumn(7).setHeaderValue(resourceMap.getString("tblEnterprise.columnModel.title7")); // NOI18N
+            tblEnterprise.getColumnModel().getColumn(8).setHeaderValue(resourceMap.getString("tblEnterprise.columnModel.title8")); // NOI18N
+            tblEnterprise.getColumnModel().getColumn(9).setHeaderValue(resourceMap.getString("tblEnterprise.columnModel.title9")); // NOI18N
+            tblEnterprise.getColumnModel().getColumn(10).setHeaderValue(resourceMap.getString("tblEnterprise.columnModel.title10")); // NOI18N
+        }
+
+        jLabel2.setFont(resourceMap.getFont("jLabel2.font")); // NOI18N
+        jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
+        jLabel2.setName("jLabel2"); // NOI18N
+
+        txtAddress2.setFont(resourceMap.getFont("txtAddress2.font")); // NOI18N
+        txtAddress2.setName("txtAddress2"); // NOI18N
+
+        txtZip.setFont(resourceMap.getFont("txtZip.font")); // NOI18N
+        txtZip.setName("txtZip"); // NOI18N
+
+        txtName.setFont(resourceMap.getFont("txtName.font")); // NOI18N
+        txtName.setName("txtName"); // NOI18N
+
+        jLabel3.setFont(resourceMap.getFont("jLabel3.font")); // NOI18N
+        jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
+        jLabel3.setName("jLabel3"); // NOI18N
+
+        jLabel4.setFont(resourceMap.getFont("jLabel4.font")); // NOI18N
+        jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
+        jLabel4.setName("jLabel4"); // NOI18N
+
+        jLabel5.setFont(resourceMap.getFont("jLabel5.font")); // NOI18N
+        jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
+        jLabel5.setName("jLabel5"); // NOI18N
+
+        jLabel6.setFont(resourceMap.getFont("jLabel6.font")); // NOI18N
+        jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
+        jLabel6.setName("jLabel6"); // NOI18N
+
+        jLabel8.setFont(resourceMap.getFont("jLabel8.font")); // NOI18N
+        jLabel8.setText(resourceMap.getString("jLabel8.text")); // NOI18N
+        jLabel8.setName("jLabel8"); // NOI18N
+
+        jLabel9.setFont(resourceMap.getFont("jLabel9.font")); // NOI18N
+        jLabel9.setText(resourceMap.getString("jLabel9.text")); // NOI18N
+        jLabel9.setName("jLabel9"); // NOI18N
+
+        jLabel10.setFont(resourceMap.getFont("jLabel10.font")); // NOI18N
+        jLabel10.setText(resourceMap.getString("jLabel10.text")); // NOI18N
+        jLabel10.setName("jLabel10"); // NOI18N
+
+        txtEmail1.setFont(resourceMap.getFont("txtEmail1.font")); // NOI18N
+        txtEmail1.setName("txtEmail1"); // NOI18N
+
+        txtCity.setFont(resourceMap.getFont("txtCity.font")); // NOI18N
+        txtCity.setName("txtCity"); // NOI18N
+
+        txtPhone.setFont(resourceMap.getFont("txtPhone.font")); // NOI18N
+        txtPhone.setName("txtPhone"); // NOI18N
+
+        txtState.setFont(resourceMap.getFont("txtState.font")); // NOI18N
+        txtState.setName("txtState"); // NOI18N
+
+        txtContactPerson.setFont(resourceMap.getFont("txtContactPerson.font")); // NOI18N
+        txtContactPerson.setName("txtContactPerson"); // NOI18N
+
+        ComboBoxEnterpriseType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Hospital", "Pharmacy ", "Insurance" }));
+        ComboBoxEnterpriseType.setName("ComboBoxEnterpriseType"); // NOI18N
+
+        jLabel12.setFont(resourceMap.getFont("jLabel12.font")); // NOI18N
+        jLabel12.setText(resourceMap.getString("jLabel12.text")); // NOI18N
+        jLabel12.setName("jLabel12"); // NOI18N
+
+        btnSubmit.setText(resourceMap.getString("btnSubmit.text")); // NOI18N
+        btnSubmit.setName("btnSubmit"); // NOI18N
+        btnSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setFont(resourceMap.getFont("jLabel13.font")); // NOI18N
+        jLabel13.setText(resourceMap.getString("jLabel13.text")); // NOI18N
+        jLabel13.setName("jLabel13"); // NOI18N
+
+        networkJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        networkJComboBox.setName("networkJComboBox"); // NOI18N
+
+        btnDelete.setText(resourceMap.getString("btnDelete.text")); // NOI18N
+        btnDelete.setName("btnDelete"); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(292, 292, 292)
-                .addComponent(jLabel7)
-                .addContainerGap(908, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(277, 277, 277)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(82, 82, 82)
+                                .addComponent(jLabel7))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel13))
+                                .addGap(14, 14, 14)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtAddress1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCity, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(60, 60, 60)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                                                .addComponent(txtState, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel12))
+                                                .addGap(30, 30, 30)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(ComboBoxEnterpriseType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(txtAddress2, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtZip, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGap(4, 4, 4)
+                                                .addComponent(networkJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(60, 60, 60)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel10)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(btnSubmit)
+                                                        .addGap(18, 18, 18)
+                                                        .addComponent(btnDelete))
+                                                    .addComponent(txtContactPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(123, 123, 123)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 954, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(316, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(267, 267, 267)
-                .addComponent(jLabel7)
-                .addContainerGap(383, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12)
+                            .addComponent(ComboBoxEnterpriseType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel2)
+                        .addGap(43, 43, 43))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(49, 49, 49))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtAddress1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtAddress2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(txtCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5)
+                    .addComponent(txtState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtZip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10)
+                        .addComponent(txtContactPerson, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSubmit)
+                    .addComponent(jLabel13)
+                    .addComponent(networkJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelete))
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                .addComponent(jLabel7))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tblEnterpriseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEnterpriseMouseClicked
+        // TODO add your handling code here:
+        try {
+            int table_selected_row;
+            if (evt.getClickCount() == 2) {
+                table_selected_row = tblEnterprise.getSelectedRow();
+                Enterprise enterprise = (Enterprise) tblEnterprise.getValueAt(table_selected_row, 0);
+                txtName.setText(enterprise.getName());
+                txtAddress1.setText(enterprise.getAddress1());
+                txtAddress2.setText(enterprise.getAddress2());
+                txtCity.setText(enterprise.getCity());
+                txtState.setText(enterprise.getState());
+                txtZip.setText(enterprise.getZip());
+                txtPhone.setText(enterprise.getPhone());
+                txtEmail1.setText(enterprise.getEmail());
+                txtContactPerson.setText(enterprise.getContactPerson());
+//                int enterpriseID = Integer.parseInt(tblEnterprise.getValueAt(table_selected_row, 0).toString());
+                btnSubmit.setText("Update");
+                btnDelete.setVisible(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+
+    }//GEN-LAST:event_tblEnterpriseMouseClicked
+
+    private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
+//         String regex = "^[A-Za-z0-9]+[A-Za-z0-9+_]+@[A-Za-z0-9.-]+$";
+//        Pattern pattern = Pattern.compile(regex);
+//        Matcher matcher = pattern.matcher(txtEmail1.getText());
+//        if(txtEmail1.getText().equals("emailID with _ and @ only")) {
+//            JOptionPane.showMessageDialog(null, "email id format is invalid");
+//            return;
+//        }
+        String EnterpriseName = txtName.getText();
+        String Address1 =txtAddress1.getText();
+        String Address2 =txtAddress2.getText();
+        String City =txtCity.getText();
+        String State =txtState.getText();
+        String Zip =txtZip.getText();
+        String Phone =txtPhone.getText();
+        String Email =txtEmail1.getText();
+        String ContactPeroson =txtContactPerson.getText();
+
+
+        if (EnterpriseName != null && !EnterpriseName.equals("") || Address1 != null && !Address1.equals("") ||
+            Address2 != null && !Address2.equals("") || City != null && !City.equals("")|| 
+            State != null && !State.equals("")|| Zip != null && !Zip.equals("") ||
+            Phone != null && !Phone.equals("") || Email != null && !Email.equals("")||
+            ContactPeroson != null && !ContactPeroson.equals("")) {
+            if (btnSubmit.getText().equals("Submit")) {
+                Network network = (Network) networkJComboBox.getSelectedItem();
+                Enterprise.EnterpriseType type = (Enterprise.EnterpriseType) ComboBoxEnterpriseType.getSelectedItem();
+//                if (network == null || type == null) {
+//                    JOptionPane.showMessageDialog(null, "Invalid Input!");
+//                    return;
+//                }
+                String name = txtName.getText();
+                String address1 = txtAddress1.getText();
+                String address2 = txtAddress2.getText();
+                String city = txtCity.getText();
+                String state = txtState.getText();
+                String zip = txtZip.getText();
+                String phone = txtPhone.getText();
+                String email = txtEmail1.getText();
+                String contactPerson = txtContactPerson.getText();
+                Enterprise enterprise = network.getEnterpriseDirectory().createAndAddEnterprise(name, type, address1, address2,
+                        city, state, zip, phone, email, contactPerson);
+                dB4OUtil.storeSystem(system);
+                JOptionPane.showMessageDialog(null, "Enterprise added successfully");
+                clearFields();
+                populateTable();
+        } else {
+            int table_selected_row = tblEnterprise.getSelectedRow();
+//            int enterpriseId = Integer.parseInt(tblEnterprise.getValueAt(table_selected_row, 0).toString());
+            Enterprise enterprise = (Enterprise) tblEnterprise.getValueAt(table_selected_row, 0);
+            enterprise.setName(txtName.getText());
+            enterprise.setAddress1(txtAddress1.getText());
+            enterprise.setAddress2(txtAddress2.getText());
+            enterprise.setCity(txtCity.getText());
+            enterprise.setState(txtState.getText());
+            enterprise.setZip(txtZip.getText());
+            enterprise.setPhone(txtPhone.getText());
+            enterprise.setEmail(txtEmail1.getText());
+            enterprise.setContactPerson(txtContactPerson.getText());
+            dB4OUtil.storeSystem(system);
+            JOptionPane.showMessageDialog(null, "Enterprise updated successfully");
+            clearFields();
+        }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Validation Error", "Please enter all feilds", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnSubmitActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+
+        int selectedOption = JOptionPane.showConfirmDialog(null, "Delete Enterprise", "Are you sure you want to delete this enterprise?", JOptionPane.YES_NO_OPTION);
+        if (selectedOption == JOptionPane.OK_OPTION) {
+            int table_selected_row = tblEnterprise.getSelectedRow();
+            System.out.println("Selected Enterprise:" + tblEnterprise.getValueAt(table_selected_row, 0).toString());
+//            int enterpriseId = Integer.parseInt(tblEnterprise.getValueAt(table_selected_row, 0).toString());
+            for (Network network : system.getNetworkList()) {
+                if (network.getEnterpriseDirectory().getEnterpriseList().contains(tblEnterprise.getValueAt(table_selected_row, 0))) {
+                    network.getEnterpriseDirectory().getEnterpriseList().remove(tblEnterprise.getValueAt(table_selected_row, 0));
+                    dB4OUtil.storeSystem(system);
+                    clearFields();
+                    populateTable();
+                    break;
+                }
+            }
+        }
+
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox ComboBoxEnterpriseType;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnSubmit;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox networkJComboBox;
+    private javax.swing.JTable tblEnterprise;
+    private javax.swing.JTextField txtAddress1;
+    private javax.swing.JTextField txtAddress2;
+    private javax.swing.JTextField txtCity;
+    private javax.swing.JTextField txtContactPerson;
+    private javax.swing.JTextField txtEmail1;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtPhone;
+    private javax.swing.JTextField txtState;
+    private javax.swing.JTextField txtZip;
     // End of variables declaration//GEN-END:variables
+
+    private void populateTable() {
+
+        DefaultTableModel model = (DefaultTableModel) tblEnterprise.getModel();
+        model.setRowCount(0);
+
+        model.setRowCount(0);
+        for (Network network : system.getNetworkList()) {
+            for (Enterprise organization : network.getEnterpriseDirectory().getEnterpriseList()) {
+                Object[] row = new Object[11];
+                row[0] = organization;
+                row[1] = organization.getEnterpriseType().getValue();
+                row[2] = organization.getAddress1();
+                row[3] = organization.getAddress2();
+                row[4] = organization.getCity();
+                row[5] = organization.getState();
+                row[6] = organization.getZip();
+                row[7] = organization.getPhone();
+                row[8] = organization.getEmail();
+                row[9] = organization.getContactPerson();
+                row[10] = network.getName();
+                model.addRow(row);
+            }
+        }
+    }
+
+    private void populateComboBox() {
+        ComboBoxEnterpriseType.removeAllItems();
+        networkJComboBox.removeAllItems();
+        for (Enterprise.EnterpriseType type : Enterprise.EnterpriseType.values()) {
+            ComboBoxEnterpriseType.addItem(type);
+        }
+
+        for (Network network : system.getNetworkList()) {
+            networkJComboBox.addItem(network);
+        }
+    }
+
+    public void clearFields() {
+        txtName.setText("");
+        txtAddress1.setText("");
+        txtAddress2.setText("");
+        txtCity.setText("");
+        txtState.setText("");
+        txtZip.setText("");
+        txtPhone.setText("");
+        txtEmail1.setText("");
+        txtContactPerson.setText("");
+        btnSubmit.setText("Add");
+        btnDelete.setVisible(false);
+    }
+
 }
