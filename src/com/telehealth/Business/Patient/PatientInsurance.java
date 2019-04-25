@@ -5,6 +5,7 @@
  */
 package com.telehealth.Business.Patient;
 
+import com.telehealth.Business.UserAccount.UserAccount;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -21,14 +22,16 @@ public class PatientInsurance {
     private int pharmacyOrganizationID;
     private int insuranceOrganizationID;
     private ArrayList<PatientClaim> patientClaimList;
+    private UserAccount insuranceCompany;
 
-    public PatientInsurance(String insurancePlan, String policyNumber, String policyCoverage, double policyAmount, Date policyStartDate, Date policyEndDate) {
+    public PatientInsurance(String insurancePlan, String policyNumber, String policyCoverage, double policyAmount, Date policyStartDate, Date policyEndDate, UserAccount insuranceCompany) {
         this.insurancePlan = insurancePlan;
         this.policyNumber = policyNumber;
         this.policyCoverage = policyCoverage;
         this.policyAmount = policyAmount;
         this.policyStartDate = policyStartDate;
         this.policyEndDate = policyEndDate;
+        this.insuranceCompany = insuranceCompany;
         this.patientClaimList = new ArrayList<PatientClaim>();
     }
 
@@ -112,6 +115,15 @@ public class PatientInsurance {
         this.insuranceOrganizationID = insuranceOrganizationID;
     }
 
+    public UserAccount getInsuranceCompany() {
+        return insuranceCompany;
+    }
+
+    public void setInsuranceCompany(UserAccount insuranceCompany) {
+        this.insuranceCompany = insuranceCompany;
+    }
+
+    
     public ArrayList<PatientClaim> getPatientClaimList() {
         return patientClaimList;
     }
@@ -123,5 +135,10 @@ public class PatientInsurance {
     public ArrayList<PatientClaim> createAndAddPatientClaim(PatientClaim patientClaim){
         patientClaimList.add(patientClaim);
         return patientClaimList;
+    }
+    
+    @Override
+    public String toString() {
+        return this.insurancePlan;
     }
 }
