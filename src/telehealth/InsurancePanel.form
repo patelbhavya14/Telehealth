@@ -149,9 +149,6 @@
         <Property name="font" type="java.awt.Font" resourceKey="txtInsurancePlan.font"/>
         <Property name="name" type="java.lang.String" value="txtInsurancePlan" noResource="true"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtInsurancePlanActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -165,9 +162,6 @@
         <Property name="font" type="java.awt.Font" resourceKey="txtPolicyNumber.font"/>
         <Property name="name" type="java.lang.String" value="txtPolicyNumber" noResource="true"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPolicyNumberActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
@@ -181,9 +175,6 @@
         <Property name="font" type="java.awt.Font" resourceKey="txtPolicyCoverage.font"/>
         <Property name="name" type="java.lang.String" value="txtPolicyCoverage" noResource="true"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPolicyCoverageActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -194,7 +185,9 @@
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtpolicyStartDate">
       <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="txtpolicyStartDate.text"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+          <Format format="##/##/####" subtype="-1" type="5"/>
+        </Property>
         <Property name="font" type="java.awt.Font" resourceKey="txtpolicyStartDate.font"/>
         <Property name="name" type="java.lang.String" value="txtpolicyStartDate" noResource="true"/>
       </Properties>
@@ -208,7 +201,9 @@
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtpolicyEndDate">
       <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="txtpolicyEndDate.text"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+          <Format format="##/##/####" subtype="-1" type="5"/>
+        </Property>
         <Property name="font" type="java.awt.Font" resourceKey="txtpolicyEndDate.font"/>
         <Property name="name" type="java.lang.String" value="txtpolicyEndDate" noResource="true"/>
       </Properties>
@@ -261,25 +256,66 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tblPrescription">
+        <Component class="javax.swing.JTable" name="tblInsurance">
           <Properties>
-            <Property name="font" type="java.awt.Font" resourceKey="tblPrescription.font"/>
+            <Property name="font" type="java.awt.Font" resourceKey="tblInsurance.font"/>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="0">
+              <Table columnCount="7" rowCount="0">
+                <Column editable="false" title="Patient Name" type="java.lang.Object"/>
+                <Column editable="false" title="Policy Number" type="java.lang.Object"/>
+                <Column editable="false" title="Plan" type="java.lang.Object"/>
+                <Column editable="false" title="Coverage" type="java.lang.Object"/>
                 <Column editable="false" title="Amount" type="java.lang.Object"/>
-                <Column editable="false" title="Next Prescription Date" type="java.lang.Object"/>
-                <Column editable="false" title="Notes" type="java.lang.Object"/>
-                <Column editable="false" title="Patient" type="java.lang.Object"/>
-                <Column editable="false" title="Patient Diagnosis" type="java.lang.Object"/>
+                <Column editable="false" title="Start Date" type="java.lang.Object"/>
+                <Column editable="false" title="End Date" type="java.lang.Object"/>
               </Table>
             </Property>
-            <Property name="name" type="java.lang.String" value="tblPrescription" noResource="true"/>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="tblInsurance.columnModel.title6"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="tblInsurance.columnModel.title0"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="tblInsurance.columnModel.title1"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="tblInsurance.columnModel.title2"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="tblInsurance.columnModel.title3"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="tblInsurance.columnModel.title4"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="tblInsurance.columnModel.title5"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
+            </Property>
+            <Property name="name" type="java.lang.String" value="tblInsurance" noResource="true"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblPrescriptionMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblInsuranceMouseClicked"/>
           </Events>
         </Component>
       </SubComponents>
