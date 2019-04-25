@@ -13,7 +13,7 @@ import java.util.Date;
  * @author Kinnar
  */
 public class PatientInsurance {
-    
+    private int patientInsuranceId;
     private String insurancePlan, policyNumber,policyCoverage;
     private double policyAmount;
     private Date policyStartDate, policyEndDate;
@@ -30,6 +30,14 @@ public class PatientInsurance {
         this.policyStartDate = policyStartDate;
         this.policyEndDate = policyEndDate;
         this.patientClaimList = new ArrayList<PatientClaim>();
+    }
+
+    public int getPatientInsuranceId() {
+        return patientInsuranceId;
+    }
+
+    public void setPatientInsuranceId(int patientInsuranceId) {
+        this.patientInsuranceId = patientInsuranceId;
     }
 
     public String getInsurancePlan() {
