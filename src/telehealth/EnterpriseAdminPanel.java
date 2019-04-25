@@ -36,7 +36,7 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
     int table_selected_row;
     UserAccount userAccount;
     Enterprise enterprise;
-    
+
     public EnterpriseAdminPanel(TeleHealthView teleHealthView, EcoSystem system) {
         initComponents();
         this.system = system;
@@ -296,9 +296,9 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        if(btnAdd.getText().equals("Add")){
-            
-            if(validateFields()){
+        if (btnAdd.getText().equals("Add")) {
+
+            if (validateFields()) {
                 enterprise = (Enterprise) cmbEnterprise.getSelectedItem();
 
                 String username = txtUsername.getText();
@@ -310,33 +310,32 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
                 Employee employee = enterprise.getEmployeeDirectory().createEmployee(name);
                 employee.setEmail(email);
                 employee.setPhone(phone);
-                
-               
-                userAccount = enterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new AdminRole());            
 
-                try{
+                userAccount = enterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new AdminRole());
+
+                try {
                     dB4OUtil.storeSystem(system);
                     clearFields();
                     populateTable();
-                } catch(Exception e){
+                    JOptionPane.showMessageDialog(null, "Insurance added successfully");
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                
-                
+
             }
         } else {
-            if(validateFields()){                               
+            if (validateFields()) {
                 Enterprise enterpriseUpdated = (Enterprise) cmbEnterprise.getSelectedItem();
-                if(enterprise.equals(enterpriseUpdated)){
+                if (enterprise.equals(enterpriseUpdated)) {
                     userAccount.setUsername(txtUsername.getText());
                     userAccount.setPassword(String.valueOf(pwdPassword.getPassword()));
                     Employee employee = userAccount.getEmployee();
                     employee.setName(txtName.getText());
                     employee.setEmail(txtEmail.getText());
-                    employee.setPhone(txtPhone.getText());                    
+                    employee.setPhone(txtPhone.getText());
                 } else {
                     enterprise.getUserAccountDirectory().getUserAccountList().remove(userAccount);
-                    
+
                     enterprise = (Enterprise) cmbEnterprise.getSelectedItem();
                     String username = txtUsername.getText();
                     String password = String.valueOf(pwdPassword.getPassword());
@@ -346,17 +345,20 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
                     Employee employee = enterprise.getEmployeeDirectory().createEmployee(name);
                     employee.setEmail(email);
                     employee.setPhone(phone);
-                    
-                    userAccount = enterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new AdminRole());                                
+
+                    userAccount = enterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new AdminRole());
                 }
-                try{
+                try {
                     dB4OUtil.storeSystem(system);
                     clearFields();
                     populateTable();
-                } catch(Exception e){
+                    JOptionPane.showMessageDialog(null, "Insurance updated successfully");
+                    btnAdd.setText("Add");
+                    btnDelete.setVisible(false);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                
+
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -364,34 +366,33 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
     private void cmbNetworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNetworkActionPerformed
         // TODO add your handling code here:
         Network network = (Network) cmbNetwork.getSelectedItem();
-        if (network != null){
+        if (network != null) {
             populateEnterpriseComboBox(network);
         }
     }//GEN-LAST:event_cmbNetworkActionPerformed
 
     private void tblEntAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEntAdminMouseClicked
         // TODO add your handling code here:        
-        try
-        {
-            
-            if (evt.getClickCount() == 2){
+        try {
+
+            if (evt.getClickCount() == 2) {
                 table_selected_row = tblEntAdmin.getSelectedRow();
-                userAccount = (UserAccount)tblEntAdmin.getValueAt(table_selected_row, 2);
+                userAccount = (UserAccount) tblEntAdmin.getValueAt(table_selected_row, 2);
                 Network network = (Network) tblEntAdmin.getValueAt(table_selected_row, 0);
                 enterprise = (Enterprise) tblEntAdmin.getValueAt(table_selected_row, 1);
-                
+
                 cmbNetwork.setSelectedItem(network);
                 cmbEnterprise.setSelectedItem(enterprise);
                 txtUsername.setText(userAccount.getUsername());
                 pwdPassword.setText(userAccount.getPassword());
                 txtName.setText(userAccount.getEmployee().getName());
                 txtEmail.setText(userAccount.getEmployee().getEmail());
-                txtPhone.setText(userAccount.getEmployee().getPhone());                
-                                
+                txtPhone.setText(userAccount.getEmployee().getPhone());
+
                 btnAdd.setText("Update");
-                btnDelete.setVisible(true);                
+                btnDelete.setVisible(true);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_tblEntAdminMouseClicked
@@ -399,45 +400,47 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         int selectedOption = JOptionPane.showConfirmDialog(null, "Delete User Account", "Are you sure you want to delete this account?", JOptionPane.YES_NO_OPTION);
-        if(selectedOption == JOptionPane.OK_OPTION){
+        if (selectedOption == JOptionPane.OK_OPTION) {
             enterprise.getUserAccountDirectory().getUserAccountList().remove(userAccount);
-            try{
+            try {
                 dB4OUtil.storeSystem(system);
                 clearFields();
                 populateTable();
-            } catch(Exception e){
+                btnAdd.setText("Add");
+                btnDelete.setVisible(false);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void populateNetworkComboBox(){
+    private void populateNetworkComboBox() {
         cmbNetwork.removeAllItems();
-        
-        for (Network network : system.getNetworkList()){
+
+        for (Network network : system.getNetworkList()) {
             cmbNetwork.addItem(network);
         }
     }
-    
-    private void populateEnterpriseComboBox(Network network){
+
+    private void populateEnterpriseComboBox(Network network) {
         cmbEnterprise.removeAllItems();
-        
-        for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()){
+
+        for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {
             cmbEnterprise.addItem(enterprise);
         }
-        
+
     }
-    
-    public void populateTable(){
+
+    public void populateTable() {
         DefaultTableModel model = (DefaultTableModel) tblEntAdmin.getModel();
 
         model.setRowCount(0);
         for (Network network : system.getNetworkList()) {
-            for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {                
+            for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {
                 for (UserAccount userAccount : enterprise.getUserAccountDirectory().getUserAccountList()) {
                     Object[] row = new Object[6];
                     row[0] = network;
-                    row[1] = enterprise;                    
+                    row[1] = enterprise;
                     row[2] = userAccount;
                     row[3] = userAccount.getEmployee().getName();
                     row[4] = userAccount.getEmployee().getEmail();
@@ -447,51 +450,51 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
             }
         }
     }
-    
-    public boolean validateFields(){
-        
-        if( (cmbNetwork.getItemCount() == 0 || cmbNetwork.getSelectedItem().toString().equals("")) || 
-                (cmbEnterprise.getItemCount() == 0 || cmbEnterprise.getSelectedItem().toString().equals(""))||
-                txtUsername.getText().equals("") || 
-                String.valueOf(pwdPassword.getPassword()).equals("") ||
-                txtName.getText().equals("") ||
-                txtEmail.getText().equals("") ||
-                txtPhone.getText().equals("")
-                ) {
+
+    public boolean validateFields() {
+
+        if ((cmbNetwork.getItemCount() == 0 || cmbNetwork.getSelectedItem().toString().equals(""))
+                || (cmbEnterprise.getItemCount() == 0 || cmbEnterprise.getSelectedItem().toString().equals(""))
+                || txtUsername.getText().equals("")
+                || String.valueOf(pwdPassword.getPassword()).equals("")
+                || txtName.getText().equals("")
+                || txtEmail.getText().equals("")
+                || txtPhone.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "All fields are mandatory", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        
-        if(!CommonUtility.checkUserIfExists(txtUsername.getText())){
+
+        if (!CommonUtility.checkUserIfExists(txtUsername.getText())) {
             JOptionPane.showMessageDialog(null, "Username already exists", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return false;
-        }            
-        
-        if(String.valueOf(pwdPassword.getPassword()).length()<6){
+        }
+
+        if (String.valueOf(pwdPassword.getPassword()).length() < 6) {
             JOptionPane.showMessageDialog(null, "Password length should be at least 6 characters", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        
+
         String regex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
 //        String regex = "^[A-Za-z0-9]+[A-Za-z0-9+_.]+@[A-Za-z0-9.-]+$";
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(txtEmail.getText());
-        if(!matcher.matches()){
+        if (!matcher.matches()) {
             JOptionPane.showMessageDialog(null, "Please enter valid email id", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        
+
         regex = "^\\(\\d{3}\\)\\d{3}-\\d{4}$";
         pattern = Pattern.compile(regex);
         matcher = pattern.matcher(txtPhone.getText());
-        if(!matcher.matches()){
+        if (!matcher.matches()) {
             JOptionPane.showMessageDialog(null, "Please enter valid phone number", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return false;
-        }        
-        
+        }
+
         return true;
     }
-    public void clearFields(){
+
+    public void clearFields() {
         populateNetworkComboBox();
         txtUsername.setText("");
         pwdPassword.setText("");

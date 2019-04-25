@@ -136,4 +136,9 @@ public class PatientInsurance {
         patientClaimList.add(patientClaim);
         return patientClaimList;
     }
+    
+    @Override
+    public String toString() {
+        return this.insurancePlan;
+    }
 }

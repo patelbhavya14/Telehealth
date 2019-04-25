@@ -569,6 +569,7 @@ public class PatientPanel extends javax.swing.JPanel {
     private void populateTable() {
         DefaultTableModel model = (DefaultTableModel) tblPatient.getModel();
 
+        
         model.setRowCount(0);
         for (Patient patient : system.getPatientDirectory().getPatientList()) {
             Object[] row = new Object[10];
