@@ -8,7 +8,7 @@ package telehealth;
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
 import com.telehealth.Business.Enterprise.Enterprise;
-import com.telehealth.Business.Network.Network;
+import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Patient.Patient;
 import com.telehealth.Business.Patient.PatientDiagnosis;
 import com.telehealth.Business.UserAccount.UserAccount;
@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import telehealth.TeleHealthView;
 
 /**
  *
@@ -35,15 +34,21 @@ public class DiagnosisPanel extends javax.swing.JPanel {
     int table_selected_row;
     UserAccount userAccount;
     PatientDiagnosis patientDiagnosis;
+    Patient patient;
+    Enterprise currentEnterprise;
+    Organization currentOrganization;    
     
-    public DiagnosisPanel(TeleHealthView teleHealthView, EcoSystem system) {
+    public DiagnosisPanel(TeleHealthView teleHealthView, EcoSystem system, Enterprise currentEnterprise, Organization currentOrganization, UserAccount userAccount) {
         initComponents();
         this.system = system;
+        this.userAccount = userAccount;
+        this.currentEnterprise = currentEnterprise;
+        this.currentOrganization = currentOrganization;
         btnDelete.setVisible(false);
         populatePatientComboBox();
         populateTable();
         clearFields();
-    }
+    }   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -170,6 +175,11 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         btnDelete.setFont(resourceMap.getFont("btnDelete.font")); // NOI18N
         btnDelete.setText(resourceMap.getString("btnDelete.text")); // NOI18N
         btnDelete.setName("btnDelete"); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
@@ -311,8 +321,8 @@ public class DiagnosisPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDelete)
                     .addComponent(btnAdd))
-                .addGap(80, 80, 80)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(75, 75, 75)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(51, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -325,6 +335,7 @@ public class DiagnosisPanel extends javax.swing.JPanel {
             if (evt.getClickCount() == 2){
                 table_selected_row = tblDiagnosis.getSelectedRow();
                 patientDiagnosis = (PatientDiagnosis)tblDiagnosis.getValueAt(table_selected_row, 7);
+                patient = (Patient)tblDiagnosis.getValueAt(table_selected_row, 0);
                 
                 cmbPatient.setSelectedItem((Patient)tblDiagnosis.getValueAt(table_selected_row, 0));
                 txtBloodPressureSystolic.setText(patientDiagnosis.getBpSystolic()+"");
@@ -371,14 +382,53 @@ public class DiagnosisPanel extends javax.swing.JPanel {
                     } catch(Exception e){
                         e.printStackTrace();
                     }
-                } else {
-                    
                 }
             } catch (Exception e){
-
+                e.printStackTrace();
+            }
+        } else {
+            try{
+                if(validateFields()){
+                    patientDiagnosis.setBpSystolic(Integer.parseInt(txtBloodPressureSystolic.getText()));
+                    patientDiagnosis.setBpDiastolic(Integer.parseInt(txtBloodPressureDiastolic.getText()));
+                    patientDiagnosis.setHeartRate(Integer.parseInt(heartRateTextFeild.getText()));
+                    patientDiagnosis.setRespiratoryRate(Integer.parseInt(respiratoryRateTextFeild.getText()));
+                    patientDiagnosis.setWeight(Double.parseDouble(weightTextFeild.getText()));
+                    patientDiagnosis.setDiagnosisDate(simpleDateFormat.parse(diagnosisDateTextField.getText()));
+                    patientDiagnosis.setNextDiagnosisDate(simpleDateFormat.parse(nextDiagnosisDateTextField.getText()));
+                    patientDiagnosis.setDiagnosisDetails(diagnosisDetailTextFeild.getText());
+                    patientDiagnosis.setNotes(notesTextArea.getText());
+                                                               
+                    try{
+                        dB4OUtil.storeSystem(system);
+                        clearFields();
+                        populateTable();
+                        btnDelete.setVisible(false);
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int selectedOption = JOptionPane.showConfirmDialog(null, "Delete Diagnosis", "Are you sure you want to delete this diagnosis?", JOptionPane.YES_NO_OPTION);
+        if(selectedOption == JOptionPane.OK_OPTION){
+            patient.getPatientDiagnosisList().remove(patientDiagnosis);            
+            try{
+                dB4OUtil.storeSystem(system);
+                clearFields();
+                populateTable();
+                btnDelete.setVisible(false);
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     
     
