@@ -30,7 +30,7 @@ public class PatientDiagnosis {
         this.diagnosisDate = diagnosisDate;
         this.nextDiagnosisDate = nextDiagnosisDate;
         this.diagnosisDetails = diagnosisDetails;
-        this.notes = notes;        
+        this.notes = notes;
     }
 
     public int getPatientDiagnosisId() {

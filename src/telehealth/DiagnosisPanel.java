@@ -384,8 +384,11 @@ public class DiagnosisPanel extends javax.swing.JPanel {
 
                     try{
                         dB4OUtil.storeSystem(system);
+                        
+                        JOptionPane.showMessageDialog(null, "Diagnosis added successfully");
                         clearFields();
                         populateTable();
+                        
                     } catch(Exception e){
                         e.printStackTrace();
                     }
@@ -408,9 +411,11 @@ public class DiagnosisPanel extends javax.swing.JPanel {
                                                                
                     try{
                         dB4OUtil.storeSystem(system);
+                        JOptionPane.showMessageDialog(null, "Diagnosis updated successfully");
                         clearFields();
                         populateTable();
                         btnDelete.setVisible(false);
+                        btnAdd.setText("Add");
                     } catch(Exception e){
                         e.printStackTrace();
                     }
@@ -428,9 +433,11 @@ public class DiagnosisPanel extends javax.swing.JPanel {
             patient.getPatientDiagnosisList().remove(patientDiagnosis);            
             try{
                 dB4OUtil.storeSystem(system);
+                JOptionPane.showMessageDialog(null, "Diagnosis deleted successfully");
                 clearFields();
                 populateTable();
                 btnDelete.setVisible(false);
+                btnAdd.setText("Add");
             } catch(Exception e){
                 e.printStackTrace();
             }
@@ -532,19 +539,22 @@ public class DiagnosisPanel extends javax.swing.JPanel {
             Integer.parseInt(txtBloodPressureDiastolic.getText());
             Integer.parseInt(heartRateTextFeild.getText());
             Integer.parseInt(respiratoryRateTextFeild.getText());
-            Double.parseDouble(weightTextFeild.getText());
-            simpleDateFormat.parse(diagnosisDateTextField.getText()); 
-            simpleDateFormat.parse(nextDiagnosisDateTextField.getText());
+            Double.parseDouble(weightTextFeild.getText());            
             
         } catch (NumberFormatException ne){
             JOptionPane.showMessageDialog(null, "Please enter valid values", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return false;
+        }
+        
+        try{
+            if(simpleDateFormat.parse(diagnosisDateTextField.getText()).compareTo(simpleDateFormat.parse(nextDiagnosisDateTextField.getText())) >= 0){
+                JOptionPane.showMessageDialog(null, "Next diagnosis date should be later than diagnosis date", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
         } catch (ParseException pe){
             JOptionPane.showMessageDialog(null, "Please enter valid values", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        
-        
         return true;
     }
 }
