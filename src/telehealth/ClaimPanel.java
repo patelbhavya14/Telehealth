@@ -10,6 +10,7 @@ import com.telehealth.Business.EcoSystem;
 import com.telehealth.Business.Patient.Patient;
 import com.telehealth.Business.Patient.PatientClaim;
 import com.telehealth.Business.Patient.PatientInsurance;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -27,11 +28,16 @@ public class ClaimPanel extends javax.swing.JPanel {
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
      String pattern = "MM/dd/yyyy";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    PatientClaim patientClaim;
+    PatientInsurance patientInsurance;
+    Patient patient;
+    int table_selected_row;
     public ClaimPanel(TeleHealthView teleHealthView, EcoSystem system) {
         initComponents();
         this.system = system;
         btnDelete.setVisible(false);
         populatePatientComboBox();
+        populatePatientInsuranceComboBox();
         populateTable();
         clearFields();
         cmbPatient.setSelectedItem(null);
@@ -56,6 +62,8 @@ public class ClaimPanel extends javax.swing.JPanel {
         btnDelete = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblClaim = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        cmbPatientInsurance = new javax.swing.JComboBox();
 
         setName("Form"); // NOI18N
 
@@ -113,11 +121,11 @@ public class ClaimPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Patient", "Claim Amount", "Claim date"
+                "Patient", "Patient Insurance", "Claim Amount", "Claim date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -135,7 +143,15 @@ public class ClaimPanel extends javax.swing.JPanel {
             tblClaim.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblClaim.columnModel.title0")); // NOI18N
             tblClaim.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblClaim.columnModel.title1")); // NOI18N
             tblClaim.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblClaim.columnModel.title2")); // NOI18N
+            tblClaim.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("tblClaim.columnModel.title3")); // NOI18N
         }
+
+        jLabel4.setFont(resourceMap.getFont("jLabel4.font")); // NOI18N
+        jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
+        jLabel4.setName("jLabel4"); // NOI18N
+
+        cmbPatientInsurance.setFont(resourceMap.getFont("cmbPatientInsurance.font")); // NOI18N
+        cmbPatientInsurance.setName("cmbPatientInsurance"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -145,22 +161,30 @@ public class ClaimPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(459, 459, 459)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAdd)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnDelete))
-                            .addComponent(txtClaimAmount, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                            .addComponent(txtClaimDate, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbPatient, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(8, 8, 8)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(8, 8, 8)
+                                        .addComponent(btnAdd)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnDelete))
+                                    .addComponent(txtClaimAmount, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                                    .addComponent(txtClaimDate, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmbPatient, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cmbPatientInsurance, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(429, 429, 429)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(417, 417, 417)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(331, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -170,21 +194,28 @@ public class ClaimPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(cmbPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbPatientInsurance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(txtClaimAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtClaimAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
+                    .addComponent(txtClaimDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtClaimDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd)
-                    .addComponent(btnDelete))
-                .addGap(55, 55, 55)
+                    .addComponent(btnDelete)
+                    .addComponent(btnAdd))
+                .addGap(32, 32, 32)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addContainerGap(97, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -194,19 +225,42 @@ public class ClaimPanel extends javax.swing.JPanel {
 
     private void tblClaimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClaimMouseClicked
         // TODO add your handling code here:
+        
+        try
+        {
+            
+            if (evt.getClickCount() == 2){
+                table_selected_row = tblClaim.getSelectedRow();
+                patientClaim = (PatientClaim)tblClaim.getValueAt(table_selected_row, 1);
+                patient = (Patient)tblClaim.getValueAt(table_selected_row, 0);
+                
+                cmbPatient.setSelectedItem((Patient)tblClaim.getValueAt(table_selected_row, 0));
+                txtClaimAmount.setText(patientClaim.getClaimAmount()+"");
+                txtClaimDate.setText(simpleDateFormat.format(patientClaim.getClaimDate()));
+//                if(userAccount.getRole().toString().equals(new HospitalRole().toString())){
+                    btnAdd.setText("Update");
+                    btnDelete.setVisible(true);
+//                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
     }//GEN-LAST:event_tblClaimMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
         
         Patient patient = (Patient)cmbPatient.getSelectedItem();
+        PatientInsurance patientInsurance= (PatientInsurance) cmbPatientInsurance.getSelectedItem();
         if(btnAdd.getText().equals("Add")){
             try{
+                if(validateFields()){
                 PatientClaim claim = new PatientClaim(
                 Double.parseDouble(txtClaimAmount.getText()),
                 simpleDateFormat.parse(txtClaimDate.getText()));
                 
-                
+                 patientInsurance.createAndAddPatientClaim(claim);
                 try{
                         dB4OUtil.storeSystem(system);
                         clearFields();
@@ -214,13 +268,32 @@ public class ClaimPanel extends javax.swing.JPanel {
                     } catch(Exception e){
                         e.printStackTrace();
                     }
+                }
             }
             catch (Exception e){
-
+                   e.printStackTrace();
             }
         }
         else{
+            try{
+            if(validateFields())
+            {
+               patientClaim.setClaimAmount(Double.parseDouble(txtClaimAmount.getText()));
+               patientClaim.setClaimDate(simpleDateFormat.parse(txtClaimDate.getText()));
+            }
             
+            try{
+                        dB4OUtil.storeSystem(system);
+                        clearFields();
+                        populateTable();
+                        btnDelete.setVisible(false);
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+        }
+            catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -229,8 +302,7 @@ public class ClaimPanel extends javax.swing.JPanel {
         int selectedOption = JOptionPane.showConfirmDialog(null, "Delete Claim", "Are you sure you want to delete this Clai?", JOptionPane.YES_NO_OPTION);
         if(selectedOption == JOptionPane.OK_OPTION){
             int table_selected_row = tblClaim.getSelectedRow();
-           
-            
+            patientInsurance.getPatientClaimList().remove(patientClaim);
             dB4OUtil.storeSystem(system);
             JOptionPane.showMessageDialog(null, "Claim deleted successfully");
             clearFields();
@@ -246,9 +318,11 @@ public class ClaimPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.JComboBox cmbPatient;
+    private javax.swing.JComboBox cmbPatientInsurance;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -276,5 +350,39 @@ public class ClaimPanel extends javax.swing.JPanel {
         for (Patient patient : system.getPatientDirectory().getPatientList()){
             cmbPatient.addItem(patient);
         }
+    }
+    
+    public boolean validateFields(){
+        
+        if(txtClaimAmount.getText().equals("") || 
+            txtClaimDate.getText().equals("")
+          ){
+            JOptionPane.showMessageDialog(null, "All fields are mandatory", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        try{
+            Double.parseDouble(txtClaimAmount.getText());
+            simpleDateFormat.parse(txtClaimDate.getText()); 
+            
+        } catch (NumberFormatException ne){
+            JOptionPane.showMessageDialog(null, "Please enter valid values", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } catch (ParseException pe){
+            JOptionPane.showMessageDialog(null, "Please enter valid values", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        
+        return true;
+    }
+
+    private void populatePatientInsuranceComboBox() {
+        
+        cmbPatientInsurance.removeAllItems();
+//        for (PatientInsurance patientInsurance : ){
+//            cmbPatient.addItem(patient);
+//        }
+        
+        
     }
 }
