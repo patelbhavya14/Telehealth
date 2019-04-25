@@ -21,8 +21,7 @@ public class PatientDiagnosis {
     private Doctor doctor;
     
 
-    public PatientDiagnosis(int patientDiagnosisId, int patientId, int doctorId, int bpSystolic, int bpDiastolic, int heartRate, int respiratoryRate, double weight, Date diagnosisDate, Date nextDiagnosisDate, String diagnosisDetails, String notes) {
-        this.patientDiagnosisId = patientDiagnosisId;
+    public PatientDiagnosis(int bpSystolic, int bpDiastolic, int heartRate, int respiratoryRate, double weight, Date diagnosisDate, Date nextDiagnosisDate, String diagnosisDetails, String notes) {        
         this.bpSystolic = bpSystolic;
         this.bpDiastolic = bpDiastolic;
         this.heartRate = heartRate;
@@ -31,9 +30,7 @@ public class PatientDiagnosis {
         this.diagnosisDate = diagnosisDate;
         this.nextDiagnosisDate = nextDiagnosisDate;
         this.diagnosisDetails = diagnosisDetails;
-        this.notes = notes;
-        this.patient=null;
-        this.doctor=null;
+        this.notes = notes;        
     }
 
     public int getPatientDiagnosisId() {
