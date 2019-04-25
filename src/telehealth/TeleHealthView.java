@@ -30,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import telehealth.resources.PharmacyWorkAreaPanel;
 
 /**
  * The application's main frame.
@@ -145,6 +146,7 @@ public class TeleHealthView extends FrameView {
         jmiPatientDiagnosis = new javax.swing.JMenuItem();
         jmiPatientPrescription = new javax.swing.JMenuItem();
         jmiAddInsurance = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -268,6 +270,7 @@ public class TeleHealthView extends FrameView {
         });
         fileMenu.add(jmiPatientPrescription);
 
+        jmiAddInsurance.setFont(resourceMap.getFont("jmiAddInsurance.font")); // NOI18N
         jmiAddInsurance.setText(resourceMap.getString("jmiAddInsurance.text")); // NOI18N
         jmiAddInsurance.setName("jmiAddInsurance"); // NOI18N
         jmiAddInsurance.addActionListener(new java.awt.event.ActionListener() {
@@ -276,6 +279,16 @@ public class TeleHealthView extends FrameView {
             }
         });
         fileMenu.add(jmiAddInsurance);
+
+        jMenuItem2.setFont(resourceMap.getFont("jMenuItem2.font")); // NOI18N
+        jMenuItem2.setText(resourceMap.getString("jMenuItem2.text")); // NOI18N
+        jMenuItem2.setName("jMenuItem2"); // NOI18N
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem2);
 
         jSeparator1.setName("jSeparator1"); // NOI18N
         fileMenu.add(jSeparator1);
@@ -578,6 +591,30 @@ public class TeleHealthView extends FrameView {
         mainPanel.revalidate();
     }//GEN-LAST:event_jmiAddInsuranceActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        currentPanel.removeAll();
+        currentPanel.invalidate();
+
+        PharmacyWorkAreaPanel pharmacyWorkAreaPanel = new PharmacyWorkAreaPanel(this, system, currentEnterprise, currentOrganization, userAccount);
+        currentPanel.add(pharmacyWorkAreaPanel, BorderLayout.CENTER);
+        //        currentPanel = enterpriseAdminPanel;
+        Dimension dim = getMainPanelDimension();
+        titlePanel.setTitle("Pharmacy Work Area");
+        titlePanel.setSize(1200, 50);
+        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        mainPanel.add(titlePanel);
+        mainPanel.add(currentPanel);
+
+        currentPanel.repaint();
+        currentPanel.revalidate();
+        titlePanel.repaint();
+        titlePanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     public void login() {
         boolean loginFlag = true;
         UserAccount userAccount1 = new UserAccount();
@@ -610,6 +647,7 @@ public class TeleHealthView extends FrameView {
                                         inOrganization = organization;
                                         currentEnterprise = enterprise;
                                         currentOrganization = organization;
+                                        System.out.println("org type:" + currentOrganization.getClass());
                                         break;
                                     }
                                 }
@@ -700,6 +738,7 @@ public class TeleHealthView extends FrameView {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuItem jmiAddInsurance;
