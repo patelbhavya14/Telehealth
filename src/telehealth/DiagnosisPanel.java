@@ -375,6 +375,7 @@ public class DiagnosisPanel extends javax.swing.JPanel {
                         simpleDateFormat.parse(nextDiagnosisDateTextField.getText()), 
                         diagnosisDetailTextFeild.getText(), 
                         notesTextArea.getText());
+                        diagnosis.setSender(userAccount);
 
                     PatientDiagnosis patientDiagnosis = patient.createAndAddPatientDiagnosis(diagnosis);
 
