@@ -4,10 +4,10 @@
  */
 package com.telehealth.Business.WorkQueue;
 
-import Business.PatientClaim;
-import Business.PatientDiagnosis;
-import Business.PatientInsurance;
-import Business.PatientPrescription;
+
+import com.telehealth.Business.Patient.PatientClaim;
+import com.telehealth.Business.Patient.PatientDiagnosis;
+import com.telehealth.Business.Patient.PatientPrescription;
 import com.telehealth.Business.UserAccount.UserAccount;
 import java.util.Date;
 

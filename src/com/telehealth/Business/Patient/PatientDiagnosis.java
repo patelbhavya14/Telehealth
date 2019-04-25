@@ -25,6 +25,7 @@ public class PatientDiagnosis {
     private UserAccount sender;
     private UserAccount receiver1;
     private UserAccount receiver2;
+    
     private ArrayList<PatientPrescription> patientPrescriptionList;
     
 

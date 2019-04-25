@@ -25,7 +25,8 @@ public class PatientPrescription {
     public PatientPrescription(double amount, Date nextPrescription, String notes) {
         this.amount = amount;
         this.nextPrescription = nextPrescription;
-        this.notes = notes;        
+        this.notes = notes;
+        prescriptionDrugList = new ArrayList<>();
     }
 
     public int getPatientPrescriptionId() {
@@ -95,5 +96,10 @@ public class PatientPrescription {
     public ArrayList<PrescriptionDrugs> createAndAddPrescriptionDrug(PrescriptionDrugs prescriptionDrugs){
         prescriptionDrugList.add(prescriptionDrugs);
         return prescriptionDrugList;
+    }
+    
+    @Override
+    public String toString(){
+        return this.notes;
     }
 }
