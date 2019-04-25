@@ -12,7 +12,7 @@ package com.telehealth.Business.Patient;
 public class PrescriptionDrugs {
     
     private String drugName;
-    private String drugQuantity;
+    private int drugQuantity;
 
     public String getDrugName() {
         return drugName;
@@ -22,13 +22,16 @@ public class PrescriptionDrugs {
         this.drugName = drugName;
     }
 
-    public String getDrugQuantity() {
+    public int getDrugQuantity() {
         return drugQuantity;
     }
 
-    public void setDrugQuantity(String drugQuantity) {
+    public void setDrugQuantity(int drugQuantity) {
         this.drugQuantity = drugQuantity;
     }
     
-    
+    @Override
+    public String toString(){
+        return this.drugName;
+    }
 }

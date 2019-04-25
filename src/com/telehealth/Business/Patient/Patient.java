@@ -21,7 +21,7 @@ public class Patient {
     
     private Date dateOfBirth;
     private ArrayList<PatientDiagnosis> patientDiagnosisList;
-    private ArrayList<PatientPrescription> patientPrescriptionList;
+//    private ArrayList<PatientPrescription> patientPrescriptionList;
     private ArrayList<PatientInsurance> patientInsuranceList;
 
     public Patient(int patientId, String patientName, String patientAddress1, String patientAddress2, String city, String state, String zip, String country, String patientPhoneNumber, String patientEmailId, String patientBloodGroup, Date dateOfBirth) {
@@ -38,7 +38,7 @@ public class Patient {
         this.patientBloodGroup = patientBloodGroup;
         this.dateOfBirth = dateOfBirth;
         patientDiagnosisList = new ArrayList<PatientDiagnosis>();
-        patientPrescriptionList = new ArrayList<PatientPrescription>();
+//        patientPrescriptionList = new ArrayList<PatientPrescription>();
         patientInsuranceList = new ArrayList<PatientInsurance>();
     }
     
@@ -152,19 +152,19 @@ public class Patient {
         return patientDiagnosis;
     }
 
-    public ArrayList<PatientPrescription> getPatientPrescriptionList() {
-        return patientPrescriptionList;
-    }
-
-    public void setPatientPrescriptionList(ArrayList<PatientPrescription> patientPrescriptionList) {
-        this.patientPrescriptionList = patientPrescriptionList;
-    }
-    
-    public PatientPrescription createAndAddPatientPrescription(PatientPrescription patientPrescription){
-        patientPrescription.setPatientPrescriptionId(patientPrescriptionList.size()+1);
-        patientPrescriptionList.add(patientPrescription);
-        return patientPrescription;
-    }
+//    public ArrayList<PatientPrescription> getPatientPrescriptionList() {
+//        return patientPrescriptionList;
+//    }
+//
+//    public void setPatientPrescriptionList(ArrayList<PatientPrescription> patientPrescriptionList) {
+//        this.patientPrescriptionList = patientPrescriptionList;
+//    }
+//    
+//    public PatientPrescription createAndAddPatientPrescription(PatientPrescription patientPrescription){
+//        patientPrescription.setPatientPrescriptionId(patientPrescriptionList.size()+1);
+//        patientPrescriptionList.add(patientPrescription);
+//        return patientPrescription;
+//    }
 
     public ArrayList<PatientInsurance> getPatientInsuranceList() {
         return patientInsuranceList;
