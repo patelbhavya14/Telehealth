@@ -15,6 +15,12 @@ public class PatientClaim {
     private Date claimDate;
     private double claimAmount;
 
+    public PatientClaim(double parseDouble, Date parse) {
+        
+        this.claimAmount = claimAmount;
+        this.claimDate = claimDate;
+    }
+
     public Date getClaimDate() {
         return claimDate;
     }

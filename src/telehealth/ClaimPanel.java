@@ -9,6 +9,7 @@ import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
 import com.telehealth.Business.Patient.Patient;
 import com.telehealth.Business.Patient.PatientClaim;
+import com.telehealth.Business.Patient.PatientInsurance;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ public class ClaimPanel extends javax.swing.JPanel {
         initComponents();
         this.system = system;
         btnDelete.setVisible(false);
+        populatePatientComboBox();
         populateTable();
         clearFields();
         cmbPatient.setSelectedItem(null);
@@ -200,15 +202,25 @@ public class ClaimPanel extends javax.swing.JPanel {
         Patient patient = (Patient)cmbPatient.getSelectedItem();
         if(btnAdd.getText().equals("Add")){
             try{
+                PatientClaim claim = new PatientClaim(
+                Double.parseDouble(txtClaimAmount.getText()),
+                simpleDateFormat.parse(txtClaimDate.getText()));
                 
-                Double.parseDouble(txtClaimAmount.getText());
-                simpleDateFormat.parse(txtClaimDate.getText());
                 
-                
+                try{
+                        dB4OUtil.storeSystem(system);
+                        clearFields();
+                        populateTable();
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
             }
             catch (Exception e){
 
             }
+        }
+        else{
+            
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -247,14 +259,22 @@ public class ClaimPanel extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField txtClaimDate;
     // End of variables declaration//GEN-END:variables
 
-    private void populateTable() {
+    public void populateTable() {
         DefaultTableModel model = (DefaultTableModel) tblPrescription.getModel();
 
         model.setRowCount(0);
     }
 
-    private void clearFields() {
+    public void clearFields() {
         txtClaimAmount.setText("");
         txtClaimDate.setText("");
+    }
+
+    public void populatePatientComboBox() {
+        cmbPatient.removeAllItems();
+        
+        for (Patient patient : system.getPatientDirectory().getPatientList()){
+            cmbPatient.addItem(patient);
+        }
     }
 }
