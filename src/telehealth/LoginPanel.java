@@ -42,6 +42,7 @@ public class LoginPanel extends javax.swing.JPanel {
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                formAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
                 formAncestorRemoved(evt);
@@ -56,6 +57,11 @@ public class LoginPanel extends javax.swing.JPanel {
         txtUsername.setFont(resourceMap.getFont("jLabel2.font")); // NOI18N
         txtUsername.setText(resourceMap.getString("txtUsername.text")); // NOI18N
         txtUsername.setName("txtUsername"); // NOI18N
+        txtUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtUsernameFocusGained(evt);
+            }
+        });
 
         jLabel2.setFont(resourceMap.getFont("jLabel2.font")); // NOI18N
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
@@ -64,6 +70,11 @@ public class LoginPanel extends javax.swing.JPanel {
         pwdPassword.setFont(resourceMap.getFont("jLabel2.font")); // NOI18N
         pwdPassword.setText(resourceMap.getString("pwdPassword.text")); // NOI18N
         pwdPassword.setName("pwdPassword"); // NOI18N
+        pwdPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                pwdPasswordFocusGained(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -102,6 +113,21 @@ public class LoginPanel extends javax.swing.JPanel {
         txtUsername.setText("");
         pwdPassword.setText("");
     }//GEN-LAST:event_formAncestorRemoved
+
+    private void formAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorAdded
+        // TODO add your handling code here:
+        txtUsername.requestFocus();
+    }//GEN-LAST:event_formAncestorAdded
+
+    private void txtUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusGained
+        // TODO add your handling code here:
+        txtUsername.selectAll();
+    }//GEN-LAST:event_txtUsernameFocusGained
+
+    private void pwdPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pwdPasswordFocusGained
+        // TODO add your handling code here:
+        pwdPassword.selectAll();
+    }//GEN-LAST:event_pwdPasswordFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

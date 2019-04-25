@@ -41,6 +41,8 @@ public class TeleHealthView extends FrameView {
     private JPanel currentPanel;
     private TitlePanel titlePanel;
     private UserAccount userAccount;
+    private Enterprise currentEnterprise;
+    private Organization currentOrganization;
     
     public TeleHealthView(SingleFrameApplication app) {
         super(app);
@@ -146,6 +148,10 @@ public class TeleHealthView extends FrameView {
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jmiAddUser = new javax.swing.JMenuItem();
+        patientMenu = new javax.swing.JMenu();
+        jmiPatientDiagnosis = new javax.swing.JMenuItem();
         statusPanel = new javax.swing.JPanel();
         javax.swing.JSeparator statusPanelSeparator = new javax.swing.JSeparator();
         statusMessageLabel = new javax.swing.JLabel();
@@ -262,6 +268,35 @@ public class TeleHealthView extends FrameView {
         helpMenu.add(aboutMenuItem);
 
         menuBar.add(helpMenu);
+
+        jMenu1.setText(resourceMap.getString("jMenu1.text")); // NOI18N
+        jMenu1.setName("jMenu1"); // NOI18N
+
+        jmiAddUser.setText(resourceMap.getString("jmiAddUser.text")); // NOI18N
+        jmiAddUser.setName("jmiAddUser"); // NOI18N
+        jmiAddUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAddUserActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmiAddUser);
+
+        menuBar.add(jMenu1);
+
+        patientMenu.setText(resourceMap.getString("patientMenu.text")); // NOI18N
+        patientMenu.setName("patientMenu"); // NOI18N
+
+        jmiPatientDiagnosis.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        jmiPatientDiagnosis.setText(resourceMap.getString("jmiPatientDiagnosis.text")); // NOI18N
+        jmiPatientDiagnosis.setName("jmiPatientDiagnosis"); // NOI18N
+        jmiPatientDiagnosis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiPatientDiagnosisActionPerformed(evt);
+            }
+        });
+        patientMenu.add(jmiPatientDiagnosis);
+
+        menuBar.add(patientMenu);
 
         statusPanel.setName("statusPanel"); // NOI18N
 
@@ -420,6 +455,54 @@ public class TeleHealthView extends FrameView {
             login();
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jmiAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddUserActionPerformed
+        // TODO add your handling code here:
+        currentPanel.removeAll();
+        currentPanel.invalidate();
+        
+        OrganizationUserPanel organizationUserPanel = new OrganizationUserPanel(this, system, currentEnterprise);
+        currentPanel.add(organizationUserPanel, BorderLayout.CENTER);
+//        currentPanel = enterpriseAdminPanel;
+        Dimension dim = getMainPanelDimension();
+        titlePanel.setTitle("Add User Panel");
+        titlePanel.setSize(1200, 50);
+        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        mainPanel.add(titlePanel);
+        mainPanel.add(currentPanel);
+        
+        currentPanel.repaint();
+        currentPanel.revalidate();
+        titlePanel.repaint();
+        titlePanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }//GEN-LAST:event_jmiAddUserActionPerformed
+
+    private void jmiPatientDiagnosisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPatientDiagnosisActionPerformed
+        // TODO add your handling code here:
+        currentPanel.removeAll();
+        currentPanel.invalidate();
+        
+        DiagnosisPanel diagnosisPanel = new DiagnosisPanel(this, system);
+        currentPanel.add(diagnosisPanel, BorderLayout.CENTER);
+//        currentPanel = enterpriseAdminPanel;
+        Dimension dim = getMainPanelDimension();
+        titlePanel.setTitle("Patient Diagnosis");
+        titlePanel.setSize(1200, 50);
+        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        mainPanel.add(titlePanel);
+        mainPanel.add(currentPanel);
+        
+        currentPanel.repaint();
+        currentPanel.revalidate();
+        titlePanel.repaint();
+        titlePanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }//GEN-LAST:event_jmiPatientDiagnosisActionPerformed
     
     public void login(){
         boolean loginFlag = true;
@@ -452,12 +535,15 @@ public class TeleHealthView extends FrameView {
                                    if(userAccount!=null){
                                        inEnterprise=enterprise;
                                        inOrganization=organization;
+                                       currentEnterprise = enterprise;
+                                       currentOrganization = organization;
                                        break;
                                    }
                                }
                             }
                             else{
                                inEnterprise=enterprise;
+                               currentEnterprise = enterprise;
                                break;
                             }
                             if(inOrganization!=null){
@@ -482,7 +568,7 @@ public class TeleHealthView extends FrameView {
 //                    CardLayout layout=(CardLayout)container.getLayout();
 //                    container.add("workArea",userAccount.getRole().createWorkArea(container, userAccount, inOrganization, inEnterprise, system));
 //                    layout.next(container);
-                    
+                    System.out.println("USERACCOUNT");
                     System.out.println("User Role:" + userAccount.getRole());
                     loginFlag = false;
                 }
@@ -492,15 +578,19 @@ public class TeleHealthView extends FrameView {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JMenuItem jmiAddUser;
     private javax.swing.JMenuItem jmiNetwork;
     private javax.swing.JMenuItem jmiOrganization;
     private javax.swing.JMenuItem jmiPatient;
+    private javax.swing.JMenuItem jmiPatientDiagnosis;
     private javax.swing.JMenuItem jmiUserAccount;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu patientMenu;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
