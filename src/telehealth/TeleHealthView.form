@@ -164,6 +164,7 @@
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>
             <Property name="text" type="java.lang.String" resourceKey="jMenu1.text"/>
+            <Property name="font" type="java.awt.Font" resourceKey="jMenu1.font"/>
             <Property name="name" type="java.lang.String" value="jMenu1" noResource="true"/>
           </Properties>
           <SubComponents>
@@ -181,6 +182,7 @@
         <Menu class="javax.swing.JMenu" name="patientMenu">
           <Properties>
             <Property name="text" type="java.lang.String" resourceKey="patientMenu.text"/>
+            <Property name="font" type="java.awt.Font" resourceKey="patientMenu.font"/>
             <Property name="name" type="java.lang.String" value="patientMenu" noResource="true"/>
           </Properties>
           <SubComponents>
