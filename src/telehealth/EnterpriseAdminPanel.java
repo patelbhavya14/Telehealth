@@ -463,6 +463,7 @@ public class EnterpriseAdminPanel extends javax.swing.JPanel {
         }
         
         if(!CommonUtility.checkUserIfExists(txtUsername.getText())){
+            JOptionPane.showMessageDialog(null, "Username already exists", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return false;
         }            
         

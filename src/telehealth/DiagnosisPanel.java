@@ -7,8 +7,11 @@ package telehealth;
 
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
+import com.telehealth.Business.Enterprise.Enterprise;
+import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.Patient.Patient;
 import com.telehealth.Business.Patient.PatientDiagnosis;
+import com.telehealth.Business.UserAccount.UserAccount;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,12 +32,17 @@ public class DiagnosisPanel extends javax.swing.JPanel {
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     String pattern = "MM/dd/yyyy";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    int table_selected_row;
+    UserAccount userAccount;
+    PatientDiagnosis patientDiagnosis;
     
     public DiagnosisPanel(TeleHealthView teleHealthView, EcoSystem system) {
         initComponents();
         this.system = system;
         btnDelete.setVisible(false);
         populatePatientComboBox();
+        populateTable();
+        clearFields();
     }
 
     /**
@@ -126,10 +134,18 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         jLabel9.setText(resourceMap.getString("jLabel9.text")); // NOI18N
         jLabel9.setName("jLabel9"); // NOI18N
 
-        diagnosisDateTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yyyy"))));
+        try {
+            diagnosisDateTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         diagnosisDateTextField.setName("diagnosisDateTextField"); // NOI18N
 
-        nextDiagnosisDateTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yyyy"))));
+        try {
+            nextDiagnosisDateTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         nextDiagnosisDateTextField.setName("nextDiagnosisDateTextField"); // NOI18N
 
         diagnosisDetailTextFeild.setFont(resourceMap.getFont("diagnosisDetailTextFeild.font")); // NOI18N
@@ -163,11 +179,11 @@ public class DiagnosisPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "BP Systolic", "BP Diastolic", "Heart Rate", "Respiratory Rate", "Diagnosis Date", "Next Diagnosis Date", "Details", "Notes"
+                "Patient", "BP Systolic", "BP Diastolic", "Heart Rate", "Respiratory Rate", "Diagnosis Date", "Next Diagnosis Date", "Details", "Notes"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -182,14 +198,15 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tblDiagnosis);
         if (tblDiagnosis.getColumnModel().getColumnCount() > 0) {
-            tblDiagnosis.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title0")); // NOI18N
-            tblDiagnosis.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title1")); // NOI18N
-            tblDiagnosis.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title2")); // NOI18N
-            tblDiagnosis.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title3")); // NOI18N
-            tblDiagnosis.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title4")); // NOI18N
-            tblDiagnosis.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title5")); // NOI18N
-            tblDiagnosis.getColumnModel().getColumn(6).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title6")); // NOI18N
-            tblDiagnosis.getColumnModel().getColumn(7).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title7")); // NOI18N
+            tblDiagnosis.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title8")); // NOI18N
+            tblDiagnosis.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title0")); // NOI18N
+            tblDiagnosis.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title1")); // NOI18N
+            tblDiagnosis.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title2")); // NOI18N
+            tblDiagnosis.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title3")); // NOI18N
+            tblDiagnosis.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title4")); // NOI18N
+            tblDiagnosis.getColumnModel().getColumn(6).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title5")); // NOI18N
+            tblDiagnosis.getColumnModel().getColumn(7).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title6")); // NOI18N
+            tblDiagnosis.getColumnModel().getColumn(8).setHeaderValue(resourceMap.getString("tblDiagnosis.columnModel.title7")); // NOI18N
         }
 
         jLabel10.setFont(resourceMap.getFont("jLabel10.font")); // NOI18N
@@ -302,7 +319,29 @@ public class DiagnosisPanel extends javax.swing.JPanel {
 
     private void tblDiagnosisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDiagnosisMouseClicked
         // TODO add your handling code here:
-        
+        try
+        {
+            
+            if (evt.getClickCount() == 2){
+                table_selected_row = tblDiagnosis.getSelectedRow();
+                patientDiagnosis = (PatientDiagnosis)tblDiagnosis.getValueAt(table_selected_row, 7);
+                
+                cmbPatient.setSelectedItem((Patient)tblDiagnosis.getValueAt(table_selected_row, 0));
+                txtBloodPressureSystolic.setText(patientDiagnosis.getBpSystolic()+"");
+                txtBloodPressureDiastolic.setText(patientDiagnosis.getBpDiastolic()+"");
+                heartRateTextFeild.setText(patientDiagnosis.getHeartRate()+"");
+                respiratoryRateTextFeild.setText(patientDiagnosis.getRespiratoryRate()+"");
+                weightTextFeild.setText(patientDiagnosis.getWeight()+"");
+                diagnosisDateTextField.setText(simpleDateFormat.format(patientDiagnosis.getDiagnosisDate()));
+                nextDiagnosisDateTextField.setText(simpleDateFormat.format(patientDiagnosis.getNextDiagnosisDate()));
+                diagnosisDetailTextFeild.setText(patientDiagnosis.getDiagnosisDetails());
+                notesTextArea.setText(patientDiagnosis.getNotes());
+                btnAdd.setText("Update");
+                btnDelete.setVisible(true);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_tblDiagnosisMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -311,25 +350,29 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         
         if(btnAdd.getText().equals("Add")){
             try{
-                PatientDiagnosis diagnosis = new PatientDiagnosis(
-                    Integer.parseInt(txtBloodPressureSystolic.getText()), 
-                    Integer.parseInt(txtBloodPressureDiastolic.getText()), 
-                    Integer.parseInt(heartRateTextFeild.getText()), 
-                    Integer.parseInt(respiratoryRateTextFeild.getText()), 
-                    Double.parseDouble(weightTextFeild.getText()),
-                    simpleDateFormat.parse(diagnosisDateTextField.getText()), 
-                    simpleDateFormat.parse(nextDiagnosisDateTextField.getText()), 
-                    diagnosisDetailTextFeild.getText(), 
-                    notesTextArea.getText());
+                if(validateFields()){
+                    PatientDiagnosis diagnosis = new PatientDiagnosis(
+                        Integer.parseInt(txtBloodPressureSystolic.getText()), 
+                        Integer.parseInt(txtBloodPressureDiastolic.getText()), 
+                        Integer.parseInt(heartRateTextFeild.getText()), 
+                        Integer.parseInt(respiratoryRateTextFeild.getText()), 
+                        Double.parseDouble(weightTextFeild.getText()),
+                        simpleDateFormat.parse(diagnosisDateTextField.getText()), 
+                        simpleDateFormat.parse(nextDiagnosisDateTextField.getText()), 
+                        diagnosisDetailTextFeild.getText(), 
+                        notesTextArea.getText());
 
-                PatientDiagnosis patientDiagnosis = patient.createAndAddPatientDiagnosis(diagnosis);
-                
-                try{
-                    dB4OUtil.storeSystem(system);
-                    clearFields();
-                    populateTable();
-                } catch(Exception e){
-                    e.printStackTrace();
+                    PatientDiagnosis patientDiagnosis = patient.createAndAddPatientDiagnosis(diagnosis);
+
+                    try{
+                        dB4OUtil.storeSystem(system);
+                        clearFields();
+                        populateTable();
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                } else {
+                    
                 }
             } catch (Exception e){
 
@@ -383,15 +426,16 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         model.setRowCount(0);
         for (Patient patient : system.getPatientDirectory().getPatientList()) {
             for (PatientDiagnosis diagnosis : patient.getPatientDiagnosisList()) {            
-                Object[] row = new Object[8];
-                row[0] = diagnosis.getBpSystolic();
-                row[1] = diagnosis.getBpDiastolic();                    
-                row[2] = diagnosis.getHeartRate();
-                row[3] = diagnosis.getRespiratoryRate();
-                row[4] = simpleDateFormat.format(diagnosis.getDiagnosisDate());
-                row[5] = simpleDateFormat.format(diagnosis.getNextDiagnosisDate());
-                row[6] = diagnosis;
-                row[7] = diagnosis.getNotes();
+                Object[] row = new Object[9];
+                row[0] = patient;
+                row[1] = diagnosis.getBpSystolic();
+                row[2] = diagnosis.getBpDiastolic();                    
+                row[3] = diagnosis.getHeartRate();
+                row[4] = diagnosis.getRespiratoryRate();
+                row[5] = simpleDateFormat.format(diagnosis.getDiagnosisDate());
+                row[6] = simpleDateFormat.format(diagnosis.getNextDiagnosisDate());
+                row[7] = diagnosis;
+                row[8] = diagnosis.getNotes();
                 model.addRow(row);                
             }
         }
@@ -410,5 +454,40 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         diagnosisDetailTextFeild.setText("");
         notesTextArea.setText("");
                 
+    }
+    
+    public boolean validateFields(){
+        
+        if(txtBloodPressureSystolic.getText().equals("") || 
+            txtBloodPressureDiastolic.getText().equals("") || 
+            heartRateTextFeild.getText().equals("") || 
+            respiratoryRateTextFeild.getText().equals("") || 
+            weightTextFeild.getText().equals("") || 
+            diagnosisDateTextField.getText().equals("") || 
+            nextDiagnosisDateTextField.getText().equals("") || 
+            diagnosisDetailTextFeild.getText().equals("") || 
+            notesTextArea.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "All fields are mandatory", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        try{
+            Integer.parseInt(txtBloodPressureSystolic.getText()); 
+            Integer.parseInt(txtBloodPressureDiastolic.getText());
+            Integer.parseInt(heartRateTextFeild.getText());
+            Integer.parseInt(respiratoryRateTextFeild.getText());
+            Double.parseDouble(weightTextFeild.getText());
+            simpleDateFormat.parse(diagnosisDateTextField.getText()); 
+            simpleDateFormat.parse(nextDiagnosisDateTextField.getText());
+            
+        } catch (NumberFormatException ne){
+            JOptionPane.showMessageDialog(null, "Please enter valid values", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } catch (ParseException pe){
+            JOptionPane.showMessageDialog(null, "Please enter valid values", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        
+        return true;
     }
 }
