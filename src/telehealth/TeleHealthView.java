@@ -668,10 +668,10 @@ public class TeleHealthView extends FrameView {
                     JOptionPane.showMessageDialog(null, "Invalid credentials");
                 } else {
                     JOptionPane.showMessageDialog(null, "Login successful!!");
-                    GsonBuilder builder = new GsonBuilder();
-                    builder.setPrettyPrinting().serializeNulls();
-                    Gson gson = builder.create();
-                    System.out.println(gson.toJson(system));
+//                    GsonBuilder builder = new GsonBuilder();
+//                    builder.setPrettyPrinting().serializeNulls();
+//                    Gson gson = builder.create();
+//                    System.out.println(gson.toJson(system));
 
 //                    CardLayout layout=(CardLayout)container.getLayout();
 //                    container.add("workArea",userAccount.getRole().createWorkArea(container, userAccount, inOrganization, inEnterprise, system));
