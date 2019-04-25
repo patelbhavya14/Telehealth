@@ -7,9 +7,15 @@ package telehealth;
 
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
+import com.telehealth.Business.Enterprise.Enterprise;
+import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Patient.Patient;
+import com.telehealth.Business.Patient.PatientDiagnosis;
 import com.telehealth.Business.Patient.PatientInsurance;
+import com.telehealth.Business.UserAccount.UserAccount;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,13 +32,24 @@ public class InsurancePanel extends javax.swing.JPanel {
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     String pattern = "MM/dd/yyyy";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-    public InsurancePanel(TeleHealthView teleHealthView, EcoSystem system) {
+    int table_selected_row;
+    UserAccount userAccount;
+    PatientDiagnosis patientDiagnosis;
+    Patient currentPatient;
+    PatientInsurance currentInsurance;
+    Enterprise currentEnterprise;
+    Organization currentOrganization;
+
+    public InsurancePanel(TeleHealthView teleHealthView, EcoSystem system, Enterprise currentEnterprise, Organization currentOrganization, UserAccount userAccount) {
         initComponents();
         this.system = system;
+        this.userAccount = userAccount;
+        this.currentEnterprise = currentEnterprise;
+        this.currentOrganization = currentOrganization;
         btnDelete.setVisible(false);
+        populatePatientComboBox();
         populateTable();
         clearFields();
-        cmbPatient.setSelectedItem(null);
     }
 
     /**
@@ -61,7 +78,7 @@ public class InsurancePanel extends javax.swing.JPanel {
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblPrescription = new javax.swing.JTable();
+        tblInsurance = new javax.swing.JTable();
 
         setName("Form"); // NOI18N
 
@@ -79,11 +96,6 @@ public class InsurancePanel extends javax.swing.JPanel {
 
         txtInsurancePlan.setFont(resourceMap.getFont("txtInsurancePlan.font")); // NOI18N
         txtInsurancePlan.setName("txtInsurancePlan"); // NOI18N
-        txtInsurancePlan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtInsurancePlanActionPerformed(evt);
-            }
-        });
 
         jLabel3.setFont(resourceMap.getFont("jLabel3.font")); // NOI18N
         jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
@@ -91,11 +103,6 @@ public class InsurancePanel extends javax.swing.JPanel {
 
         txtPolicyNumber.setFont(resourceMap.getFont("txtPolicyNumber.font")); // NOI18N
         txtPolicyNumber.setName("txtPolicyNumber"); // NOI18N
-        txtPolicyNumber.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPolicyNumberActionPerformed(evt);
-            }
-        });
 
         jLabel4.setFont(resourceMap.getFont("jLabel4.font")); // NOI18N
         jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
@@ -103,17 +110,16 @@ public class InsurancePanel extends javax.swing.JPanel {
 
         txtPolicyCoverage.setFont(resourceMap.getFont("txtPolicyCoverage.font")); // NOI18N
         txtPolicyCoverage.setName("txtPolicyCoverage"); // NOI18N
-        txtPolicyCoverage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPolicyCoverageActionPerformed(evt);
-            }
-        });
 
         jLabel5.setFont(resourceMap.getFont("jLabel5.font")); // NOI18N
         jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
         jLabel5.setName("jLabel5"); // NOI18N
 
-        txtpolicyStartDate.setText(resourceMap.getString("txtpolicyStartDate.text")); // NOI18N
+        try {
+            txtpolicyStartDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         txtpolicyStartDate.setFont(resourceMap.getFont("txtpolicyStartDate.font")); // NOI18N
         txtpolicyStartDate.setName("txtpolicyStartDate"); // NOI18N
 
@@ -121,7 +127,11 @@ public class InsurancePanel extends javax.swing.JPanel {
         jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
         jLabel6.setName("jLabel6"); // NOI18N
 
-        txtpolicyEndDate.setText(resourceMap.getString("txtpolicyEndDate.text")); // NOI18N
+        try {
+            txtpolicyEndDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         txtpolicyEndDate.setFont(resourceMap.getFont("txtpolicyEndDate.font")); // NOI18N
         txtpolicyEndDate.setName("txtpolicyEndDate"); // NOI18N
 
@@ -152,30 +162,39 @@ public class InsurancePanel extends javax.swing.JPanel {
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
-        tblPrescription.setFont(resourceMap.getFont("tblPrescription.font")); // NOI18N
-        tblPrescription.setModel(new javax.swing.table.DefaultTableModel(
+        tblInsurance.setFont(resourceMap.getFont("tblInsurance.font")); // NOI18N
+        tblInsurance.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Amount", "Next Prescription Date", "Notes", "Patient", "Patient Diagnosis"
+                "Patient Name", "Policy Number", "Plan", "Coverage", "Amount", "Start Date", "End Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tblPrescription.setName("tblPrescription"); // NOI18N
-        tblPrescription.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblInsurance.setName("tblInsurance"); // NOI18N
+        tblInsurance.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblPrescriptionMouseClicked(evt);
+                tblInsuranceMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblPrescription);
+        jScrollPane1.setViewportView(tblInsurance);
+        if (tblInsurance.getColumnModel().getColumnCount() > 0) {
+            tblInsurance.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblInsurance.columnModel.title6")); // NOI18N
+            tblInsurance.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblInsurance.columnModel.title0")); // NOI18N
+            tblInsurance.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblInsurance.columnModel.title1")); // NOI18N
+            tblInsurance.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("tblInsurance.columnModel.title2")); // NOI18N
+            tblInsurance.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("tblInsurance.columnModel.title3")); // NOI18N
+            tblInsurance.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("tblInsurance.columnModel.title4")); // NOI18N
+            tblInsurance.getColumnModel().getColumn(6).setHeaderValue(resourceMap.getString("tblInsurance.columnModel.title5")); // NOI18N
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -261,46 +280,83 @@ public class InsurancePanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtInsurancePlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInsurancePlanActionPerformed
+    private void tblInsuranceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInsuranceMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtInsurancePlanActionPerformed
+        try {
 
-    private void txtPolicyNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPolicyNumberActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPolicyNumberActionPerformed
+            if (evt.getClickCount() == 2) {
+                table_selected_row = tblInsurance.getSelectedRow();
+                currentPatient = (Patient) tblInsurance.getValueAt(table_selected_row, 0);
+                currentInsurance = (PatientInsurance) tblInsurance.getValueAt(table_selected_row, 2);
 
-    private void txtPolicyCoverageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPolicyCoverageActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPolicyCoverageActionPerformed
+                cmbPatient.setSelectedItem(currentPatient);
+                txtAmount.setText(String.valueOf(currentInsurance.getPolicyAmount()));
+                txtInsurancePlan.setText(currentInsurance.getInsurancePlan());
+                txtPolicyNumber.setText(currentInsurance.getPolicyNumber());
+                txtPolicyCoverage.setText(currentInsurance.getPolicyCoverage());
+                txtpolicyStartDate.setText(simpleDateFormat.format(currentInsurance.getPolicyStartDate()));
+                txtpolicyEndDate.setText(simpleDateFormat.format(currentInsurance.getPolicyEndDate()));
 
-    private void tblPrescriptionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPrescriptionMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblPrescriptionMouseClicked
+                btnAdd.setText("Update");
+                btnDelete.setVisible(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_tblInsuranceMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        
-        Patient patient = (Patient)cmbPatient.getSelectedItem();
-        if(btnAdd.getText().equals("Add")){
-            try{
-//        PatientInsurance insurance = new PatientInsurance(
-//        Double.parseDouble(txtAmount.getText()),
-//        txtInsurancePlan.getText(),
-//        txtPolicyNumber.getText(),
-//        txtPolicyCoverage.getText(),
-//        simpleDateFormat.parse(txtpolicyStartDate.getText()),
-//        simpleDateFormat.parse(txtpolicyStartDate.getText()));      
+        Patient patient = (Patient) cmbPatient.getSelectedItem();
 
-//        PatientInsurance patientInsurance = patient.createAndAddPatientInsurance(insurance);
-        try{
-        dB4OUtil.storeSystem(system);
-        clearFields();
-        populateTable();
-        }catch(Exception e){
-                    e.printStackTrace();
-                }   
+        if (btnAdd.getText().equals("Add")) {
+            if (validateFields()) {
+                try {
+                    PatientInsurance insurance = new PatientInsurance(
+                            txtInsurancePlan.getText(),
+                            txtPolicyNumber.getText(),
+                            txtPolicyCoverage.getText(),
+                            Double.parseDouble(txtAmount.getText()),
+                            simpleDateFormat.parse(txtpolicyStartDate.getText()),
+                            simpleDateFormat.parse(txtpolicyStartDate.getText()),
+                            userAccount);
+
+                    PatientInsurance patientInsurance = patient.createAndAddPatientInsurance(insurance);
+                    try {
+                        dB4OUtil.storeSystem(system);
+                        clearFields();
+                        populateTable();
+                        JOptionPane.showMessageDialog(null, "Insurance added successfully");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+
+                }
             }
-            catch (Exception e){
+        } else {
+            if (validateFields()) {
+                try {
+                    currentInsurance.setInsurancePlan(txtInsurancePlan.getText());
+                    currentInsurance.setPolicyNumber(txtPolicyNumber.getText());
+                    currentInsurance.setPolicyCoverage(txtPolicyCoverage.getText());
+                    currentInsurance.setPolicyAmount(Double.parseDouble(txtAmount.getText()));
+                    currentInsurance.setPolicyStartDate(simpleDateFormat.parse(txtpolicyStartDate.getText()));
+                    currentInsurance.setPolicyEndDate(simpleDateFormat.parse(txtpolicyStartDate.getText()));
+
+                    try {
+                        dB4OUtil.storeSystem(system);
+                        clearFields();
+                        populateTable();
+                        btnAdd.setText("Add");
+                        btnDelete.setVisible(false);
+                        JOptionPane.showMessageDialog(null, "Insurance updated successfully");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+
+                }
 
             }
         }
@@ -308,12 +364,11 @@ public class InsurancePanel extends javax.swing.JPanel {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        
+
         int selectedOption = JOptionPane.showConfirmDialog(null, "Delete Insurance", "Are you sure you want to delete this Insurance?", JOptionPane.YES_NO_OPTION);
-        if(selectedOption == JOptionPane.OK_OPTION){
-            int table_selected_row = tblPrescription.getSelectedRow();
-           
-            
+        if (selectedOption == JOptionPane.OK_OPTION) {
+            currentPatient.getPatientInsuranceList().remove(currentInsurance);
+
             dB4OUtil.storeSystem(system);
             JOptionPane.showMessageDialog(null, "Insurance deleted successfully");
             clearFields();
@@ -336,7 +391,7 @@ public class InsurancePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblPrescription;
+    private javax.swing.JTable tblInsurance;
     private javax.swing.JTextField txtAmount;
     private javax.swing.JTextField txtInsurancePlan;
     private javax.swing.JTextField txtPolicyCoverage;
@@ -346,19 +401,77 @@ public class InsurancePanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void populateTable() {
-        
-         DefaultTableModel model = (DefaultTableModel) tblPrescription.getModel();
-
+        DefaultTableModel model = (DefaultTableModel) tblInsurance.getModel();
         model.setRowCount(0);
+
+        for (Patient patient : system.getPatientDirectory().getPatientList()) {
+            for (PatientInsurance insurance : patient.getPatientInsuranceList()) {
+                if (insurance.getInsuranceCompany() == userAccount) {
+                    Object[] row = new Object[7];
+                    row[0] = patient;
+                    row[1] = insurance.getPolicyNumber();
+                    row[2] = insurance;
+                    row[3] = insurance.getPolicyCoverage();
+                    row[4] = insurance.getPolicyAmount();
+                    row[5] = insurance.getPolicyStartDate();
+                    row[6] = insurance.getPolicyEndDate();
+                    model.addRow(row);
+                }
+
+            }
+        }
+    }
+
+    private boolean validateFields() {
+        if (txtAmount.getText().trim().equals("") || txtInsurancePlan.getText().trim().equals("")
+                || txtPolicyNumber.getText().trim().equals("") || txtPolicyCoverage.getText().trim().equals("")
+                || txtpolicyStartDate.getText().trim().equals("") || txtpolicyEndDate.getText().trim().equals("")
+                || cmbPatient.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(null, "All fields are mandatory", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        Double amount;
+        try {
+            amount = Double.parseDouble(txtAmount.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Please enter proper amount", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        simpleDateFormat.setLenient(false);
+        Date startDate;
+        Date endDate;
+        try {
+            startDate = simpleDateFormat.parse(txtpolicyStartDate.getText());
+            endDate = simpleDateFormat.parse(txtpolicyEndDate.getText());
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Please enter proper date", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        if (endDate.before(startDate)) {
+            JOptionPane.showMessageDialog(null, "End policy can not come before start date", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
     public void clearFields() {
-        
+        cmbPatient.setSelectedItem(null);
         txtAmount.setText("");
         txtInsurancePlan.setText("");
         txtPolicyNumber.setText("");
         txtPolicyCoverage.setText("");
         txtpolicyStartDate.setText("");
         txtpolicyEndDate.setText("");
+    }
+
+    private void populatePatientComboBox() {
+        cmbPatient.removeAllItems();
+
+        for (Patient patient : system.getPatientDirectory().getPatientList()) {
+            cmbPatient.addItem(patient);
+        }
     }
 }

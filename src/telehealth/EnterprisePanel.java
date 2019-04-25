@@ -588,13 +588,16 @@ public class EnterprisePanel extends javax.swing.JPanel {
         enterprise = (Enterprise) ComboBoxEnterpriseType.getSelectedItem();
                 
                 Type type;
-                if(enterprise.getName() == "Hospital Enterprise") {
+                if(String.valueOf(enterprise.getName()).equals("Hospital Enterprise")) {
+                    System.out.println("here1");
                     type = Organization.Type.Hospital;
                 }
-                else if(enterprise.getName() == "Pharmacy Enterprise") {
+                else if(String.valueOf(enterprise.getName()).equals("Pharmacy Enterprise")) {
+                    System.out.println("here2");
                     type = Organization.Type.Pharmacy;
                 }
                 else {
+                    System.out.println("here3");
                     type = Organization.Type.Insurance;
                 }
 //                if (network == null || type == null) {

@@ -13,6 +13,9 @@ import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.UserAccount.UserAccount;
 import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Role.HospitalRole;
+import com.telehealth.Business.Role.InsuranceRole;
+import com.telehealth.Business.Role.PharmacyRole;
+import com.telehealth.Business.Role.Role;
 import com.telehealth.Utility.CommonUtility;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,6 +41,7 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
     public OrganizationUserPanel(TeleHealthView teleHealthView, EcoSystem system, Enterprise enterprise) {
         initComponents();
         this.enterprise = enterprise;
+        btnDelete.setVisible(false);
         populateOrganizationCombolist();
         this.system = system;
         populateTable();
@@ -259,7 +263,19 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
                 employee.setEmail(email);
                 employee.setPhone(phone);
 
-                org.getUserAccountDirectory().createUserAccount(username, password, employee, new HospitalRole());
+                
+                if(String.valueOf(enterprise.getEnterpriseType()).equals("Hospital")) {
+                     org.getUserAccountDirectory().createUserAccount(username, password, employee, new HospitalRole());
+                     System.out.println("here1");
+                }
+                else if(String.valueOf(enterprise.getEnterpriseType()).equals("Pharmacy")) {
+                     org.getUserAccountDirectory().createUserAccount(username, password, employee, new PharmacyRole());
+                     System.out.println("here2");
+                }
+                else {
+                     org.getUserAccountDirectory().createUserAccount(username, password, employee, new InsuranceRole());
+                     System.out.println("here3");
+                }
 
                 try {
                     dB4OUtil.storeSystem(system);
@@ -284,6 +300,8 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
                     dB4OUtil.storeSystem(system);
                     clearFields();
                     populateTable();
+                    btnAdd.setText("Add");
+                    btnDelete.setVisible(false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -303,6 +321,8 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
                 dB4OUtil.storeSystem(system);
                 clearFields();
                 populateTable();
+                btnAdd.setText("Add");
+                btnDelete.setVisible(false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
