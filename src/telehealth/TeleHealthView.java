@@ -150,6 +150,8 @@ public class TeleHealthView extends FrameView {
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jmiAddUser = new javax.swing.JMenuItem();
+        patientMenu = new javax.swing.JMenu();
+        jmiPatientDiagnosis = new javax.swing.JMenuItem();
         statusPanel = new javax.swing.JPanel();
         javax.swing.JSeparator statusPanelSeparator = new javax.swing.JSeparator();
         statusMessageLabel = new javax.swing.JLabel();
@@ -280,6 +282,21 @@ public class TeleHealthView extends FrameView {
         jMenu1.add(jmiAddUser);
 
         menuBar.add(jMenu1);
+
+        patientMenu.setText(resourceMap.getString("patientMenu.text")); // NOI18N
+        patientMenu.setName("patientMenu"); // NOI18N
+
+        jmiPatientDiagnosis.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        jmiPatientDiagnosis.setText(resourceMap.getString("jmiPatientDiagnosis.text")); // NOI18N
+        jmiPatientDiagnosis.setName("jmiPatientDiagnosis"); // NOI18N
+        jmiPatientDiagnosis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiPatientDiagnosisActionPerformed(evt);
+            }
+        });
+        patientMenu.add(jmiPatientDiagnosis);
+
+        menuBar.add(patientMenu);
 
         statusPanel.setName("statusPanel"); // NOI18N
 
@@ -462,6 +479,30 @@ public class TeleHealthView extends FrameView {
         mainPanel.repaint();
         mainPanel.revalidate();
     }//GEN-LAST:event_jmiAddUserActionPerformed
+
+    private void jmiPatientDiagnosisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPatientDiagnosisActionPerformed
+        // TODO add your handling code here:
+        currentPanel.removeAll();
+        currentPanel.invalidate();
+        
+        DiagnosisPanel diagnosisPanel = new DiagnosisPanel(this, system);
+        currentPanel.add(diagnosisPanel, BorderLayout.CENTER);
+//        currentPanel = enterpriseAdminPanel;
+        Dimension dim = getMainPanelDimension();
+        titlePanel.setTitle("Patient Diagnosis");
+        titlePanel.setSize(1200, 50);
+        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        mainPanel.add(titlePanel);
+        mainPanel.add(currentPanel);
+        
+        currentPanel.repaint();
+        currentPanel.revalidate();
+        titlePanel.repaint();
+        titlePanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }//GEN-LAST:event_jmiPatientDiagnosisActionPerformed
     
     public void login(){
         boolean loginFlag = true;
@@ -545,9 +586,11 @@ public class TeleHealthView extends FrameView {
     private javax.swing.JMenuItem jmiNetwork;
     private javax.swing.JMenuItem jmiOrganization;
     private javax.swing.JMenuItem jmiPatient;
+    private javax.swing.JMenuItem jmiPatientDiagnosis;
     private javax.swing.JMenuItem jmiUserAccount;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu patientMenu;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
