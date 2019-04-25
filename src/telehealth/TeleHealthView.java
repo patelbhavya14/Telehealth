@@ -270,6 +270,7 @@ public class TeleHealthView extends FrameView {
         menuBar.add(helpMenu);
 
         jMenu1.setText(resourceMap.getString("jMenu1.text")); // NOI18N
+        jMenu1.setFont(resourceMap.getFont("jMenu1.font")); // NOI18N
         jMenu1.setName("jMenu1"); // NOI18N
 
         jmiAddUser.setText(resourceMap.getString("jmiAddUser.text")); // NOI18N
@@ -284,6 +285,7 @@ public class TeleHealthView extends FrameView {
         menuBar.add(jMenu1);
 
         patientMenu.setText(resourceMap.getString("patientMenu.text")); // NOI18N
+        patientMenu.setFont(resourceMap.getFont("patientMenu.font")); // NOI18N
         patientMenu.setName("patientMenu"); // NOI18N
 
         jmiPatientDiagnosis.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
