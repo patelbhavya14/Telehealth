@@ -167,6 +167,30 @@ public class PatientDiagnosis {
         patientPrescriptionList.add(patientPrescription);
         return patientPrescription;
     }
+
+    public UserAccount getSender() {
+        return sender;
+    }
+
+    public void setSender(UserAccount sender) {
+        this.sender = sender;
+    }
+
+    public UserAccount getReceiver1() {
+        return receiver1;
+    }
+
+    public void setReceiver1(UserAccount receiver1) {
+        this.receiver1 = receiver1;
+    }
+
+    public UserAccount getReceiver2() {
+        return receiver2;
+    }
+
+    public void setReceiver2(UserAccount receiver2) {
+        this.receiver2 = receiver2;
+    }
     
     @Override
     public String toString(){
