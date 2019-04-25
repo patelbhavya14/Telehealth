@@ -216,7 +216,7 @@ public class PrescriptionPanel extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        String amount = txtAmount.getText();
+        double amount = Double.parseDouble(txtAmount.getText());
         String nextPrescriptionDate = txtNextPrescriptionDate.getText();
         String notes = txtAreaNotes.getText();
         Patient patient = (Patient) cmbPatient.getSelectedItem();
