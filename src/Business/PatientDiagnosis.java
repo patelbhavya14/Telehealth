@@ -33,6 +33,10 @@ public class PatientDiagnosis {
         this.notes = notes;        
     }
 
+    public PatientDiagnosis(int bpSystolic, int bpDiastolic, int heartRate, int respiratoryRate, double weigth, Date diagnosisdate, Date nextdiagnosisdate, String diagnosisDetails, String notes) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getPatientDiagnosisId() {
         return patientDiagnosisId;
     }
