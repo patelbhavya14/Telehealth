@@ -5,6 +5,14 @@
  */
 package telehealth;
 
+import com.telehealth.Business.DB4OUtil.DB4OUtil;
+import com.telehealth.Business.EcoSystem;
+import com.telehealth.Business.Patient.Patient;
+import com.telehealth.Business.Patient.PatientClaim;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author RASHMI
@@ -14,8 +22,17 @@ public class ClaimPanel extends javax.swing.JPanel {
     /**
      * Creates new form ClaimPanel
      */
-    public ClaimPanel() {
+    private EcoSystem system;
+    private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+     String pattern = "MM/dd/yyyy";
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    public ClaimPanel(TeleHealthView teleHealthView, EcoSystem system) {
         initComponents();
+        this.system = system;
+        btnDelete.setVisible(false);
+        populateTable();
+        clearFields();
+        cmbPatient.setSelectedItem(null);
     }
 
     /**
@@ -36,7 +53,7 @@ public class ClaimPanel extends javax.swing.JPanel {
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblPrescription2 = new javax.swing.JTable();
+        tblClaim = new javax.swing.JTable();
 
         setName("Form"); // NOI18N
 
@@ -71,15 +88,25 @@ public class ClaimPanel extends javax.swing.JPanel {
         btnAdd.setFont(resourceMap.getFont("btnAdd.font")); // NOI18N
         btnAdd.setText(resourceMap.getString("btnAdd.text")); // NOI18N
         btnAdd.setName("btnAdd"); // NOI18N
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnDelete.setFont(resourceMap.getFont("btnDelete.font")); // NOI18N
         btnDelete.setText(resourceMap.getString("btnDelete.text")); // NOI18N
         btnDelete.setName("btnDelete"); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         jScrollPane3.setName("jScrollPane3"); // NOI18N
 
-        tblPrescription2.setFont(resourceMap.getFont("tblPrescription2.font")); // NOI18N
-        tblPrescription2.setModel(new javax.swing.table.DefaultTableModel(
+        tblClaim.setFont(resourceMap.getFont("tblClaim.font")); // NOI18N
+        tblClaim.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -95,17 +122,17 @@ public class ClaimPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tblPrescription2.setName("tblPrescription2"); // NOI18N
-        tblPrescription2.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblClaim.setName("tblClaim"); // NOI18N
+        tblClaim.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblPrescription2MouseClicked(evt);
+                tblClaimMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(tblPrescription2);
-        if (tblPrescription2.getColumnModel().getColumnCount() > 0) {
-            tblPrescription2.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblPrescription2.columnModel.title0")); // NOI18N
-            tblPrescription2.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblPrescription2.columnModel.title1")); // NOI18N
-            tblPrescription2.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblPrescription2.columnModel.title2")); // NOI18N
+        jScrollPane3.setViewportView(tblClaim);
+        if (tblClaim.getColumnModel().getColumnCount() > 0) {
+            tblClaim.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblClaim.columnModel.title0")); // NOI18N
+            tblClaim.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblClaim.columnModel.title1")); // NOI18N
+            tblClaim.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblClaim.columnModel.title2")); // NOI18N
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -163,9 +190,44 @@ public class ClaimPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtClaimDateActionPerformed
 
-    private void tblPrescription2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPrescription2MouseClicked
+    private void tblClaimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClaimMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tblPrescription2MouseClicked
+    }//GEN-LAST:event_tblClaimMouseClicked
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        
+        Patient patient = (Patient)cmbPatient.getSelectedItem();
+        if(btnAdd.getText().equals("Add")){
+            try{
+                
+                Double.parseDouble(txtClaimAmount.getText());
+                simpleDateFormat.parse(txtClaimDate.getText());
+                
+                
+            }
+            catch (Exception e){
+
+            }
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int selectedOption = JOptionPane.showConfirmDialog(null, "Delete Claim", "Are you sure you want to delete this Clai?", JOptionPane.YES_NO_OPTION);
+        if(selectedOption == JOptionPane.OK_OPTION){
+            int table_selected_row = tblClaim.getSelectedRow();
+           
+            
+            dB4OUtil.storeSystem(system);
+            JOptionPane.showMessageDialog(null, "Claim deleted successfully");
+            clearFields();
+            populateTable();
+            btnAdd.setText("Add");
+            btnDelete.setVisible(false);
+        }
+        
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -178,10 +240,21 @@ public class ClaimPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable tblClaim;
     private javax.swing.JTable tblPrescription;
     private javax.swing.JTable tblPrescription1;
-    private javax.swing.JTable tblPrescription2;
     private javax.swing.JTextField txtClaimAmount;
     private javax.swing.JFormattedTextField txtClaimDate;
     // End of variables declaration//GEN-END:variables
+
+    private void populateTable() {
+        DefaultTableModel model = (DefaultTableModel) tblPrescription.getModel();
+
+        model.setRowCount(0);
+    }
+
+    private void clearFields() {
+        txtClaimAmount.setText("");
+        txtClaimDate.setText("");
+    }
 }

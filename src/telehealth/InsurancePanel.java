@@ -345,14 +345,14 @@ public class InsurancePanel extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField txtpolicyStartDate;
     // End of variables declaration//GEN-END:variables
 
-    private void populateTable() {
+    public void populateTable() {
         
          DefaultTableModel model = (DefaultTableModel) tblPrescription.getModel();
 
         model.setRowCount(0);
     }
 
-    private void clearFields() {
+    public void clearFields() {
         
         txtAmount.setText("");
         txtInsurancePlan.setText("");
