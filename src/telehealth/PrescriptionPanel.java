@@ -5,10 +5,20 @@
  */
 package telehealth;
 
-import Business.PatientDiagnosis;
+
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
+import com.telehealth.Business.Enterprise.Enterprise;
+import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Patient.Patient;
+import com.telehealth.Business.Patient.PatientDiagnosis;
+import com.telehealth.Business.Patient.PatientPrescription;
+import com.telehealth.Business.Patient.PrescriptionDrugs;
+import com.telehealth.Business.UserAccount.UserAccount;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,10 +34,25 @@ public class PrescriptionPanel extends javax.swing.JPanel {
      */
     private EcoSystem system;
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
-    public PrescriptionPanel(TeleHealthView teleHealthView, EcoSystem system) {
+    String pattern = "MM/dd/yyyy";
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    int table_selected_row;
+    int table_selected_row2;
+    UserAccount userAccount;
+    com.telehealth.Business.Patient.PatientDiagnosis patientDiagnosis;
+    Patient patient;
+    Enterprise currentEnterprise;
+    Organization currentOrganization;
+    private ArrayList<PrescriptionDrugs> prescriptionDrugList = new ArrayList<>();
+    
+    public PrescriptionPanel(TeleHealthView teleHealthView, EcoSystem system, Enterprise currentEnterprise, Organization currentOrganization, UserAccount userAccount) {
         initComponents();
         this.system = system;
+        this.userAccount = userAccount;
+        this.currentEnterprise = currentEnterprise;
+        this.currentOrganization = currentOrganization;
         btnDelete.setVisible(false);
+        populatePatientComboBox();
         populateTable();
         clearFields();
         cmbPatient.setSelectedItem(null);
@@ -58,22 +83,36 @@ public class PrescriptionPanel extends javax.swing.JPanel {
         cmbPatientDiagnosis = new javax.swing.JComboBox();
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel7 = new javax.swing.JLabel();
+        txtDrugName = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        btnAddDrug = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblPrescriptionDetails = new javax.swing.JTable();
+        txtDrugQuantity = new javax.swing.JFormattedTextField();
 
         setName("Form"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(telehealth.TeleHealthApp.class).getContext().getResourceMap(PrescriptionPanel.class);
-        jLabel1.setFont(resourceMap.getFont("jLabel1.font")); // NOI18N
+        jLabel1.setFont(resourceMap.getFont("jLabel3.font")); // NOI18N
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
         jLabel1.setName("jLabel1"); // NOI18N
 
         txtAmount.setFont(resourceMap.getFont("txtAmount.font")); // NOI18N
         txtAmount.setName("txtAmount"); // NOI18N
 
-        jLabel2.setFont(resourceMap.getFont("jLabel2.font")); // NOI18N
+        jLabel2.setFont(resourceMap.getFont("jLabel3.font")); // NOI18N
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
 
-        txtNextPrescriptionDate.setText(resourceMap.getString("txtNextPrescriptionDate.text")); // NOI18N
+        try {
+            txtNextPrescriptionDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtNextPrescriptionDate.setFont(resourceMap.getFont("txtNextPrescriptionDate.font")); // NOI18N
         txtNextPrescriptionDate.setName("txtNextPrescriptionDate"); // NOI18N
 
         jLabel3.setFont(resourceMap.getFont("jLabel3.font")); // NOI18N
@@ -82,8 +121,10 @@ public class PrescriptionPanel extends javax.swing.JPanel {
 
         jScrollPane2.setName("jScrollPane2"); // NOI18N
 
-        txtAreaNotes.setColumns(20);
-        txtAreaNotes.setRows(5);
+        txtAreaNotes.setColumns(10);
+        txtAreaNotes.setFont(resourceMap.getFont("txtAreaNotes.font")); // NOI18N
+        txtAreaNotes.setRows(2);
+        txtAreaNotes.setTabSize(0);
         txtAreaNotes.setName("txtAreaNotes"); // NOI18N
         jScrollPane2.setViewportView(txtAreaNotes);
 
@@ -95,7 +136,7 @@ public class PrescriptionPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Amount", "Next Prescription Date", "Notes", "Patient", "Patient Diagnosis"
+                "Patient", "Patient Diagnosis", "Amount", "Next Prescription Date", "Notes"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -114,25 +155,33 @@ public class PrescriptionPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tblPrescription);
         if (tblPrescription.getColumnModel().getColumnCount() > 0) {
-            tblPrescription.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title0")); // NOI18N
-            tblPrescription.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title1")); // NOI18N
-            tblPrescription.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title2")); // NOI18N
-            tblPrescription.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title3")); // NOI18N
-            tblPrescription.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title4")); // NOI18N
+            tblPrescription.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title3")); // NOI18N
+            tblPrescription.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title4")); // NOI18N
+            tblPrescription.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title0")); // NOI18N
+            tblPrescription.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title1")); // NOI18N
+            tblPrescription.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title2")); // NOI18N
         }
 
-        jLabel4.setFont(resourceMap.getFont("jLabel4.font")); // NOI18N
+        jLabel4.setFont(resourceMap.getFont("jLabel3.font")); // NOI18N
         jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
         jLabel4.setName("jLabel4"); // NOI18N
 
-        jLabel5.setFont(resourceMap.getFont("jLabel5.font")); // NOI18N
+        jLabel5.setFont(resourceMap.getFont("jLabel3.font")); // NOI18N
         jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
         jLabel5.setName("jLabel5"); // NOI18N
 
+        cmbPatient.setFont(resourceMap.getFont("cmbPatient.font")); // NOI18N
         cmbPatient.setName("cmbPatient"); // NOI18N
+        cmbPatient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbPatientActionPerformed(evt);
+            }
+        });
 
+        cmbPatientDiagnosis.setFont(resourceMap.getFont("cmbPatient.font")); // NOI18N
         cmbPatientDiagnosis.setName("cmbPatientDiagnosis"); // NOI18N
 
+        btnAdd.setFont(resourceMap.getFont("btnAdd.font")); // NOI18N
         btnAdd.setText(resourceMap.getString("btnAdd.text")); // NOI18N
         btnAdd.setName("btnAdd"); // NOI18N
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -141,6 +190,7 @@ public class PrescriptionPanel extends javax.swing.JPanel {
             }
         });
 
+        btnDelete.setFont(resourceMap.getFont("btnAdd.font")); // NOI18N
         btnDelete.setText(resourceMap.getString("btnDelete.text")); // NOI18N
         btnDelete.setName("btnDelete"); // NOI18N
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -149,64 +199,176 @@ public class PrescriptionPanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel6.setFont(resourceMap.getFont("jLabel6.font")); // NOI18N
+        jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
+        jLabel6.setName("jLabel6"); // NOI18N
+
+        jSeparator1.setName("jSeparator1"); // NOI18N
+
+        jLabel7.setFont(resourceMap.getFont("jLabel8.font")); // NOI18N
+        jLabel7.setText(resourceMap.getString("jLabel7.text")); // NOI18N
+        jLabel7.setName("jLabel7"); // NOI18N
+
+        txtDrugName.setFont(resourceMap.getFont("jLabel8.font")); // NOI18N
+        txtDrugName.setText(resourceMap.getString("txtDrugName.text")); // NOI18N
+        txtDrugName.setName("txtDrugName"); // NOI18N
+
+        jLabel8.setFont(resourceMap.getFont("jLabel8.font")); // NOI18N
+        jLabel8.setText(resourceMap.getString("jLabel8.text")); // NOI18N
+        jLabel8.setName("jLabel8"); // NOI18N
+
+        btnAddDrug.setFont(resourceMap.getFont("jLabel8.font")); // NOI18N
+        btnAddDrug.setText(resourceMap.getString("btnAddDrug.text")); // NOI18N
+        btnAddDrug.setName("btnAddDrug"); // NOI18N
+        btnAddDrug.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddDrugActionPerformed(evt);
+            }
+        });
+
+        jScrollPane3.setName("jScrollPane3"); // NOI18N
+
+        tblPrescriptionDetails.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Drug Name", "Quantity"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblPrescriptionDetails.setName("tblPrescriptionDetails"); // NOI18N
+        tblPrescriptionDetails.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPrescriptionDetailsMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblPrescriptionDetails);
+        if (tblPrescriptionDetails.getColumnModel().getColumnCount() > 0) {
+            tblPrescriptionDetails.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblPrescriptionDetails.columnModel.title0")); // NOI18N
+            tblPrescriptionDetails.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblPrescriptionDetails.columnModel.title1")); // NOI18N
+        }
+
+        try {
+            txtDrugQuantity.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtDrugQuantity.setFont(resourceMap.getFont("txtDrugQuantity.font")); // NOI18N
+        txtDrugQuantity.setName("txtDrugQuantity"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(246, 246, 246)
+                .addGap(177, 177, 177)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNextPrescriptionDate, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAdd))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(119, 119, 119)
+                                            .addComponent(cmbPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel5)
+                                            .addGap(62, 62, 62)
+                                            .addComponent(cmbPatientDiagnosis, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(62, 62, 62)
+                                        .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(32, 32, 32)
+                                        .addComponent(txtNextPrescriptionDate, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(32, 32, 32)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(70, 70, 70)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cmbPatientDiagnosis, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(119, 119, 119)
-                                .addComponent(cmbPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnDelete))))
-                .addGap(0, 165, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtDrugName, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtDrugQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13)
+                                .addComponent(btnAddDrug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(298, 298, 298)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57)))
+                .addContainerGap(203, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(210, 210, 210)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel4)
-                    .addComponent(cmbPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNextPrescriptionDate, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel5)
-                    .addComponent(cmbPatientDiagnosis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(cmbPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(cmbPatientDiagnosis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNextPrescriptionDate, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(txtDrugName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(btnAddDrug)
+                            .addComponent(txtDrugQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDelete)
-                    .addComponent(btnAdd))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnDelete))
+                .addGap(65, 65, 65)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -216,16 +378,34 @@ public class PrescriptionPanel extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        double amount = Double.parseDouble(txtAmount.getText());
-        String nextPrescriptionDate = txtNextPrescriptionDate.getText();
-        String notes = txtAreaNotes.getText();
-        Patient patient = (Patient) cmbPatient.getSelectedItem();
-        PatientDiagnosis patientDiagnosis = (PatientDiagnosis) cmbPatientDiagnosis.getSelectedItem();  
-         dB4OUtil.storeSystem(system);
-        JOptionPane.showMessageDialog(null, "Prescription added successfully");
-        clearFields();
-        populateTable();
+        if(btnAdd.getText().equals("Add")){
+            try{
+                if(validateFields()){
+            
+                    double amount = Double.parseDouble(txtAmount.getText());
+                    Date nextPrescriptionDate = simpleDateFormat.parse(txtNextPrescriptionDate.getText());
+                    String notes = txtAreaNotes.getText();
+                    Patient patient = (Patient) cmbPatient.getSelectedItem();
+                    PatientDiagnosis patientDiagnosis = (PatientDiagnosis) cmbPatientDiagnosis.getSelectedItem();                     
+
+                    PatientPrescription prescription = new PatientPrescription(amount, nextPrescriptionDate, notes);
+                    PatientPrescription patientPrescription = patientDiagnosis.createAndAddPatientPrescription(prescription);
+                    
+                    try{
+                        dB4OUtil.storeSystem(system);
+                        JOptionPane.showMessageDialog(null, "Prescription added successfully");
+                        clearFields();
+                        populateTable();
+                    } catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        } else {
         
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -245,9 +425,43 @@ public class PrescriptionPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void cmbPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPatientActionPerformed
+        // TODO add your handling code here:        
+        Patient patient = (Patient) cmbPatient.getSelectedItem();
+        if (patient != null){
+            populatePatientDiagnosisComboBox(patient);
+        }
+    }//GEN-LAST:event_cmbPatientActionPerformed
+
+    private void btnAddDrugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDrugActionPerformed
+        // TODO add your handling code here:
+        PrescriptionDrugs drugs = new PrescriptionDrugs();
+        drugs.setDrugName(txtDrugName.getText());
+        drugs.setDrugQuantity(Integer.parseInt(txtDrugQuantity.getText()));
+        
+        prescriptionDrugList.add(drugs);
+        populateDrugTable();
+    }//GEN-LAST:event_btnAddDrugActionPerformed
+
+    private void tblPrescriptionDetailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPrescriptionDetailsMouseClicked
+        // TODO add your handling code here:
+        try
+        {            
+            if (evt.getClickCount() == 2){
+                table_selected_row2 = tblPrescriptionDetails.getSelectedRow();
+                PrescriptionDrugs drugs = (PrescriptionDrugs)tblPrescriptionDetails.getValueAt(table_selected_row2, 0);
+                prescriptionDrugList.remove(drugs);
+                populateDrugTable();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }            
+    }//GEN-LAST:event_tblPrescriptionDetailsMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAddDrug;
     private javax.swing.JButton btnDelete;
     private javax.swing.JComboBox cmbPatient;
     private javax.swing.JComboBox cmbPatientDiagnosis;
@@ -256,27 +470,91 @@ public class PrescriptionPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tblPrescription;
+    private javax.swing.JTable tblPrescriptionDetails;
     private javax.swing.JTextField txtAmount;
     private javax.swing.JTextArea txtAreaNotes;
+    private javax.swing.JTextField txtDrugName;
+    private javax.swing.JFormattedTextField txtDrugQuantity;
     private javax.swing.JFormattedTextField txtNextPrescriptionDate;
     // End of variables declaration//GEN-END:variables
 
-    private void populateTable() {
+    public void populatePatientComboBox(){
+        cmbPatient.removeAllItems();
         
+        for (Patient patient : system.getPatientDirectory().getPatientList()){
+            cmbPatient.addItem(patient);
+        }
+    }
+    
+    public void populatePatientDiagnosisComboBox(Patient patient){
+        cmbPatientDiagnosis.removeAllItems();
+        
+        for (PatientDiagnosis diagnosis : patient.getPatientDiagnosisList()){
+            cmbPatientDiagnosis.addItem(diagnosis);
+        }
+    }
+    
+    public void populateTable() {        
         DefaultTableModel model = (DefaultTableModel) tblPrescription.getModel();
-
-        model.setRowCount(0);
+        model.setRowCount(0);         
+        for (PrescriptionDrugs drug : prescriptionDrugList) {
+            Object[] row = new Object[2];
+            row[0] = drug;
+            row[1] = drug.getDrugQuantity();                                
+            model.addRow(row);            
+        }
+    }
+    
+    public void populateDrugTable(){
+        DefaultTableModel model = (DefaultTableModel) tblPrescriptionDetails.getModel();
+        model.setRowCount(0);        
+        for (PrescriptionDrugs drug : prescriptionDrugList) {
+            Object[] row = new Object[2];
+            row[0] = drug;
+            row[1] = drug.getDrugQuantity();                                
+            model.addRow(row);            
+        }
     }
 
-    private void clearFields() {
+    public void clearFields() {
         txtAmount.setText("");
         txtNextPrescriptionDate.setText("");
         txtAreaNotes.setText("");
         
     }
     
-    
+    public boolean validateFields(){
+        if(cmbPatient.getItemCount() == 0 || cmbPatient.getSelectedItem().toString().equals("") ||
+            cmbPatientDiagnosis.getItemCount() == 0 || cmbPatientDiagnosis.getSelectedItem().toString().equals("") ||    
+            txtNextPrescriptionDate.getText().equals("") || 
+            txtAmount.getText().equals("") || 
+            txtAreaNotes.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "All fields are mandatory", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        try{                       
+            Double.parseDouble(txtAmount.getText());
+            simpleDateFormat.parse(txtNextPrescriptionDate.getText());            
+        } catch (NumberFormatException ne){
+            JOptionPane.showMessageDialog(null, "Please enter valid values", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } catch (ParseException pe){
+            JOptionPane.showMessageDialog(null, "Please enter valid values", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        if(tblPrescriptionDetails.getRowCount()<=0){
+            JOptionPane.showMessageDialog(null, "Please enter at least one drug in prescription", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
 }

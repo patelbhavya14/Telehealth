@@ -6,6 +6,7 @@
 package com.telehealth.Business.Patient;
 
 import com.telehealth.Business.UserAccount.UserAccount;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -24,6 +25,7 @@ public class PatientDiagnosis {
     private UserAccount sender;
     private UserAccount receiver1;
     private UserAccount receiver2;
+    private ArrayList<PatientPrescription> patientPrescriptionList;
     
 
     public PatientDiagnosis(int bpSystolic, int bpDiastolic, int heartRate, int respiratoryRate, double weight, Date diagnosisDate, Date nextDiagnosisDate, String diagnosisDetails, String notes) {
@@ -37,6 +39,7 @@ public class PatientDiagnosis {
         this.nextDiagnosisDate = nextDiagnosisDate;
         this.diagnosisDetails = diagnosisDetails;
         this.notes = notes;
+        patientPrescriptionList = new ArrayList<PatientPrescription>();
     }
 
     public int getPatientDiagnosisId() {
@@ -148,6 +151,20 @@ public class PatientDiagnosis {
 
     public void setInsuranceOrganizationID(int insuranceOrganizationID) {
         this.insuranceOrganizationID = insuranceOrganizationID;
+    }
+    
+    public ArrayList<PatientPrescription> getPatientPrescriptionList() {
+        return patientPrescriptionList;
+    }
+
+    public void setPatientPrescriptionList(ArrayList<PatientPrescription> patientPrescriptionList) {
+        this.patientPrescriptionList = patientPrescriptionList;
+    }
+    
+    public PatientPrescription createAndAddPatientPrescription(PatientPrescription patientPrescription){
+        patientPrescription.setPatientPrescriptionId(patientPrescriptionList.size()+1);
+        patientPrescriptionList.add(patientPrescription);
+        return patientPrescription;
     }
     
     @Override

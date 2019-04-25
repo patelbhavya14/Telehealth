@@ -11,6 +11,7 @@ import com.telehealth.Business.Enterprise.Enterprise;
 import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Patient.Patient;
 import com.telehealth.Business.Patient.PatientDiagnosis;
+import com.telehealth.Business.Role.HospitalRole;
 import com.telehealth.Business.UserAccount.UserAccount;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,6 +49,10 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         populatePatientComboBox();
         populateTable();
         clearFields();
+//        if(!userAccount.getRole().toString().equals(new HospitalRole().toString())){
+//            btnAdd.setVisible(false);
+//            btnDelete.setVisible(false);            
+//        }
     }   
 
     /**
@@ -347,8 +352,10 @@ public class DiagnosisPanel extends javax.swing.JPanel {
                 nextDiagnosisDateTextField.setText(simpleDateFormat.format(patientDiagnosis.getNextDiagnosisDate()));
                 diagnosisDetailTextFeild.setText(patientDiagnosis.getDiagnosisDetails());
                 notesTextArea.setText(patientDiagnosis.getNotes());
-                btnAdd.setText("Update");
-                btnDelete.setVisible(true);
+//                if(userAccount.getRole().toString().equals(new HospitalRole().toString())){
+                    btnAdd.setText("Update");
+                    btnDelete.setVisible(true);
+//                }
             }
         } catch (Exception e){
             e.printStackTrace();
