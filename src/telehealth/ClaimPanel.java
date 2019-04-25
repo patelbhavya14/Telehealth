@@ -323,12 +323,8 @@ public class ClaimPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable tblClaim;
-    private javax.swing.JTable tblPrescription;
-    private javax.swing.JTable tblPrescription1;
     private javax.swing.JTextField txtClaimAmount;
     private javax.swing.JFormattedTextField txtClaimDate;
     // End of variables declaration//GEN-END:variables
