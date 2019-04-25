@@ -135,6 +135,16 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiPatientPrescriptionActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiPharmacyWorkArea">
+              <Properties>
+                <Property name="font" type="java.awt.Font" resourceKey="jmiPharmacyWorkArea.font"/>
+                <Property name="text" type="java.lang.String" resourceKey="jmiPharmacyWorkArea.text"/>
+                <Property name="name" type="java.lang.String" value="jmiPharmacyWorkArea" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiPharmacyWorkAreaActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiAddInsurance">
               <Properties>
                 <Property name="font" type="java.awt.Font" resourceKey="jmiAddInsurance.font"/>
@@ -145,14 +155,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiAddInsuranceActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="jmiClaimInsurance">
               <Properties>
-                <Property name="font" type="java.awt.Font" resourceKey="jMenuItem2.font"/>
-                <Property name="text" type="java.lang.String" resourceKey="jMenuItem2.text"/>
-                <Property name="name" type="java.lang.String" value="jMenuItem2" noResource="true"/>
+                <Property name="text" type="java.lang.String" resourceKey="jmiClaimInsurance.text"/>
+                <Property name="name" type="java.lang.String" value="jmiClaimInsurance" noResource="true"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiClaimInsuranceActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">

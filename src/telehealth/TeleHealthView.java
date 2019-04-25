@@ -145,8 +145,9 @@ public class TeleHealthView extends FrameView {
         jmiAddUser = new javax.swing.JMenuItem();
         jmiPatientDiagnosis = new javax.swing.JMenuItem();
         jmiPatientPrescription = new javax.swing.JMenuItem();
+        jmiPharmacyWorkArea = new javax.swing.JMenuItem();
         jmiAddInsurance = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jmiClaimInsurance = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -270,6 +271,16 @@ public class TeleHealthView extends FrameView {
         });
         fileMenu.add(jmiPatientPrescription);
 
+        jmiPharmacyWorkArea.setFont(resourceMap.getFont("jmiPharmacyWorkArea.font")); // NOI18N
+        jmiPharmacyWorkArea.setText(resourceMap.getString("jmiPharmacyWorkArea.text")); // NOI18N
+        jmiPharmacyWorkArea.setName("jmiPharmacyWorkArea"); // NOI18N
+        jmiPharmacyWorkArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiPharmacyWorkAreaActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jmiPharmacyWorkArea);
+
         jmiAddInsurance.setFont(resourceMap.getFont("jmiAddInsurance.font")); // NOI18N
         jmiAddInsurance.setText(resourceMap.getString("jmiAddInsurance.text")); // NOI18N
         jmiAddInsurance.setName("jmiAddInsurance"); // NOI18N
@@ -280,15 +291,14 @@ public class TeleHealthView extends FrameView {
         });
         fileMenu.add(jmiAddInsurance);
 
-        jMenuItem2.setFont(resourceMap.getFont("jMenuItem2.font")); // NOI18N
-        jMenuItem2.setText(resourceMap.getString("jMenuItem2.text")); // NOI18N
-        jMenuItem2.setName("jMenuItem2"); // NOI18N
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jmiClaimInsurance.setText(resourceMap.getString("jmiClaimInsurance.text")); // NOI18N
+        jmiClaimInsurance.setName("jmiClaimInsurance"); // NOI18N
+        jmiClaimInsurance.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jmiClaimInsuranceActionPerformed(evt);
             }
         });
-        fileMenu.add(jMenuItem2);
+        fileMenu.add(jmiClaimInsurance);
 
         jSeparator1.setName("jSeparator1"); // NOI18N
         fileMenu.add(jSeparator1);
@@ -591,7 +601,7 @@ public class TeleHealthView extends FrameView {
         mainPanel.revalidate();
     }//GEN-LAST:event_jmiAddInsuranceActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void jmiPharmacyWorkAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPharmacyWorkAreaActionPerformed
         // TODO add your handling code here:
         currentPanel.removeAll();
         currentPanel.invalidate();
@@ -613,7 +623,32 @@ public class TeleHealthView extends FrameView {
         titlePanel.revalidate();
         mainPanel.repaint();
         mainPanel.revalidate();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_jmiPharmacyWorkAreaActionPerformed
+
+    private void jmiClaimInsuranceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiClaimInsuranceActionPerformed
+        // TODO add your handling code here:
+        
+        currentPanel.removeAll();
+        currentPanel.invalidate();
+
+        ClaimPanel claimPanel = new ClaimPanel(this, system, currentEnterprise, currentOrganization, userAccount);
+        currentPanel.add(claimPanel, BorderLayout.CENTER);
+        //        currentPanel = enterpriseAdminPanel;
+        Dimension dim = getMainPanelDimension();
+        titlePanel.setTitle("Claim Insurance");
+        titlePanel.setSize(1200, 50);
+        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        mainPanel.add(titlePanel);
+        mainPanel.add(currentPanel);
+
+        currentPanel.repaint();
+        currentPanel.revalidate();
+        titlePanel.repaint();
+        titlePanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }//GEN-LAST:event_jmiClaimInsuranceActionPerformed
 
     public void login() {
         boolean loginFlag = true;
@@ -690,7 +725,8 @@ public class TeleHealthView extends FrameView {
                         jmiPatientDiagnosis.setVisible(false);
                         jmiPatientPrescription.setVisible(false);
                         jmiAddInsurance.setVisible(false);
-                        jMenuItem2.setVisible(false);
+                        jmiPharmacyWorkArea.setVisible(false);
+                        jmiClaimInsurance.setVisible(false);
                     } else if (role.equals("com.telehealth.Business.Role.AdminRole")) {
                         jmiNetwork.setVisible(false);
                         jmiOrganization.setVisible(false);
@@ -700,7 +736,8 @@ public class TeleHealthView extends FrameView {
                         jmiPatientDiagnosis.setVisible(false);
                         jmiPatientPrescription.setVisible(false);
                         jmiAddInsurance.setVisible(false);
-                        jMenuItem2.setVisible(false);
+                        jmiPharmacyWorkArea.setVisible(false);
+                        jmiClaimInsurance.setVisible(false);
                     } else if (role.equals("com.telehealth.Business.Role.HospitalRole")) {
                         jmiNetwork.setVisible(false);
                         jmiOrganization.setVisible(false);
@@ -710,7 +747,8 @@ public class TeleHealthView extends FrameView {
                         jmiPatientDiagnosis.setVisible(true);
                         jmiPatientPrescription.setVisible(true);
                         jmiAddInsurance.setVisible(false);
-                        jMenuItem2.setVisible(false);
+                        jmiPharmacyWorkArea.setVisible(false);
+                        jmiClaimInsurance.setVisible(false);
                     } else if (role.equals("com.telehealth.Business.Role.PharmacyRole")) {
                         jmiNetwork.setVisible(false);
                         jmiOrganization.setVisible(false);
@@ -720,7 +758,7 @@ public class TeleHealthView extends FrameView {
                         jmiPatientDiagnosis.setVisible(false);
                         jmiPatientPrescription.setVisible(false);
                         jmiAddInsurance.setVisible(false);
-                        jMenuItem2.setVisible(true);
+                        jmiPharmacyWorkArea.setVisible(true);
                     } else if (role.equals("com.telehealth.Business.Role.InsuranceRole")) {
                         jmiNetwork.setVisible(false);
                         jmiOrganization.setVisible(false);
@@ -730,7 +768,8 @@ public class TeleHealthView extends FrameView {
                         jmiPatientDiagnosis.setVisible(false);
                         jmiPatientPrescription.setVisible(false);
                         jmiAddInsurance.setVisible(true);
-                        jMenuItem2.setVisible(false);
+                        jmiPharmacyWorkArea.setVisible(false);
+                        jmiClaimInsurance.setVisible(true);
                     }
                     
 
@@ -743,16 +782,17 @@ public class TeleHealthView extends FrameView {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuItem jmiAddInsurance;
     private javax.swing.JMenuItem jmiAddUser;
+    private javax.swing.JMenuItem jmiClaimInsurance;
     private javax.swing.JMenuItem jmiNetwork;
     private javax.swing.JMenuItem jmiOrganization;
     private javax.swing.JMenuItem jmiPatient;
     private javax.swing.JMenuItem jmiPatientDiagnosis;
     private javax.swing.JMenuItem jmiPatientPrescription;
+    private javax.swing.JMenuItem jmiPharmacyWorkArea;
     private javax.swing.JMenuItem jmiUserAccount;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;

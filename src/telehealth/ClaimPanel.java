@@ -7,9 +7,13 @@ package telehealth;
 
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
+import com.telehealth.Business.Enterprise.Enterprise;
+import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Patient.Patient;
 import com.telehealth.Business.Patient.PatientClaim;
+import com.telehealth.Business.Patient.PatientDiagnosis;
 import com.telehealth.Business.Patient.PatientInsurance;
+import com.telehealth.Business.UserAccount.UserAccount;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
@@ -26,13 +30,17 @@ public class ClaimPanel extends javax.swing.JPanel {
      */
     private EcoSystem system;
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
-     String pattern = "MM/dd/yyyy";
+    String pattern = "MM/dd/yyyy";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-    PatientClaim patientClaim;
-    PatientInsurance patientInsurance;
-    Patient patient;
     int table_selected_row;
-    public ClaimPanel(TeleHealthView teleHealthView, EcoSystem system) {
+    UserAccount userAccount;
+    PatientDiagnosis patientDiagnosis;
+    Patient currentPatient;
+    PatientInsurance currentInsurance;
+    Enterprise currentEnterprise;
+    Organization currentOrganization;
+    
+    public ClaimPanel(TeleHealthView teleHealthView, EcoSystem system, Enterprise currentEnterprise, Organization currentOrganization, UserAccount userAccount) {
         initComponents();
         this.system = system;
         btnDelete.setVisible(false);
