@@ -423,6 +423,7 @@ public class PharmacyWorkAreaPanel extends javax.swing.JPanel {
 //                    Patient patient = (Patient) cmbPatient.getSelectedItem();
 //                    PatientDiagnosis patientDiagnosis = (PatientDiagnosis) cmbPatientDiagnosis.getSelectedItem();
                     prescription.setAmount(amount);
+                    prescription.setReceiver1(userAccount);
 //                    prescription.setNextPrescription(nextPrescriptionDate);
 //                    prescription.setNotes(notes);
 //                    prescription.setPrescriptionDrugList(prescriptionDrugList);
