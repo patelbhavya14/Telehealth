@@ -8,12 +8,17 @@ package telehealth;
 
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
+import com.telehealth.Business.Employee.Employee;
 import com.telehealth.Business.Enterprise.Enterprise;
+import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.UserAccount.UserAccount;
+import com.telehealth.Business.Organization.Organization;
+import com.telehealth.Business.Role.HospitalRole;
 import com.telehealth.Utility.CommonUtility;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,6 +37,7 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
     public OrganizationUserPanel(TeleHealthView teleHealthView, EcoSystem system, Enterprise enterprise) {
         initComponents();
         this.enterprise = enterprise;
+        populateOrganizationCombolist();
         this.system = system;
     }
 
@@ -58,6 +64,8 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
         btnDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEntAdmin = new javax.swing.JTable();
+        cmbOrganization = new javax.swing.JComboBox();
+        jLabel10 = new javax.swing.JLabel();
 
         setName("Form"); // NOI18N
 
@@ -128,11 +136,11 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Network", "Enterprise", "Username", "Name", "Email", "Phone"
+                "Organization", "Username", "Name", "Email", "Phone"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -146,6 +154,20 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(tblEntAdmin);
+        if (tblEntAdmin.getColumnModel().getColumnCount() > 0) {
+            tblEntAdmin.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblEntAdmin.columnModel.title1")); // NOI18N
+            tblEntAdmin.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblEntAdmin.columnModel.title2")); // NOI18N
+            tblEntAdmin.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblEntAdmin.columnModel.title3")); // NOI18N
+            tblEntAdmin.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("tblEntAdmin.columnModel.title4")); // NOI18N
+            tblEntAdmin.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("tblEntAdmin.columnModel.title5")); // NOI18N
+        }
+
+        cmbOrganization.setFont(resourceMap.getFont("cmbOrganization.font")); // NOI18N
+        cmbOrganization.setName("cmbOrganization"); // NOI18N
+
+        jLabel10.setFont(resourceMap.getFont("jLabel10.font")); // NOI18N
+        jLabel10.setText(resourceMap.getString("jLabel10.text")); // NOI18N
+        jLabel10.setName("jLabel10"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -158,7 +180,8 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(63, 63, 63)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -171,7 +194,8 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(pwdPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
                                 .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                                .addComponent(txtUsername))
+                                .addComponent(txtUsername)
+                                .addComponent(cmbOrganization, 0, 199, Short.MAX_VALUE))
                             .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -183,7 +207,11 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(cmbOrganization, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -207,7 +235,7 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnDelete))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44))
         );
@@ -218,8 +246,7 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
         if(btnAdd.getText().equals("Add")){
 
             if(validateFields()){
-                enterprise = (Enterprise) cmbEnterprise.getSelectedItem();
-
+                Organization org = (Organization) cmbOrganization.getSelectedItem();
                 String username = txtUsername.getText();
                 String password = String.valueOf(pwdPassword.getPassword());
                 String name = txtName.getText();
@@ -229,8 +256,9 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
                 Employee employee = enterprise.getEmployeeDirectory().createEmployee(name);
                 employee.setEmail(email);
                 employee.setPhone(phone);
+                
+                org.getUserAccountDirectory().createUserAccount(username, password, employee, new HospitalRole());
 
-                userAccount = enterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new AdminRole());
 
                 try{
                     dB4OUtil.storeSystem(system);
@@ -243,7 +271,7 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
             }
         } else {
             if(validateFields()){
-                Enterprise enterpriseUpdated = (Enterprise) cmbEnterprise.getSelectedItem();
+                Enterprise enterpriseUpdated = (Enterprise) cmbOrganization.getSelectedItem();
                 if(enterprise.equals(enterpriseUpdated)){
                     userAccount.setUsername(txtUsername.getText());
                     userAccount.setPassword(String.valueOf(pwdPassword.getPassword()));
@@ -254,7 +282,7 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
                 } else {
                     enterprise.getUserAccountDirectory().getUserAccountList().remove(userAccount);
 
-                    enterprise = (Enterprise) cmbEnterprise.getSelectedItem();
+                    enterprise = (Enterprise) cmbOrganization.getSelectedItem();
                     String username = txtUsername.getText();
                     String password = String.valueOf(pwdPassword.getPassword());
                     String name = txtName.getText();
@@ -264,7 +292,7 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
                     employee.setEmail(email);
                     employee.setPhone(phone);
 
-                    userAccount = enterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new AdminRole());
+                    userAccount = enterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new HospitalRole());
                 }
                 try{
                     dB4OUtil.storeSystem(system);
@@ -295,31 +323,58 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
 
     private void tblEntAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEntAdminMouseClicked
         // TODO add your handling code here:
-        try
-        {
-
-            if (evt.getClickCount() == 2){
-                table_selected_row = tblEntAdmin.getSelectedRow();
-                userAccount = (UserAccount)tblEntAdmin.getValueAt(table_selected_row, 2);
-                Network network = (Network) tblEntAdmin.getValueAt(table_selected_row, 0);
-                enterprise = (Enterprise) tblEntAdmin.getValueAt(table_selected_row, 1);
-
-                cmbNetwork.setSelectedItem(network);
-                cmbEnterprise.setSelectedItem(enterprise);
-                txtUsername.setText(userAccount.getUsername());
-                pwdPassword.setText(userAccount.getPassword());
-                txtName.setText(userAccount.getEmployee().getName());
-                txtEmail.setText(userAccount.getEmployee().getEmail());
-                txtPhone.setText(userAccount.getEmployee().getPhone());
-
-                btnAdd.setText("Update");
-                btnDelete.setVisible(true);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+//        try
+//        {
+//
+//            if (evt.getClickCount() == 2){
+//                table_selected_row = tblEntAdmin.getSelectedRow();
+//                userAccount = (UserAccount)tblEntAdmin.getValueAt(table_selected_row, 2);
+//                Network network = (Network) tblEntAdmin.getValueAt(table_selected_row, 0);
+//                enterprise = (Enterprise) tblEntAdmin.getValueAt(table_selected_row, 1);
+//
+//                cmbNetwork.setSelectedItem(network);
+//                cmbOrganization.setSelectedItem(enterprise);
+//                txtUsername.setText(userAccount.getUsername());
+//                pwdPassword.setText(userAccount.getPassword());
+//                txtName.setText(userAccount.getEmployee().getName());
+//                txtEmail.setText(userAccount.getEmployee().getEmail());
+//                txtPhone.setText(userAccount.getEmployee().getPhone());
+//
+//                btnAdd.setText("Update");
+//                btnDelete.setVisible(true);
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
     }//GEN-LAST:event_tblEntAdminMouseClicked
 
+    public void populateTable(){
+        DefaultTableModel model = (DefaultTableModel) tblEntAdmin.getModel();
+
+        model.setRowCount(0);
+                      
+        for (Organization org : enterprise.getOrganizationDirectory().getOrganizationList()) {
+            for(UserAccount userAccount: org.getUserAccountDirectory().getUserAccountList()) {
+                Object[] row = new Object[5];
+                row[0] = org;                   
+                row[1] = userAccount;
+                row[2] = userAccount.getEmployee().getName();
+                row[3] = userAccount.getEmployee().getEmail();
+                row[4] = userAccount.getEmployee().getPhone();
+                model.addRow(row);
+            }
+        }
+            
+    }
+    
+    private void populateOrganizationCombolist() {
+        
+        for(Organization org: enterprise.getOrganizationDirectory().getOrganizationList()) {
+            cmbOrganization.addItem(org);
+        }
+        
+    }
+    
     public boolean validateFields(){
         
         if(txtUsername.getText().equals("") || 
@@ -372,6 +427,8 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JComboBox cmbOrganization;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
