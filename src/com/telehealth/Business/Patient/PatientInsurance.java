@@ -22,7 +22,7 @@ public class PatientInsurance {
     private int insuranceOrganizationID;
     private ArrayList<PatientClaim> patientClaimList;
 
-    public PatientInsurance(int patientInsuranceId, String insurancePlan, String policyNumber, String policyCoverage, double policyAmount, Date policyStartDate, Date policyEndDate) {
+    public PatientInsurance(String insurancePlan, String policyNumber, String policyCoverage, double policyAmount, Date policyStartDate, Date policyEndDate) {
         this.insurancePlan = insurancePlan;
         this.policyNumber = policyNumber;
         this.policyCoverage = policyCoverage;
