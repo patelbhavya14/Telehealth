@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package telehealth.resources;
+package telehealth;
 
-import Business.PatientDiagnosis;
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
 import com.telehealth.Business.Patient.Patient;
+import com.telehealth.Business.Patient.PatientDiagnosis;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,10 +27,14 @@ public class DiagnosisPanel extends javax.swing.JPanel {
      */
     private EcoSystem system;
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
+    String pattern = "MM/dd/yyyy";
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    
     public DiagnosisPanel(TeleHealthView teleHealthView, EcoSystem system) {
         initComponents();
         this.system = system;
         btnDelete.setVisible(false);
+        populatePatientComboBox();
     }
 
     /**
@@ -43,9 +47,9 @@ public class DiagnosisPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        bloodPressureSystolicTextFeild = new javax.swing.JTextField();
+        txtBloodPressureSystolic = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        bloodPressureDiastolicTextFeild = new javax.swing.JTextField();
+        txtBloodPressureDiastolic = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         heartRateTextFeild = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -66,7 +70,7 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDiagnosis = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        cmbPatient = new javax.swing.JComboBox();
 
         setName("Form"); // NOI18N
 
@@ -75,15 +79,15 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
         jLabel1.setName("jLabel1"); // NOI18N
 
-        bloodPressureSystolicTextFeild.setFont(resourceMap.getFont("bloodPressureSystolicTextFeild.font")); // NOI18N
-        bloodPressureSystolicTextFeild.setName("bloodPressureSystolicTextFeild"); // NOI18N
+        txtBloodPressureSystolic.setFont(resourceMap.getFont("txtBloodPressureSystolic.font")); // NOI18N
+        txtBloodPressureSystolic.setName("txtBloodPressureSystolic"); // NOI18N
 
         jLabel2.setFont(resourceMap.getFont("jLabel2.font")); // NOI18N
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
 
-        bloodPressureDiastolicTextFeild.setFont(resourceMap.getFont("bloodPressureDiastolicTextFeild.font")); // NOI18N
-        bloodPressureDiastolicTextFeild.setName("bloodPressureDiastolicTextFeild"); // NOI18N
+        txtBloodPressureDiastolic.setFont(resourceMap.getFont("txtBloodPressureDiastolic.font")); // NOI18N
+        txtBloodPressureDiastolic.setName("txtBloodPressureDiastolic"); // NOI18N
 
         jLabel3.setFont(resourceMap.getFont("jLabel3.font")); // NOI18N
         jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
@@ -122,10 +126,10 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         jLabel9.setText(resourceMap.getString("jLabel9.text")); // NOI18N
         jLabel9.setName("jLabel9"); // NOI18N
 
-        diagnosisDateTextField.setText(resourceMap.getString("diagnosisDateTextField.text")); // NOI18N
+        diagnosisDateTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yyyy"))));
         diagnosisDateTextField.setName("diagnosisDateTextField"); // NOI18N
 
-        nextDiagnosisDateTextField.setText(resourceMap.getString("nextDiagnosisDateTextField.text")); // NOI18N
+        nextDiagnosisDateTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yyyy"))));
         nextDiagnosisDateTextField.setName("nextDiagnosisDateTextField"); // NOI18N
 
         diagnosisDetailTextFeild.setFont(resourceMap.getFont("diagnosisDetailTextFeild.font")); // NOI18N
@@ -138,6 +142,7 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         notesTextArea.setName("notesTextArea"); // NOI18N
         jScrollPane2.setViewportView(notesTextArea);
 
+        btnAdd.setFont(resourceMap.getFont("btnAdd.font")); // NOI18N
         btnAdd.setText(resourceMap.getString("btnAdd.text")); // NOI18N
         btnAdd.setName("btnAdd"); // NOI18N
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -146,6 +151,7 @@ public class DiagnosisPanel extends javax.swing.JPanel {
             }
         });
 
+        btnDelete.setFont(resourceMap.getFont("btnDelete.font")); // NOI18N
         btnDelete.setText(resourceMap.getString("btnDelete.text")); // NOI18N
         btnDelete.setName("btnDelete"); // NOI18N
 
@@ -190,79 +196,77 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         jLabel10.setText(resourceMap.getString("jLabel10.text")); // NOI18N
         jLabel10.setName("jLabel10"); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setName("jComboBox1"); // NOI18N
+        cmbPatient.setName("cmbPatient"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel10))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtBloodPressureDiastolic)
+                    .addComponent(txtBloodPressureSystolic)
+                    .addComponent(heartRateTextFeild)
+                    .addComponent(respiratoryRateTextFeild)
+                    .addComponent(weightTextFeild)
+                    .addComponent(cmbPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(98, 98, 98)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(411, 411, 411)
-                                .addComponent(btnAdd)
-                                .addGap(51, 51, 51))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(247, 247, 247)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel10))
-                                .addGap(32, 32, 32)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(bloodPressureDiastolicTextFeild, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                                    .addComponent(bloodPressureSystolicTextFeild)
-                                    .addComponent(heartRateTextFeild, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                                    .addComponent(respiratoryRateTextFeild, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                                    .addComponent(weightTextFeild, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(98, 98, 98)))
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel6))
+                        .addGap(107, 107, 107)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel6))
-                                .addGap(107, 107, 107)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(diagnosisDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel7))
-                                .addGap(80, 80, 80)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(diagnosisDetailTextFeild, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nextDiagnosisDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(btnDelete)))
+                            .addComponent(diagnosisDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(190, 190, 190)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 931, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(79, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel7))
+                        .addGap(80, 80, 80)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(diagnosisDetailTextFeild, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nextDiagnosisDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(175, 175, 175))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(128, 128, 128)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 931, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(511, 511, 511)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addComponent(btnDelete)))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(87, 87, 87)
+                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(bloodPressureSystolicTextFeild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBloodPressureSystolic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(diagnosisDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bloodPressureDiastolicTextFeild, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBloodPressureDiastolic, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel8)
@@ -286,13 +290,13 @@ public class DiagnosisPanel extends javax.swing.JPanel {
                             .addComponent(weightTextFeild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDelete)
                     .addComponent(btnAdd))
-                .addGap(58, 58, 58)
+                .addGap(80, 80, 80)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(183, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -303,24 +307,46 @@ public class DiagnosisPanel extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
+        Patient patient = (Patient)cmbPatient.getSelectedItem();
         
-        
+        if(btnAdd.getText().equals("Add")){
+            try{
+                PatientDiagnosis diagnosis = new PatientDiagnosis(
+                    Integer.parseInt(txtBloodPressureSystolic.getText()), 
+                    Integer.parseInt(txtBloodPressureDiastolic.getText()), 
+                    Integer.parseInt(heartRateTextFeild.getText()), 
+                    Integer.parseInt(respiratoryRateTextFeild.getText()), 
+                    Double.parseDouble(weightTextFeild.getText()),
+                    simpleDateFormat.parse(diagnosisDateTextField.getText()), 
+                    simpleDateFormat.parse(nextDiagnosisDateTextField.getText()), 
+                    diagnosisDetailTextFeild.getText(), 
+                    notesTextArea.getText());
+
+                PatientDiagnosis patientDiagnosis = patient.createAndAddPatientDiagnosis(diagnosis);
+                
+                try{
+                    dB4OUtil.storeSystem(system);
+                    clearFields();
+                    populateTable();
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+            } catch (Exception e){
+
+            }
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField bloodPressureDiastolicTextFeild;
-    private javax.swing.JTextField bloodPressureSystolicTextFeild;
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnAddNetwork;
-    private javax.swing.JButton btnAddNetwork1;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JComboBox cmbPatient;
     private javax.swing.JFormattedTextField diagnosisDateTextField;
     private javax.swing.JTextField diagnosisDetailTextFeild;
     private javax.swing.JTextField heartRateTextFeild;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -337,13 +363,52 @@ public class DiagnosisPanel extends javax.swing.JPanel {
     private javax.swing.JTextArea notesTextArea;
     private javax.swing.JTextField respiratoryRateTextFeild;
     private javax.swing.JTable tblDiagnosis;
+    private javax.swing.JTextField txtBloodPressureDiastolic;
+    private javax.swing.JTextField txtBloodPressureSystolic;
     private javax.swing.JTextField weightTextFeild;
     // End of variables declaration//GEN-END:variables
 
-    
-//        
-           
-    
 
+    public void populatePatientComboBox(){
+        cmbPatient.removeAllItems();
+        
+        for (Patient patient : system.getPatientDirectory().getPatientList()){
+            cmbPatient.addItem(patient);
+        }
+    }
     
+    public void populateTable(){
+        DefaultTableModel model = (DefaultTableModel) tblDiagnosis.getModel();
+
+        model.setRowCount(0);
+        for (Patient patient : system.getPatientDirectory().getPatientList()) {
+            for (PatientDiagnosis diagnosis : patient.getPatientDiagnosisList()) {            
+                Object[] row = new Object[8];
+                row[0] = diagnosis.getBpSystolic();
+                row[1] = diagnosis.getBpDiastolic();                    
+                row[2] = diagnosis.getHeartRate();
+                row[3] = diagnosis.getRespiratoryRate();
+                row[4] = simpleDateFormat.format(diagnosis.getDiagnosisDate());
+                row[5] = simpleDateFormat.format(diagnosis.getNextDiagnosisDate());
+                row[6] = diagnosis;
+                row[7] = diagnosis.getNotes();
+                model.addRow(row);                
+            }
+        }
+    }
+    
+    public void clearFields(){
+        Date today = new Date();
+        populatePatientComboBox();
+        txtBloodPressureSystolic.setText("");
+        txtBloodPressureDiastolic.setText("");
+        heartRateTextFeild.setText("");
+        respiratoryRateTextFeild.setText("");
+        weightTextFeild.setText("");
+        diagnosisDateTextField.setText(simpleDateFormat.format(today));
+        nextDiagnosisDateTextField.setText(simpleDateFormat.format(today));
+        diagnosisDetailTextFeild.setText("");
+        notesTextArea.setText("");
+                
+    }
 }

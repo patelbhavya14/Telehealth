@@ -146,10 +146,10 @@ public class Patient {
         this.patientDiagnosisList = patientDiagnosisList;
     }
     
-    public ArrayList<PatientDiagnosis> createAndAddPatientDiagnosis(PatientDiagnosis patientDiagnosis){
+    public PatientDiagnosis createAndAddPatientDiagnosis(PatientDiagnosis patientDiagnosis){
         patientDiagnosis.setPatientDiagnosisId(patientDiagnosisList.size()+1);
         patientDiagnosisList.add(patientDiagnosis);
-        return patientDiagnosisList;
+        return patientDiagnosis;
     }
 
     public ArrayList<PatientPrescription> getPatientPrescriptionList() {
@@ -160,10 +160,10 @@ public class Patient {
         this.patientPrescriptionList = patientPrescriptionList;
     }
     
-    public ArrayList<PatientPrescription> createAndAddPatientPrescription(PatientPrescription patientPrescription){
+    public PatientPrescription createAndAddPatientPrescription(PatientPrescription patientPrescription){
         patientPrescription.setPatientPrescriptionId(patientPrescriptionList.size()+1);
         patientPrescriptionList.add(patientPrescription);
-        return patientPrescriptionList;
+        return patientPrescription;
     }
 
     public ArrayList<PatientInsurance> getPatientInsuranceList() {
@@ -174,10 +174,10 @@ public class Patient {
         this.patientInsuranceList = patientInsuranceList;
     }
     
-    public ArrayList<PatientInsurance> createAndAddPatientInsurance(PatientInsurance patientInsurance){
+    public PatientInsurance createAndAddPatientInsurance(PatientInsurance patientInsurance){
         patientInsurance.setPatientInsuranceId(patientInsuranceList.size()+1);
         patientInsuranceList.add(patientInsurance);
-        return patientInsuranceList;
+        return patientInsurance;
     }
 
     @Override
