@@ -5,6 +5,7 @@
  */
 package com.telehealth.Business.Patient;
 
+import com.telehealth.Business.UserAccount.UserAccount;
 import java.util.Date;
 
 /**
@@ -20,6 +21,9 @@ public class PatientDiagnosis {
     private int hospitalOrganizationID;
     private int pharmacyOrganizationID;
     private int insuranceOrganizationID;
+    private UserAccount sender;
+    private UserAccount receiver1;
+    private UserAccount receiver2;
     
 
     public PatientDiagnosis(int bpSystolic, int bpDiastolic, int heartRate, int respiratoryRate, double weight, Date diagnosisDate, Date nextDiagnosisDate, String diagnosisDetails, String notes) {

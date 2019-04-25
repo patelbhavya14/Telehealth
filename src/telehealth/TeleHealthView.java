@@ -11,6 +11,8 @@ import com.telehealth.Business.EcoSystem;
 import com.telehealth.Business.Enterprise.Enterprise;
 import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.Organization.Organization;
+import com.telehealth.Business.Role.HospitalRole;
+import com.telehealth.Business.Role.Role;
 import com.telehealth.Business.UserAccount.UserAccount;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -484,26 +486,32 @@ public class TeleHealthView extends FrameView {
 
     private void jmiPatientDiagnosisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPatientDiagnosisActionPerformed
         // TODO add your handling code here:
-        currentPanel.removeAll();
-        currentPanel.invalidate();
-        
-        DiagnosisPanel diagnosisPanel = new DiagnosisPanel(this, system);
-        currentPanel.add(diagnosisPanel, BorderLayout.CENTER);
-//        currentPanel = enterpriseAdminPanel;
-        Dimension dim = getMainPanelDimension();
-        titlePanel.setTitle("Patient Diagnosis");
-        titlePanel.setSize(1200, 50);
-        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
-        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
-        mainPanel.add(titlePanel);
-        mainPanel.add(currentPanel);
-        
-        currentPanel.repaint();
-        currentPanel.revalidate();
-        titlePanel.repaint();
-        titlePanel.revalidate();
-        mainPanel.repaint();
-        mainPanel.revalidate();
+//        System.out.println("Role: "+userAccount.getRole());
+//        System.out.println("Role: "+new HospitalRole());
+        if(userAccount.getRole().toString().equals(new HospitalRole().toString())){
+            currentPanel.removeAll();
+            currentPanel.invalidate();
+
+            DiagnosisPanel diagnosisPanel = new DiagnosisPanel(this, system, currentEnterprise, currentOrganization, userAccount);
+            currentPanel.add(diagnosisPanel, BorderLayout.CENTER);
+    //        currentPanel = enterpriseAdminPanel;
+            Dimension dim = getMainPanelDimension();
+            titlePanel.setTitle("Patient Diagnosis");
+            titlePanel.setSize(1200, 50);
+            titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+            currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+            mainPanel.add(titlePanel);
+            mainPanel.add(currentPanel);
+
+            currentPanel.repaint();
+            currentPanel.revalidate();
+            titlePanel.repaint();
+            titlePanel.revalidate();
+            mainPanel.repaint();
+            mainPanel.revalidate();
+        } else {
+            JOptionPane.showMessageDialog(null, "Doctor role required");
+        }
     }//GEN-LAST:event_jmiPatientDiagnosisActionPerformed
     
     public void login(){
