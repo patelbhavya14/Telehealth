@@ -234,90 +234,90 @@ public class ClaimPanel extends javax.swing.JPanel {
     private void tblClaimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClaimMouseClicked
         // TODO add your handling code here:
         
-        try
-        {
-            
-            if (evt.getClickCount() == 2){
-                table_selected_row = tblClaim.getSelectedRow();
-                patientClaim = (PatientClaim)tblClaim.getValueAt(table_selected_row, 1);
-                patient = (Patient)tblClaim.getValueAt(table_selected_row, 0);
-                
-                cmbPatient.setSelectedItem((Patient)tblClaim.getValueAt(table_selected_row, 0));
-                txtClaimAmount.setText(patientClaim.getClaimAmount()+"");
-                txtClaimDate.setText(simpleDateFormat.format(patientClaim.getClaimDate()));
-//                if(userAccount.getRole().toString().equals(new HospitalRole().toString())){
-                    btnAdd.setText("Update");
-                    btnDelete.setVisible(true);
-//                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+//        try
+//        {
+//            
+//            if (evt.getClickCount() == 2){
+//                table_selected_row = tblClaim.getSelectedRow();
+//                patientClaim = (PatientClaim)tblClaim.getValueAt(table_selected_row, 1);
+//                patient = (Patient)tblClaim.getValueAt(table_selected_row, 0);
+//                
+//                cmbPatient.setSelectedItem((Patient)tblClaim.getValueAt(table_selected_row, 0));
+//                txtClaimAmount.setText(patientClaim.getClaimAmount()+"");
+//                txtClaimDate.setText(simpleDateFormat.format(patientClaim.getClaimDate()));
+////                if(userAccount.getRole().toString().equals(new HospitalRole().toString())){
+//                    btnAdd.setText("Update");
+//                    btnDelete.setVisible(true);
+////                }
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
         
     }//GEN-LAST:event_tblClaimMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        
-        Patient patient = (Patient)cmbPatient.getSelectedItem();
-        PatientInsurance patientInsurance= (PatientInsurance) cmbPatientInsurance.getSelectedItem();
-        if(btnAdd.getText().equals("Add")){
-            try{
-                if(validateFields()){
-                PatientClaim claim = new PatientClaim(
-                Double.parseDouble(txtClaimAmount.getText()),
-                simpleDateFormat.parse(txtClaimDate.getText()));
-                
-                 patientInsurance.createAndAddPatientClaim(claim);
-                try{
-                        dB4OUtil.storeSystem(system);
-                        clearFields();
-                        populateTable();
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-            catch (Exception e){
-                   e.printStackTrace();
-            }
-        }
-        else{
-            try{
-            if(validateFields())
-            {
-               patientClaim.setClaimAmount(Double.parseDouble(txtClaimAmount.getText()));
-               patientClaim.setClaimDate(simpleDateFormat.parse(txtClaimDate.getText()));
-            }
-            
-            try{
-                        dB4OUtil.storeSystem(system);
-                        clearFields();
-                        populateTable();
-                        btnDelete.setVisible(false);
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
-        }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        }
+//        
+//        Patient patient = (Patient)cmbPatient.getSelectedItem();
+//        PatientInsurance patientInsurance= (PatientInsurance) cmbPatientInsurance.getSelectedItem();
+//        if(btnAdd.getText().equals("Add")){
+//            try{
+//                if(validateFields()){
+//                PatientClaim claim = new PatientClaim(
+//                Double.parseDouble(txtClaimAmount.getText()),
+//                simpleDateFormat.parse(txtClaimDate.getText()));
+//                
+//                 patientInsurance.createAndAddPatientClaim(claim);
+//                try{
+//                        dB4OUtil.storeSystem(system);
+//                        clearFields();
+//                        populateTable();
+//                    } catch(Exception e){
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//            catch (Exception e){
+//                   e.printStackTrace();
+//            }
+//        }
+//        else{
+//            try{
+//            if(validateFields())
+//            {
+//               patientClaim.setClaimAmount(Double.parseDouble(txtClaimAmount.getText()));
+//               patientClaim.setClaimDate(simpleDateFormat.parse(txtClaimDate.getText()));
+//            }
+//            
+//            try{
+//                        dB4OUtil.storeSystem(system);
+//                        clearFields();
+//                        populateTable();
+//                        btnDelete.setVisible(false);
+//                    } catch(Exception e){
+//                        e.printStackTrace();
+//                    }
+//        }
+//            catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        int selectedOption = JOptionPane.showConfirmDialog(null, "Delete Claim", "Are you sure you want to delete this Clai?", JOptionPane.YES_NO_OPTION);
-        if(selectedOption == JOptionPane.OK_OPTION){
-            int table_selected_row = tblClaim.getSelectedRow();
-            patientInsurance.getPatientClaimList().remove(patientClaim);
-            dB4OUtil.storeSystem(system);
-            JOptionPane.showMessageDialog(null, "Claim deleted successfully");
-            clearFields();
-            populateTable();
-            btnAdd.setText("Add");
-            btnDelete.setVisible(false);
-        }
+//        int selectedOption = JOptionPane.showConfirmDialog(null, "Delete Claim", "Are you sure you want to delete this Clai?", JOptionPane.YES_NO_OPTION);
+//        if(selectedOption == JOptionPane.OK_OPTION){
+//            int table_selected_row = tblClaim.getSelectedRow();
+//            patientInsurance.getPatientClaimList().remove(patientClaim);
+//            dB4OUtil.storeSystem(system);
+//            JOptionPane.showMessageDialog(null, "Claim deleted successfully");
+//            clearFields();
+//            populateTable();
+//            btnAdd.setText("Add");
+//            btnDelete.setVisible(false);
+//        }
         
     }//GEN-LAST:event_btnDeleteActionPerformed
 
