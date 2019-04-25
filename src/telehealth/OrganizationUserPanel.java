@@ -266,12 +266,15 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
                 
                 if(String.valueOf(enterprise.getEnterpriseType()).equals("Hospital")) {
                      org.getUserAccountDirectory().createUserAccount(username, password, employee, new HospitalRole());
+                     System.out.println("here1");
                 }
                 else if(String.valueOf(enterprise.getEnterpriseType()).equals("Pharmacy")) {
                      org.getUserAccountDirectory().createUserAccount(username, password, employee, new PharmacyRole());
+                     System.out.println("here2");
                 }
                 else {
                      org.getUserAccountDirectory().createUserAccount(username, password, employee, new InsuranceRole());
+                     System.out.println("here3");
                 }
 
                 try {

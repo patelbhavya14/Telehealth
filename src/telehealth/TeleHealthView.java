@@ -690,6 +690,7 @@ public class TeleHealthView extends FrameView {
                         jmiPatientDiagnosis.setVisible(false);
                         jmiPatientPrescription.setVisible(false);
                         jmiAddInsurance.setVisible(false);
+                        jMenuItem2.setVisible(false);
                     } else if (role.equals("com.telehealth.Business.Role.AdminRole")) {
                         jmiNetwork.setVisible(false);
                         jmiOrganization.setVisible(false);
@@ -699,6 +700,7 @@ public class TeleHealthView extends FrameView {
                         jmiPatientDiagnosis.setVisible(false);
                         jmiPatientPrescription.setVisible(false);
                         jmiAddInsurance.setVisible(false);
+                        jMenuItem2.setVisible(false);
                     } else if (role.equals("com.telehealth.Business.Role.HospitalRole")) {
                         jmiNetwork.setVisible(false);
                         jmiOrganization.setVisible(false);
@@ -708,6 +710,7 @@ public class TeleHealthView extends FrameView {
                         jmiPatientDiagnosis.setVisible(true);
                         jmiPatientPrescription.setVisible(true);
                         jmiAddInsurance.setVisible(false);
+                        jMenuItem2.setVisible(false);
                     } else if (role.equals("com.telehealth.Business.Role.PharmacyRole")) {
                         jmiNetwork.setVisible(false);
                         jmiOrganization.setVisible(false);
@@ -717,6 +720,7 @@ public class TeleHealthView extends FrameView {
                         jmiPatientDiagnosis.setVisible(false);
                         jmiPatientPrescription.setVisible(false);
                         jmiAddInsurance.setVisible(false);
+                        jMenuItem2.setVisible(true);
                     } else if (role.equals("com.telehealth.Business.Role.InsuranceRole")) {
                         jmiNetwork.setVisible(false);
                         jmiOrganization.setVisible(false);
@@ -726,6 +730,7 @@ public class TeleHealthView extends FrameView {
                         jmiPatientDiagnosis.setVisible(false);
                         jmiPatientPrescription.setVisible(false);
                         jmiAddInsurance.setVisible(true);
+                        jMenuItem2.setVisible(false);
                     }
                     
 
