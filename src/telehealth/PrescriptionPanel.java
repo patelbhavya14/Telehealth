@@ -6,11 +6,10 @@
 package telehealth;
 
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
 import com.telehealth.Business.Enterprise.Enterprise;
+import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.Organization.InsuranceOrganization;
 import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Organization.PharmacyOrganization;
@@ -400,6 +399,7 @@ public class PrescriptionPanel extends javax.swing.JPanel {
 //                    PatientPrescription prescription = new PatientPrescription(amount, nextPrescriptionDate, notes);
                     PatientPrescription prescription = new PatientPrescription(0, nextPrescriptionDate, notes);                      
                     prescription.setPrescriptionDrugList(prescriptionDrugList);
+                    prescription.setSender(userAccount);
                     
                     PatientPrescription patientPrescription = patientDiagnosis.createAndAddPatientPrescription(prescription);
                     
@@ -414,20 +414,47 @@ public class PrescriptionPanel extends javax.swing.JPanel {
                         request.setStatus("sent");
 
                         Organization org = null;
-                        for (Organization organization : currentEnterprise.getOrganizationDirectory().getOrganizationList()){
-                            if (organization instanceof PharmacyOrganization){
-                                org = organization;
-                                break;
+                        for(Network network : system.getNetworkList()){
+                            for(Enterprise enterprise: network.getEnterpriseDirectory().getEnterpriseList()){
+                                for (Organization organization : enterprise.getOrganizationDirectory().getOrganizationList()){
+                                    if (organization instanceof PharmacyOrganization){
+                                        
+                                        org = organization;
+                                        break;
+                                    }
+                                }
                             }
                         }
+//                        for(Network network : system.getNetworkList()){
+//                            for(Enterprise enterprise: network.getEnterpriseDirectory().getEnterpriseList()){
+//                                for (Organization organization : enterprise.getOrganizationDirectory().getOrganizationList()){
+//                                    if (organization instanceof PharmacyOrganization){
+//
+//                                        org = organization;
+//                                        break;
+//                                    }
+//                                }
+//                            }
+//                        }
                         Organization org2 = null;
-                        for (Organization organization : currentEnterprise.getOrganizationDirectory().getOrganizationList()){
-                            if (organization instanceof InsuranceOrganization){
-                                org2 = organization;
-                                break;
+                        for(Network network : system.getNetworkList()){
+                            for(Enterprise enterprise: network.getEnterpriseDirectory().getEnterpriseList()){
+                                for (Organization organization : enterprise.getOrganizationDirectory().getOrganizationList()){
+                                    if (organization instanceof InsuranceOrganization){
+                                        org2 = organization;
+                                        break;
+                                    }
+                                }
                             }
                         }
+//                        for (Organization organization : currentEnterprise.getOrganizationDirectory().getOrganizationList()){
+//                            if (organization instanceof InsuranceOrganization){
+//                                org2 = organization;
+//                                break;
+//                            }
+//                        }
                         if (org!=null && org2!=null){
+                            System.out.println("setting workrequest in a q");
                             org.getWorkQueue().getWorkRequestList().add(request);
                             org2.getWorkQueue().getWorkRequestList().add(request);
                             userAccount.getWorkQueue().getWorkRequestList().add(request);

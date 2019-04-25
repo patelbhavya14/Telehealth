@@ -5,6 +5,7 @@
  */
 package com.telehealth.Business.Patient;
 
+import com.telehealth.Business.UserAccount.UserAccount;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -21,6 +22,10 @@ public class PatientPrescription {
     private int hospitalOrganizationID;
     private int pharmacyOrganizationID;
     private int insuranceOrganizationID;
+    private UserAccount sender;
+    private UserAccount receiver1;
+    private UserAccount receiver2;
+    private PatientClaim claim;
 
     public PatientPrescription(double amount, Date nextPrescription, String notes) {
         this.amount = amount;
@@ -96,6 +101,38 @@ public class PatientPrescription {
     public ArrayList<PrescriptionDrugs> createAndAddPrescriptionDrug(PrescriptionDrugs prescriptionDrugs){
         prescriptionDrugList.add(prescriptionDrugs);
         return prescriptionDrugList;
+    }
+
+    public UserAccount getSender() {
+        return sender;
+    }
+
+    public void setSender(UserAccount sender) {
+        this.sender = sender;
+    }
+
+    public UserAccount getReceiver1() {
+        return receiver1;
+    }
+
+    public void setReceiver1(UserAccount receiver1) {
+        this.receiver1 = receiver1;
+    }
+
+    public UserAccount getReceiver2() {
+        return receiver2;
+    }
+
+    public void setReceiver2(UserAccount receiver2) {
+        this.receiver2 = receiver2;
+    }
+
+    public PatientClaim getClaim() {
+        return claim;
+    }
+
+    public void setClaim(PatientClaim claim) {
+        this.claim = claim;
     }
     
     @Override

@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package telehealth.resources;
+package telehealth;
 
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
 import com.telehealth.Business.Enterprise.Enterprise;
+import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.Organization.InsuranceOrganization;
 import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Organization.PharmacyOrganization;
@@ -121,11 +122,11 @@ public class PharmacyWorkAreaPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Patient", "Patient Diagnosis", "Amount", "Next Prescription Date", "Notes", "Request"
+                "Patient", "Patient Diagnosis", "Amount", "Next Prescription Date", "Notes"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -145,7 +146,6 @@ public class PharmacyWorkAreaPanel extends javax.swing.JPanel {
             tblPrescription.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title2")); // NOI18N
             tblPrescription.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title3")); // NOI18N
             tblPrescription.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title4")); // NOI18N
-            tblPrescription.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title5")); // NOI18N
         }
 
         jScrollPane3.setName("jScrollPane3"); // NOI18N
@@ -328,7 +328,7 @@ public class PharmacyWorkAreaPanel extends javax.swing.JPanel {
                 txtAreaNotes.setText(prescription.getNotes());
 
                 btnAdd.setText("Update");
-                request = (WorkRequest)tblPrescription.getValueAt(table_selected_row, 5);
+//                request = (WorkRequest)tblPrescription.getValueAt(table_selected_row, 5);
 
                 prescriptionDrugList = prescription.getPrescriptionDrugList();
                 populateDrugTable();
@@ -429,9 +429,9 @@ public class PharmacyWorkAreaPanel extends javax.swing.JPanel {
 
                     try{
                         
-                        request.setReceiver(userAccount);
-                        request.setStatus("Medicines provided");
-                        request.setStatus2("Medicines provided");
+//                        request.setReceiver(userAccount);
+//                        request.setStatus("Medicines provided");
+//                        request.setStatus2("Medicines provided");
                         
                         dB4OUtil.storeSystem(system);
                         JOptionPane.showMessageDialog(null, "Prescription updated successfully");
@@ -466,33 +466,69 @@ public class PharmacyWorkAreaPanel extends javax.swing.JPanel {
     
     public void populateTable() {
                        
-        Organization org = null;
-        for (Organization organization : currentEnterprise.getOrganizationDirectory().getOrganizationList()){
-            if (organization instanceof PharmacyOrganization){
-                org = organization;
-                break;
-            }
-        }
+//        Organization org = null;
+//        for (Organization organization : currentEnterprise.getOrganizationDirectory().getOrganizationList()){
+//            if (organization instanceof PharmacyOrganization){
+//                org = organization;
+//                break;
+//            }
+//        }
         DefaultTableModel model = (DefaultTableModel) tblPrescription.getModel();
         model.setRowCount(0);
         
-        for(WorkRequest request: pharmacyOrganization.getWorkQueue().getWorkRequestList()){
-            for(Patient patient: system.getPatientDirectory().getPatientList()){
-                for(PatientDiagnosis diagnosis: patient.getPatientDiagnosisList()){
-                    if(diagnosis.equals(request.getDiagnosis())){
-                        Object[] row = new Object[6];
+//        Network currentNetwork;
+//        for(Network network : system.getNetworkList()){            
+//            for(Enterprise enterprise: network.getEnterpriseDirectory().getEnterpriseList()){
+//                if(enterprise.equals(currentEnterprise)){
+//                    currentNetwork = network;
+//                    break;
+//                }
+//            }
+//        }
+//        
+        
+        
+//        for(Network network : system.getNetworkList()){            
+//            for(Enterprise enterprise: network.getEnterpriseDirectory().getEnterpriseList()){
+//                for (Organization organization : enterprise.getOrganizationDirectory().getOrganizationList()){
+//                    
+//                }
+//            }
+//        }
+        
+        for(Patient patient: system.getPatientDirectory().getPatientList()){
+            for(PatientDiagnosis patientDiagnosis: patient.getPatientDiagnosisList()){
+                for(PatientPrescription patientPrescription: patientDiagnosis.getPatientPrescriptionList()){
+                    if(patientPrescription.getReceiver1() == null || userAccount.equals(patientPrescription.getReceiver1()) ){
+                        Object[] row = new Object[5];
                         row[0] = patient;
-                        row[1] = request.getDiagnosis();
-                        row[2] = request.getPrescription().getAmount() == 0 ? "" : prescription.getAmount();
-                        row[3] = simpleDateFormat.format(request.getPrescription().getNextPrescription());
-                        row[4] = request.getPrescription();
-                        row[5] = request;
+                        row[1] = patientDiagnosis;
+                        row[2] = patientPrescription.getAmount() == 0 ? "" : patientPrescription.getAmount();
+                        row[3] = simpleDateFormat.format(patientPrescription.getNextPrescription());
+                        row[4] = patientPrescription;
                         model.addRow(row);
                     }
                 }
-            
             }
         }
+        
+//        for(WorkRequest request: pharmacyOrganization.getWorkQueue().getWorkRequestList()){
+//            for(Patient patient: system.getPatientDirectory().getPatientList()){
+//                for(PatientDiagnosis diagnosis: patient.getPatientDiagnosisList()){
+//                    if(diagnosis.equals(request.getDiagnosis())){
+//                        Object[] row = new Object[6];
+//                        row[0] = patient;
+//                        row[1] = request.getDiagnosis();
+//                        row[2] = request.getPrescription().getAmount() == 0 ? "" : prescription.getAmount();
+//                        row[3] = simpleDateFormat.format(request.getPrescription().getNextPrescription());
+//                        row[4] = request.getPrescription();
+//                        row[5] = request;
+//                        model.addRow(row);
+//                    }
+//                }
+//            
+//            }
+//        }
 //            for(Patient patient: system.getPatientDirectory().getPatientList()){
 //                if(request.getPrescription())
 //            }
