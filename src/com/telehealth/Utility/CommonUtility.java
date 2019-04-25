@@ -38,6 +38,19 @@ public class CommonUtility {
             }
         }
         
+        for (Network network : system.getNetworkList()) {
+            for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {
+                for(Organization organization: enterprise.getOrganizationDirectory().getOrganizationList()){
+                    for (UserAccount userAccount : organization.getUserAccountDirectory().getUserAccountList()) {
+                        if(userAccount.getUsername().equals(username)){                        
+                            return false;
+                        }
+                    }
+                }
+                
+            }
+        }
+        
         return true;
     }
     

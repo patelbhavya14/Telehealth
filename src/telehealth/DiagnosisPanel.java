@@ -11,6 +11,7 @@ import com.telehealth.Business.Enterprise.Enterprise;
 import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Patient.Patient;
 import com.telehealth.Business.Patient.PatientDiagnosis;
+import com.telehealth.Business.Role.HospitalRole;
 import com.telehealth.Business.UserAccount.UserAccount;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,6 +49,10 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         populatePatientComboBox();
         populateTable();
         clearFields();
+//        if(!userAccount.getRole().toString().equals(new HospitalRole().toString())){
+//            btnAdd.setVisible(false);
+//            btnDelete.setVisible(false);            
+//        }
     }   
 
     /**
@@ -252,19 +257,15 @@ public class DiagnosisPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addComponent(jLabel6))
-                        .addGap(107, 107, 107)
+                        .addGap(88, 88, 88)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nextDiagnosisDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(diagnosisDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel7))
-                        .addGap(80, 80, 80)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(diagnosisDetailTextFeild, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nextDiagnosisDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(175, 175, 175))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel7))
+                .addGap(198, 198, 198))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -347,8 +348,10 @@ public class DiagnosisPanel extends javax.swing.JPanel {
                 nextDiagnosisDateTextField.setText(simpleDateFormat.format(patientDiagnosis.getNextDiagnosisDate()));
                 diagnosisDetailTextFeild.setText(patientDiagnosis.getDiagnosisDetails());
                 notesTextArea.setText(patientDiagnosis.getNotes());
-                btnAdd.setText("Update");
-                btnDelete.setVisible(true);
+//                if(userAccount.getRole().toString().equals(new HospitalRole().toString())){
+                    btnAdd.setText("Update");
+                    btnDelete.setVisible(true);
+//                }
             }
         } catch (Exception e){
             e.printStackTrace();

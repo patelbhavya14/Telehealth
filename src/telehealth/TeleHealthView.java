@@ -154,6 +154,7 @@ public class TeleHealthView extends FrameView {
         jmiAddUser = new javax.swing.JMenuItem();
         patientMenu = new javax.swing.JMenu();
         jmiPatientDiagnosis = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         statusPanel = new javax.swing.JPanel();
         javax.swing.JSeparator statusPanelSeparator = new javax.swing.JSeparator();
         statusMessageLabel = new javax.swing.JLabel();
@@ -196,6 +197,7 @@ public class TeleHealthView extends FrameView {
         fileMenu.setName("fileMenu"); // NOI18N
 
         jmiNetwork.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        jmiNetwork.setFont(resourceMap.getFont("jMenuItem1.font")); // NOI18N
         jmiNetwork.setText(resourceMap.getString("jmiNetwork.text")); // NOI18N
         jmiNetwork.setName("jmiNetwork"); // NOI18N
         jmiNetwork.addActionListener(new java.awt.event.ActionListener() {
@@ -206,6 +208,7 @@ public class TeleHealthView extends FrameView {
         fileMenu.add(jmiNetwork);
 
         jmiOrganization.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        jmiOrganization.setFont(resourceMap.getFont("jMenuItem1.font")); // NOI18N
         jmiOrganization.setText(resourceMap.getString("jmiOrganization.text")); // NOI18N
         jmiOrganization.setName("jmiOrganization"); // NOI18N
         jmiOrganization.addActionListener(new java.awt.event.ActionListener() {
@@ -216,6 +219,7 @@ public class TeleHealthView extends FrameView {
         fileMenu.add(jmiOrganization);
 
         jmiUserAccount.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        jmiUserAccount.setFont(resourceMap.getFont("jMenuItem1.font")); // NOI18N
         jmiUserAccount.setText(resourceMap.getString("jmiUserAccount.text")); // NOI18N
         jmiUserAccount.setName("jmiUserAccount"); // NOI18N
         jmiUserAccount.addActionListener(new java.awt.event.ActionListener() {
@@ -226,6 +230,7 @@ public class TeleHealthView extends FrameView {
         fileMenu.add(jmiUserAccount);
 
         jmiPatient.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        jmiPatient.setFont(resourceMap.getFont("jMenuItem1.font")); // NOI18N
         jmiPatient.setText(resourceMap.getString("jmiPatient.text")); // NOI18N
         jmiPatient.setName("jmiPatient"); // NOI18N
         jmiPatient.addActionListener(new java.awt.event.ActionListener() {
@@ -239,6 +244,7 @@ public class TeleHealthView extends FrameView {
         fileMenu.add(jSeparator1);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setFont(resourceMap.getFont("jMenuItem1.font")); // NOI18N
         jMenuItem1.setText(resourceMap.getString("jMenuItem1.text")); // NOI18N
         jMenuItem1.setName("jMenuItem1"); // NOI18N
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -273,8 +279,10 @@ public class TeleHealthView extends FrameView {
 
         jMenu1.setText(resourceMap.getString("jMenu1.text")); // NOI18N
         jMenu1.setFont(resourceMap.getFont("jMenu1.font")); // NOI18N
+        jMenu1.setMargin(new java.awt.Insets(0, 20, 0, 20));
         jMenu1.setName("jMenu1"); // NOI18N
 
+        jmiAddUser.setFont(resourceMap.getFont("jmiAddUser.font")); // NOI18N
         jmiAddUser.setText(resourceMap.getString("jmiAddUser.text")); // NOI18N
         jmiAddUser.setName("jmiAddUser"); // NOI18N
         jmiAddUser.addActionListener(new java.awt.event.ActionListener() {
@@ -288,9 +296,11 @@ public class TeleHealthView extends FrameView {
 
         patientMenu.setText(resourceMap.getString("patientMenu.text")); // NOI18N
         patientMenu.setFont(resourceMap.getFont("patientMenu.font")); // NOI18N
+        patientMenu.setMargin(new java.awt.Insets(0, 20, 0, 20));
         patientMenu.setName("patientMenu"); // NOI18N
 
         jmiPatientDiagnosis.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        jmiPatientDiagnosis.setFont(resourceMap.getFont("jmiPatientDiagnosis.font")); // NOI18N
         jmiPatientDiagnosis.setText(resourceMap.getString("jmiPatientDiagnosis.text")); // NOI18N
         jmiPatientDiagnosis.setName("jmiPatientDiagnosis"); // NOI18N
         jmiPatientDiagnosis.addActionListener(new java.awt.event.ActionListener() {
@@ -299,6 +309,17 @@ public class TeleHealthView extends FrameView {
             }
         });
         patientMenu.add(jmiPatientDiagnosis);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setFont(resourceMap.getFont("jMenuItem2.font")); // NOI18N
+        jMenuItem2.setText(resourceMap.getString("jMenuItem2.text")); // NOI18N
+        jMenuItem2.setName("jMenuItem2"); // NOI18N
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        patientMenu.add(jMenuItem2);
 
         menuBar.add(patientMenu);
 
@@ -513,6 +534,34 @@ public class TeleHealthView extends FrameView {
             JOptionPane.showMessageDialog(null, "Doctor role required");
         }
     }//GEN-LAST:event_jmiPatientDiagnosisActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+//        if(userAccount.getRole().toString().equals(new HospitalRole().toString())){
+            currentPanel.removeAll();
+            currentPanel.invalidate();
+
+            PrescriptionPanel prescriptionPanel = new PrescriptionPanel(this, system, currentEnterprise, currentOrganization, userAccount);
+            currentPanel.add(prescriptionPanel, BorderLayout.CENTER);
+    //        currentPanel = enterpriseAdminPanel;
+            Dimension dim = getMainPanelDimension();
+            titlePanel.setTitle("Patient Prescription");
+            titlePanel.setSize(1200, 50);
+            titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+            currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+            mainPanel.add(titlePanel);
+            mainPanel.add(currentPanel);
+
+            currentPanel.repaint();
+            currentPanel.revalidate();
+            titlePanel.repaint();
+            titlePanel.revalidate();
+            mainPanel.repaint();
+            mainPanel.revalidate();
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Doctor role required");
+//        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
     
     public void login(){
         boolean loginFlag = true;
@@ -590,6 +639,7 @@ public class TeleHealthView extends FrameView {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuItem jmiAddUser;
