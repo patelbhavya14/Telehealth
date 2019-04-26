@@ -10,6 +10,7 @@ import com.telehealth.Business.EcoSystem;
 import com.telehealth.Business.Enterprise.Enterprise;
 import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Patient.Patient;
+import com.telehealth.Business.Patient.PatientClaim;
 import com.telehealth.Business.Patient.PatientDiagnosis;
 import com.telehealth.Business.Patient.PatientInsurance;
 import com.telehealth.Business.Patient.PatientPrescription;
@@ -271,13 +272,19 @@ public class ClaimPanel extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        PatientPrescription cpp = (PatientPrescription) cmbPatientPrescription.getSelectedItem();
+        
         
         if(validateFields()) {
+            
+            PatientPrescription cpp = (PatientPrescription) cmbPatientPrescription.getSelectedItem();
             cpp.setReceiver2(userAccount);
-            cpp.getClaim().setClaimAmount(Double.parseDouble(txtClaimAmount.getText()));
+//            System.out.println("claim:" + cpp.getClaim());
+//            cpp.getClaim().setClaimAmount(Double.parseDouble(txtClaimAmount.getText()));
             try {
-                cpp.getClaim().setClaimDate(simpleDateFormat.parse(txtClaimDate.getText()));
+                PatientClaim claim = new PatientClaim(Double.parseDouble(txtClaimAmount.getText()), simpleDateFormat.parse(txtClaimDate.getText()));
+//                cpp.getClaim().setClaimAmount(Double.parseDouble(txtClaimAmount.getText()));
+//                cpp.getClaim().setClaimDate(simpleDateFormat.parse(txtClaimDate.getText()));
+                cpp.setClaim(claim);
             } catch (ParseException ex) {
                 Logger.getLogger(ClaimPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -353,16 +360,18 @@ public class ClaimPanel extends javax.swing.JPanel {
 
     private void cmbPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPatientActionPerformed
         // TODO add your handling code here:
-
-        populatePatientPrescriptionComboBox();
+        Patient patient = (Patient) cmbPatient.getSelectedItem();
+        if (patient != null){
+            populatePatientPrescriptionComboBox(patient);
+        }
         
     }//GEN-LAST:event_cmbPatientActionPerformed
 
     private void cmbPatientPrescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPatientPrescriptionActionPerformed
         // TODO add your handling code here:
-  
         PatientPrescription pc = (PatientPrescription) cmbPatientPrescription.getSelectedItem();
-        txtClaimAmount.setText(String.valueOf(pc.getAmount()));
+        if(pc!=null)
+            txtClaimAmount.setText(String.valueOf(pc.getAmount()));
     }//GEN-LAST:event_cmbPatientPrescriptionActionPerformed
 
 
@@ -405,8 +414,8 @@ public class ClaimPanel extends javax.swing.JPanel {
     }
 
     public void clearFields() {
-        cmbPatient.setSelectedItem(null);
-        cmbPatientPrescription.setSelectedItem(null);
+//        cmbPatient.setSelectedItem(null);
+//        cmbPatientPrescription.setSelectedItem(null);
         txtClaimAmount.setText("");
         txtClaimDate.setText("");
     }
@@ -448,11 +457,12 @@ public class ClaimPanel extends javax.swing.JPanel {
         return true;
     }
 
-    private void populatePatientPrescriptionComboBox() {
+    private void populatePatientPrescriptionComboBox(Patient patient) {
 
         cmbPatientPrescription.removeAllItems();
-        Patient patient = (Patient) cmbPatient.getSelectedItem();
-        System.out.println("patient="+patient.getPatientDiagnosisList());
+//        Patient patient = (Patient) cmbPatient.getSelectedItem();
+//        System.out.println("patient: " + patient);
+//        System.out.println("patient="+patient.getPatientDiagnosisList());
         for(PatientDiagnosis pd: patient.getPatientDiagnosisList()) {
             
             for(PatientPrescription pc: pd.getPatientPrescriptionList()) {

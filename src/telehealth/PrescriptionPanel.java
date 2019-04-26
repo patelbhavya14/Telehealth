@@ -131,11 +131,11 @@ public class PrescriptionPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Patient", "Patient Diagnosis", "Amount", "Next Prescription Date", "Notes"
+                "Patient", "Patient Diagnosis", "Next Prescription Date", "Notes", "Amount", "Claim Amount", "Claim Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -152,9 +152,11 @@ public class PrescriptionPanel extends javax.swing.JPanel {
         if (tblPrescription.getColumnModel().getColumnCount() > 0) {
             tblPrescription.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title3")); // NOI18N
             tblPrescription.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title4")); // NOI18N
-            tblPrescription.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title0")); // NOI18N
-            tblPrescription.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title1")); // NOI18N
-            tblPrescription.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title2")); // NOI18N
+            tblPrescription.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title1")); // NOI18N
+            tblPrescription.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title2")); // NOI18N
+            tblPrescription.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title0")); // NOI18N
+            tblPrescription.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title5")); // NOI18N
+            tblPrescription.getColumnModel().getColumn(6).setHeaderValue(resourceMap.getString("tblPrescription.columnModel.title6")); // NOI18N
         }
 
         jLabel4.setFont(resourceMap.getFont("jLabel3.font")); // NOI18N
@@ -261,10 +263,15 @@ public class PrescriptionPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(177, 177, 177)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(298, 298, 298)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(515, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -302,14 +309,12 @@ public class PrescriptionPanel extends javax.swing.JPanel {
                                 .addComponent(txtDrugQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(13, 13, 13)
                                 .addComponent(btnAddDrug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(298, 298, 298)
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57)))
-                .addContainerGap(203, Short.MAX_VALUE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(203, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1082, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,7 +351,7 @@ public class PrescriptionPanel extends javax.swing.JPanel {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAdd)
                     .addComponent(btnDelete))
                 .addGap(65, 65, 65)
@@ -366,7 +371,7 @@ public class PrescriptionPanel extends javax.swing.JPanel {
                 cmbPatient.setSelectedItem((Patient)tblPrescription.getValueAt(table_selected_row, 0));
                 cmbPatientDiagnosis.setSelectedItem((PatientDiagnosis)tblPrescription.getValueAt(table_selected_row, 1));
                 
-                prescription = (PatientPrescription)tblPrescription.getValueAt(table_selected_row, 4);
+                prescription = (PatientPrescription)tblPrescription.getValueAt(table_selected_row, 3);
                 
 //                txtAmount.setText(prescription.getAmount()+"");
                 
@@ -623,12 +628,19 @@ public class PrescriptionPanel extends javax.swing.JPanel {
         for(Patient patient: system.getPatientDirectory().getPatientList()){
             for(PatientDiagnosis diagnosis: patient.getPatientDiagnosisList()){
                 for(PatientPrescription prescription: diagnosis.getPatientPrescriptionList()){
-                    Object[] row = new Object[5];
+                    Object[] row = new Object[7];
                     row[0] = patient;
-                    row[1] = diagnosis;
-                    row[2] = prescription.getAmount() == 0 ? "" : prescription.getAmount();
-                    row[3] = simpleDateFormat.format(prescription.getNextPrescription());
-                    row[4] = prescription;
+                    row[1] = diagnosis;                    
+                    row[2] = simpleDateFormat.format(prescription.getNextPrescription());
+                    row[3] = prescription;
+                    row[4] = prescription.getAmount() == 0 ? "" : prescription.getAmount();
+                    if(prescription.getClaim()!=null){
+                        row[5] = prescription.getClaim().getClaimAmount() == 0 ? "" : prescription.getClaim().getClaimAmount();
+                        row[6] = prescription.getClaim().getClaimDate() == null ? "" : simpleDateFormat.format(prescription.getClaim().getClaimDate());
+                    } else {
+                        row[5] = "";
+                        row[6] = "";
+                    }
                     model.addRow(row);            
                 }
             }
