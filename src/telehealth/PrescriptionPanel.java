@@ -19,11 +19,15 @@ import com.telehealth.Business.Patient.PatientPrescription;
 import com.telehealth.Business.Patient.PrescriptionDrugs;
 import com.telehealth.Business.UserAccount.UserAccount;
 import com.telehealth.Business.WorkQueue.PrescriptionWorkRequest;
+import java.awt.Color;
+import java.awt.Component;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import static telehealth.TeleHealthApp.logger;
 
@@ -644,7 +648,12 @@ public class PrescriptionPanel extends javax.swing.JPanel {
                     model.addRow(row);            
                 }
             }
-        }        
+        }   
+        
+        
+        tblPrescription.getColumnModel().getColumn(4).setCellRenderer(new CustomRenderer());
+        tblPrescription.getColumnModel().getColumn(5).setCellRenderer(new CustomRenderer());
+        tblPrescription.getColumnModel().getColumn(6).setCellRenderer(new CustomRenderer());
     }
     
     public void populateDrugTable(){
@@ -697,3 +706,68 @@ public class PrescriptionPanel extends javax.swing.JPanel {
         return true;
     }
 }
+
+class CustomRenderer extends DefaultTableCellRenderer 
+    {
+        private static final long serialVersionUID = 6703872492730589499L;
+        Color backgroundColor = getBackground();
+
+        public Component getTableCellRendererComponent(JTable table, Object value, 
+                boolean isSelected, boolean hasFocus, int row, int column) {
+
+            Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+//            if(abnormalRows.contains(row + "")){
+//                cellComponent.setBackground(new Color(219,112,147));
+//                cellComponent.setForeground(Color.WHITE);
+//            } else {
+//                cellComponent.setBackground(backgroundColor);
+//                cellComponent.setForeground(Color.BLACK);
+//            }
+            if(column == 4){
+                if(table.getValueAt(row, column).toString().equals("")){
+                    cellComponent.setBackground(Color.ORANGE);
+                    cellComponent.setForeground(Color.WHITE);
+                } else {
+                    cellComponent.setBackground(backgroundColor);
+                    cellComponent.setForeground(Color.BLACK);
+                }
+            }
+            if(column == 5){
+                if(table.getValueAt(row, column).toString().equals("")){
+                    cellComponent.setBackground(Color.ORANGE);
+                    cellComponent.setForeground(Color.WHITE);
+                } else {
+                    cellComponent.setBackground(backgroundColor);
+                    cellComponent.setForeground(Color.BLACK);
+                }
+            }
+            if(column == 6){
+                if(table.getValueAt(row, column).toString().equals("")){
+                    cellComponent.setBackground(Color.ORANGE);
+                    cellComponent.setForeground(Color.WHITE);
+                } else {
+                    cellComponent.setBackground(backgroundColor);
+                    cellComponent.setForeground(Color.BLACK);
+                }
+            }
+
+
+            return cellComponent;
+        }
+
+        void renderRow(JTable table, Object value, 
+                boolean isSelected, boolean hasFocus, int row, int column, boolean isNormal){
+            for(int i=0; i<table.getColumnCount(); i++){
+                Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, i);
+                if(!isNormal){
+                    cellComponent.setBackground(Color.RED);
+                    cellComponent.setForeground(Color.WHITE);
+                } else {
+                    cellComponent.setBackground(backgroundColor);
+                    cellComponent.setForeground(Color.BLACK);
+                }
+            }
+
+        }
+    }

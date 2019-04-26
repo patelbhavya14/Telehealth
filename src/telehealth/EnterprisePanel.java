@@ -39,7 +39,7 @@ public class EnterprisePanel extends javax.swing.JPanel {
         networkJComboBox.setSelectedItem(null);
         cmbViewNetwork.setSelectedItem(null);
         cmbViewEnterprise.setSelectedItem(null);
-        btnSubmit.setText("Submit");
+        btnSubmit.setText("Add");
         btnDelete.setVisible(false);
         populateTable();
         populateComboBox();
@@ -307,21 +307,18 @@ public class EnterprisePanel extends javax.swing.JPanel {
                                                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(txtEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(ComboBoxEnterpriseType, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(60, 60, 60)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel10)
+                                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                     .addGroup(layout.createSequentialGroup()
-                                                        .addGap(60, 60, 60)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(jLabel10)
-                                                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(txtContactPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addGap(156, 156, 156)
                                                         .addComponent(btnSubmit)
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(btnDelete))))))))
+                                                        .addComponent(btnDelete))
+                                                    .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(txtContactPerson, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(125, 125, 125)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 954, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -467,13 +464,13 @@ public class EnterprisePanel extends javax.swing.JPanel {
         if (!validateFields()) {
             return;
         }
-            if (btnSubmit.getText().equals("Submit")) {
+            if (btnSubmit.getText().equals("Add")) {
                 addOrganization();
         } else {
             viewEnterprise.getOrganizationDirectory().getOrganizationList().remove(viewOrganization);
             addOrganization();
     
-            btnSubmit.setText("Submit");
+            btnSubmit.setText("Add");
             btnDelete.setVisible(false);
         }
         
@@ -493,7 +490,7 @@ public class EnterprisePanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Enterprise updated successfully");
             populateTable();
             clearFields();
-            btnSubmit.setText("Submit");
+            btnSubmit.setText("Add");
             btnDelete.setVisible(false);
         }
 

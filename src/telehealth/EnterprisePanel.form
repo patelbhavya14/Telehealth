@@ -66,25 +66,20 @@
                                                   <Component id="txtEmail1" min="-2" pref="184" max="-2" attributes="0"/>
                                                   <Component id="ComboBoxEnterpriseType" min="-2" pref="184" max="-2" attributes="0"/>
                                               </Group>
+                                              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel8" alignment="0" min="-2" pref="76" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                   <Group type="102" attributes="0">
-                                                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="jLabel8" alignment="0" min="-2" pref="76" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="txtPhone" min="-2" pref="184" max="-2" attributes="0"/>
-                                                          <Component id="txtContactPerson" alignment="0" min="-2" pref="184" max="-2" attributes="0"/>
-                                                      </Group>
-                                                  </Group>
-                                                  <Group type="102" attributes="0">
-                                                      <EmptySpace min="-2" pref="156" max="-2" attributes="0"/>
                                                       <Component id="btnSubmit" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="32767" attributes="0"/>
                                                       <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
                                                   </Group>
+                                                  <Component id="txtPhone" min="-2" pref="184" max="-2" attributes="0"/>
+                                                  <Component id="txtContactPerson" alignment="0" min="-2" pref="184" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
