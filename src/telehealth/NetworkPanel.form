@@ -21,25 +21,25 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="355" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="445" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtNetworkName" min="-2" pref="184" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="btnAddNetwork" min="-2" pref="81" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="btnDeleteNetwork" min="-2" pref="81" max="-2" attributes="0"/>
+                              <Component id="btnAddNetwork" min="-2" pref="88" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                              <Component id="btnDeleteNetwork" max="32767" attributes="0"/>
                           </Group>
+                          <Component id="txtNetworkName" min="-2" pref="211" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="356" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="391" max="32767" attributes="0"/>
+              <EmptySpace pref="390" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -56,9 +56,9 @@
                   <Component id="btnAddNetwork" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnDeleteNetwork" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="120" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="170" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
+              <EmptySpace pref="149" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -125,6 +125,7 @@
     <Component class="javax.swing.JButton" name="btnAddNetwork">
       <Properties>
         <Property name="font" type="java.awt.Font" resourceKey="btnAddNetwork.font"/>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="btnAddNetwork.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="btnAddNetwork.text"/>
         <Property name="name" type="java.lang.String" value="btnAddNetwork" noResource="true"/>
       </Properties>
@@ -135,6 +136,7 @@
     <Component class="javax.swing.JButton" name="btnDeleteNetwork">
       <Properties>
         <Property name="font" type="java.awt.Font" resourceKey="btnDeleteNetwork.font"/>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="btnDeleteNetwork.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="btnDeleteNetwork.text"/>
         <Property name="name" type="java.lang.String" value="btnDeleteNetwork" noResource="true"/>
       </Properties>

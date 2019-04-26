@@ -143,6 +143,7 @@ public class InsurancePanel extends javax.swing.JPanel {
         cmbPatient.setName("cmbPatient"); // NOI18N
 
         btnAdd.setFont(resourceMap.getFont("btnAdd.font")); // NOI18N
+        btnAdd.setIcon(resourceMap.getIcon("btnAdd.icon")); // NOI18N
         btnAdd.setText(resourceMap.getString("btnAdd.text")); // NOI18N
         btnAdd.setName("btnAdd"); // NOI18N
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -152,6 +153,7 @@ public class InsurancePanel extends javax.swing.JPanel {
         });
 
         btnDelete.setFont(resourceMap.getFont("btnDelete.font")); // NOI18N
+        btnDelete.setIcon(resourceMap.getIcon("btnDelete.icon")); // NOI18N
         btnDelete.setText(resourceMap.getString("btnDelete.text")); // NOI18N
         btnDelete.setName("btnDelete"); // NOI18N
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -240,9 +242,9 @@ public class InsurancePanel extends javax.swing.JPanel {
                             .addComponent(cmbPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(310, 310, 310)
-                        .addComponent(btnAdd)
-                        .addGap(49, 49, 49)
-                        .addComponent(btnDelete)))
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(173, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

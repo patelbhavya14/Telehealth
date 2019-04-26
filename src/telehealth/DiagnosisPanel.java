@@ -172,6 +172,7 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         jScrollPane2.setViewportView(notesTextArea);
 
         btnAdd.setFont(resourceMap.getFont("btnAdd.font")); // NOI18N
+        btnAdd.setIcon(resourceMap.getIcon("btnAdd.icon")); // NOI18N
         btnAdd.setText(resourceMap.getString("btnAdd.text")); // NOI18N
         btnAdd.setName("btnAdd"); // NOI18N
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -181,6 +182,7 @@ public class DiagnosisPanel extends javax.swing.JPanel {
         });
 
         btnDelete.setFont(resourceMap.getFont("btnDelete.font")); // NOI18N
+        btnDelete.setIcon(resourceMap.getIcon("btnDelete.icon")); // NOI18N
         btnDelete.setText(resourceMap.getString("btnDelete.text")); // NOI18N
         btnDelete.setName("btnDelete"); // NOI18N
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -275,10 +277,10 @@ public class DiagnosisPanel extends javax.swing.JPanel {
                         .addGap(128, 128, 128)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 931, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(511, 511, 511)
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(478, 478, 478)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(41, 41, 41)
-                        .addComponent(btnDelete)))
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(141, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

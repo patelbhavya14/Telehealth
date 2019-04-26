@@ -59,31 +59,33 @@
                               <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                               <Component id="txtPatientDOB" min="-2" pref="200" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="108" max="-2" attributes="0"/>
-                              <Component id="btnDeletePatient" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnAddPatient" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="lblPatientBloodGroup" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblPatientAddress2" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblPatientCountry" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblPatientState" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="-2" pref="108" max="-2" attributes="0"/>
+                                  <Component id="btnDeletePatient" pref="93" max="32767" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="btnAddPatient" min="-2" pref="89" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="comboPatientBloodGroup" pref="200" max="32767" attributes="0"/>
-                                  <Component id="txtPatientState" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="txtPatientCountry" max="32767" attributes="0"/>
-                                  <Component id="jScrollPane3" pref="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="lblPatientBloodGroup" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblPatientAddress2" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblPatientCountry" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblPatientState" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="comboPatientBloodGroup" pref="200" max="32767" attributes="0"/>
+                                      <Component id="txtPatientState" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtPatientCountry" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane3" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace min="160" pref="202" max="32767" attributes="0"/>
+              <EmptySpace min="162" pref="202" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
@@ -301,6 +303,8 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnAddPatient">
       <Properties>
+        <Property name="font" type="java.awt.Font" resourceKey="btnAddPatient.font"/>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="btnAddPatient.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="btnAddPatient.text"/>
         <Property name="name" type="java.lang.String" value="btnAddPatient" noResource="true"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -404,6 +408,8 @@
     </Container>
     <Component class="javax.swing.JButton" name="btnDeletePatient">
       <Properties>
+        <Property name="font" type="java.awt.Font" resourceKey="btnAddPatient.font"/>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="btnDeletePatient.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="btnDeletePatient.text"/>
         <Property name="name" type="java.lang.String" value="btnDeletePatient" noResource="true"/>
       </Properties>

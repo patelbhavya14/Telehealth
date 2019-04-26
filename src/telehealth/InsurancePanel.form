@@ -73,9 +73,9 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="310" max="-2" attributes="0"/>
-                      <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-                      <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAdd" min="-2" pref="92" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="btnDelete" min="-2" pref="96" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="173" max="32767" attributes="0"/>
@@ -229,6 +229,7 @@
     <Component class="javax.swing.JButton" name="btnAdd">
       <Properties>
         <Property name="font" type="java.awt.Font" resourceKey="btnAdd.font"/>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="btnAdd.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="btnAdd.text"/>
         <Property name="name" type="java.lang.String" value="btnAdd" noResource="true"/>
       </Properties>
@@ -239,6 +240,7 @@
     <Component class="javax.swing.JButton" name="btnDelete">
       <Properties>
         <Property name="font" type="java.awt.Font" resourceKey="btnDelete.font"/>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="btnDelete.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="btnDelete.text"/>
         <Property name="name" type="java.lang.String" value="btnDelete" noResource="true"/>
       </Properties>
