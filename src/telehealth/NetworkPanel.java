@@ -11,6 +11,7 @@ import com.telehealth.Business.Enterprise.Enterprise;
 import com.telehealth.Business.Network.Network;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static telehealth.TeleHealthApp.logger;
 
 /**
  *
@@ -23,7 +24,7 @@ public class NetworkPanel extends javax.swing.JPanel {
      */
     private EcoSystem system;
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
-    private int networkId;
+    private int networkId;    
     
     public NetworkPanel(TeleHealthView teleHealthView, EcoSystem system) {
         initComponents();
@@ -189,6 +190,7 @@ public class NetworkPanel extends javax.swing.JPanel {
                     dB4OUtil.storeSystem(system);
                     JOptionPane.showMessageDialog(null, "Network added successfully");
                     clearFields();
+                    logger.debug("Network added");
                 } else {
                     JOptionPane.showMessageDialog(null, "Network with entered name already exists", "Validation Error", JOptionPane.WARNING_MESSAGE);
                 }
@@ -202,7 +204,7 @@ public class NetworkPanel extends javax.swing.JPanel {
                         break;
                     } else {                        
                         if(network.getNetworkId() == networkId){
-                            System.out.println(network.getNetworkId()+"-"+network.getName());
+                            logger.debug(network.getNetworkId()+"-"+network.getName());
                             networkToBeUpdated = network;
                         }
                     }
@@ -237,6 +239,7 @@ public class NetworkPanel extends javax.swing.JPanel {
             }
         } catch (Exception e){
             e.printStackTrace();
+            logger.error("Exception in mouse click", e);
         }
     }//GEN-LAST:event_tblNetworkMouseClicked
 
