@@ -342,7 +342,7 @@ public class InsurancePanel extends javax.swing.JPanel {
                     currentInsurance.setPolicyCoverage(txtPolicyCoverage.getText());
                     currentInsurance.setPolicyAmount(Double.parseDouble(txtAmount.getText()));
                     currentInsurance.setPolicyStartDate(simpleDateFormat.parse(txtpolicyStartDate.getText()));
-                    currentInsurance.setPolicyEndDate(simpleDateFormat.parse(txtpolicyStartDate.getText()));
+                    currentInsurance.setPolicyEndDate(simpleDateFormat.parse(txtpolicyEndDate.getText()));
 
                     try {
                         dB4OUtil.storeSystem(system);
