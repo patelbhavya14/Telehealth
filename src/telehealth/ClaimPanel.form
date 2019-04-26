@@ -121,7 +121,9 @@
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtClaimDate">
       <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="txtClaimDate.text"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+          <Format format="##/##/####" subtype="-1" type="5"/>
+        </Property>
         <Property name="font" type="java.awt.Font" resourceKey="txtClaimDate.font"/>
         <Property name="name" type="java.lang.String" value="txtClaimDate" noResource="true"/>
       </Properties>
