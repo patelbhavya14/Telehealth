@@ -17,6 +17,9 @@ import com.telehealth.Business.Patient.PatientPrescription;
 import com.telehealth.Business.UserAccount.UserAccount;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -40,6 +43,7 @@ public class ClaimPanel extends javax.swing.JPanel {
     PatientInsurance currentInsurance;
     Enterprise currentEnterprise;
     Organization currentOrganization;
+    
 
     public ClaimPanel(TeleHealthView teleHealthView, EcoSystem system, Enterprise currentEnterprise, Organization currentOrganization, UserAccount userAccount) {
         initComponents();
@@ -48,6 +52,7 @@ public class ClaimPanel extends javax.swing.JPanel {
         this.currentEnterprise = currentEnterprise;
         this.currentOrganization = currentOrganization;
         btnDelete.setVisible(false);
+
         populatePatientComboBox();
         populateTable();
         clearFields();
@@ -93,7 +98,11 @@ public class ClaimPanel extends javax.swing.JPanel {
         jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
         jLabel3.setName("jLabel3"); // NOI18N
 
-        txtClaimDate.setText(resourceMap.getString("txtClaimDate.text")); // NOI18N
+        try {
+            txtClaimDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         txtClaimDate.setFont(resourceMap.getFont("txtClaimDate.font")); // NOI18N
         txtClaimDate.setName("txtClaimDate"); // NOI18N
         txtClaimDate.addActionListener(new java.awt.event.ActionListener() {
@@ -264,6 +273,23 @@ public class ClaimPanel extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
+        PatientPrescription cpp = (PatientPrescription) cmbPatientPrescription.getSelectedItem();
+        
+        if(validateFields()) {
+            cpp.setReceiver2(userAccount);
+            cpp.getClaim().setClaimAmount(Double.parseDouble(txtClaimAmount.getText()));
+            try {
+                cpp.getClaim().setClaimDate(simpleDateFormat.parse(txtClaimDate.getText()));
+            } catch (ParseException ex) {
+                Logger.getLogger(ClaimPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dB4OUtil.storeSystem(system);
+                clearFields();
+                populateTable();
+            JOptionPane.showMessageDialog(null, "Insurance claimed successfully");
+            
+        }
+        
 //        
 //        Patient patient = (Patient)cmbPatient.getSelectedItem();
 //        PatientInsurance patientInsurance= (PatientInsurance) cmbPatientInsurance.getSelectedItem();
@@ -360,9 +386,28 @@ public class ClaimPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblClaim.getModel();
 
         model.setRowCount(0);
+        
+        for(Patient p: this.system.getPatientDirectory().getPatientList()) {
+            for(PatientDiagnosis pd: p.getPatientDiagnosisList()) {
+            for(PatientPrescription pc: pd.getPatientPrescriptionList()) {
+                if(pc.getReceiver1() != null && pc.getReceiver2() !=null) {
+                    Object[] row = new Object[4];
+                    row[0] = p;
+                    row[1] = pc;
+                    row[2] = pc.getClaim().getClaimAmount();
+                    row[3] = pc.getClaim().getClaimDate();
+                    model.addRow(row);
+                }
+                
+            }
+        }
+        }
+        
     }
 
     public void clearFields() {
+        cmbPatient.setSelectedItem(null);
+        cmbPatientPrescription.setSelectedItem(null);
         txtClaimAmount.setText("");
         txtClaimDate.setText("");
     }
@@ -383,7 +428,9 @@ public class ClaimPanel extends javax.swing.JPanel {
     public boolean validateFields() {
 
         if (txtClaimAmount.getText().equals("")
-                || txtClaimDate.getText().equals("")) {
+                || txtClaimDate.getText().equals("") ||
+                cmbPatient.getSelectedIndex() == -1 ||
+                cmbPatientPrescription.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(null, "All fields are mandatory", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return false;
         }
@@ -409,7 +456,7 @@ public class ClaimPanel extends javax.swing.JPanel {
         
         for(PatientDiagnosis pd: patient.getPatientDiagnosisList()) {
             for(PatientPrescription pc: pd.getPatientPrescriptionList()) {
-                if(pc.getReceiver1() != null) {
+                if(pc.getReceiver1() != null && pc.getReceiver2() ==null) {
                     cmbPatientPrescription.addItem(pc);
                 }
                 
