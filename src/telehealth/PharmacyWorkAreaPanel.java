@@ -8,7 +8,6 @@ package telehealth;
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
 import com.telehealth.Business.Enterprise.Enterprise;
-import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.Organization.InsuranceOrganization;
 import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Organization.PharmacyOrganization;
@@ -19,13 +18,12 @@ import com.telehealth.Business.Patient.PrescriptionDrugs;
 import com.telehealth.Business.UserAccount.UserAccount;
 import com.telehealth.Business.WorkQueue.PrescriptionWorkRequest;
 import com.telehealth.Business.WorkQueue.WorkRequest;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import telehealth.TeleHealthView;
+import static telehealth.TeleHealthApp.logger;
 
 /**
  *
@@ -399,7 +397,7 @@ public class PharmacyWorkAreaPanel extends javax.swing.JPanel {
                         //                        GsonBuilder builder = new GsonBuilder();
                         //                        builder.setPrettyPrinting().serializeNulls();
                         //                        Gson gson = builder.create();
-                        //                        System.out.println(gson.toJson(system));
+                        //                        logger.debug(gson.toJson(system));
 
                         dB4OUtil.storeSystem(system);
                         JOptionPane.showMessageDialog(null, "Prescription added successfully");

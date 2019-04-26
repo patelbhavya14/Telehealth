@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static telehealth.TeleHealthApp.logger;
 
 /**
  *
@@ -454,7 +455,7 @@ public class PrescriptionPanel extends javax.swing.JPanel {
 //                            }
 //                        }
                         if (org!=null && org2!=null){
-                            System.out.println("setting workrequest in a q");
+                            logger.debug("setting workrequest in a q");
                             org.getWorkQueue().getWorkRequestList().add(request);
                             org2.getWorkQueue().getWorkRequestList().add(request);
                             userAccount.getWorkQueue().getWorkRequestList().add(request);
@@ -464,7 +465,7 @@ public class PrescriptionPanel extends javax.swing.JPanel {
 //                        GsonBuilder builder = new GsonBuilder();
 //                        builder.setPrettyPrinting().serializeNulls();
 //                        Gson gson = builder.create();
-//                        System.out.println(gson.toJson(system));
+//                        logger.debug(gson.toJson(system));
                         
                         dB4OUtil.storeSystem(system);
                         JOptionPane.showMessageDialog(null, "Prescription added successfully");

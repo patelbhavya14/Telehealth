@@ -30,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import static telehealth.TeleHealthApp.logger;
 
 /**
  * The application's main frame.
@@ -57,7 +58,7 @@ public class TeleHealthView extends FrameView {
 //        GsonBuilder builder = new GsonBuilder();
 //        builder.setPrettyPrinting().serializeNulls();
 //        Gson gson = builder.create();
-//        System.out.println(gson.toJson(system));
+//        logger.debug(gson.toJson(system));
         system = dB4OUtil.retrieveSystem();
 
 //        dB4OUtil.storeSystem(system);
@@ -548,8 +549,8 @@ public class TeleHealthView extends FrameView {
 
     private void jmiPatientDiagnosisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPatientDiagnosisActionPerformed
         // TODO add your handling code here:
-//        System.out.println("Role: "+userAccount.getRole());
-//        System.out.println("Role: "+new HospitalRole());
+//        logger.debug("Role: "+userAccount.getRole());
+//        logger.debug("Role: "+new HospitalRole());
         if (userAccount.getRole().toString().equals(new HospitalRole().toString())) {
             JPanel currentPanel = new JPanel(new BorderLayout());
 
@@ -739,7 +740,7 @@ public class TeleHealthView extends FrameView {
                                         inOrganization = organization;
                                         currentEnterprise = enterprise;
                                         currentOrganization = organization;
-                                        System.out.println("org type:" + currentOrganization.getClass());
+                                        logger.debug("org type:" + currentOrganization.getClass());
                                         break;
                                     }
                                 }
@@ -764,13 +765,13 @@ public class TeleHealthView extends FrameView {
 //                    GsonBuilder builder = new GsonBuilder();
 //                    builder.setPrettyPrinting().serializeNulls();
 //                    Gson gson = builder.create();
-//                    System.out.println(gson.toJson(system));
+//                    logger.debug(gson.toJson(system));
 
 //                    CardLayout layout=(CardLayout)container.getLayout();
 //                    container.add("workArea",userAccount.getRole().createWorkArea(container, userAccount, inOrganization, inEnterprise, system));
 //                    layout.next(container);
-                    System.out.println("USERACCOUNT");
-                    System.out.println("User Role:" + String.valueOf(userAccount.getRole()));
+                    logger.debug("USERACCOUNT");
+                    logger.debug("User Role:" + String.valueOf(userAccount.getRole()));
                     String role = String.valueOf(userAccount.getRole());
 
                     if (role.equals("com.telehealth.Business.Role.SystemAdminRole")) {

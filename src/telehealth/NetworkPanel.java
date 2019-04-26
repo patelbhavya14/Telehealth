@@ -11,7 +11,6 @@ import com.telehealth.Business.Enterprise.Enterprise;
 import com.telehealth.Business.Network.Network;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import org.apache.log4j.Logger;
 import static telehealth.TeleHealthApp.logger;
 
 /**
@@ -205,7 +204,7 @@ public class NetworkPanel extends javax.swing.JPanel {
                         break;
                     } else {                        
                         if(network.getNetworkId() == networkId){
-                            System.out.println(network.getNetworkId()+"-"+network.getName());
+                            logger.debug(network.getNetworkId()+"-"+network.getName());
                             networkToBeUpdated = network;
                         }
                     }

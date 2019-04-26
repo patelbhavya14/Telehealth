@@ -9,18 +9,17 @@ import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
 import com.telehealth.Business.Employee.Employee;
 import com.telehealth.Business.Enterprise.Enterprise;
-import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.UserAccount.UserAccount;
 import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Role.HospitalRole;
 import com.telehealth.Business.Role.InsuranceRole;
 import com.telehealth.Business.Role.PharmacyRole;
-import com.telehealth.Business.Role.Role;
 import com.telehealth.Utility.CommonUtility;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static telehealth.TeleHealthApp.logger;
 
 /**
  *
@@ -266,15 +265,15 @@ public class OrganizationUserPanel extends javax.swing.JPanel {
                 
                 if(String.valueOf(enterprise.getEnterpriseType()).equals("Hospital")) {
                      org.getUserAccountDirectory().createUserAccount(username, password, employee, new HospitalRole());
-                     System.out.println("here1");
+                     logger.debug("here1");
                 }
                 else if(String.valueOf(enterprise.getEnterpriseType()).equals("Pharmacy")) {
                      org.getUserAccountDirectory().createUserAccount(username, password, employee, new PharmacyRole());
-                     System.out.println("here2");
+                     logger.debug("here2");
                 }
                 else {
                      org.getUserAccountDirectory().createUserAccount(username, password, employee, new InsuranceRole());
-                     System.out.println("here3");
+                     logger.debug("here3");
                 }
 
                 try {
