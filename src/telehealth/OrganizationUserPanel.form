@@ -30,27 +30,22 @@
                   <Component id="jLabel10" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnAdd" min="-2" pref="92" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnDelete" min="-2" pref="97" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="484" max="-2" attributes="0"/>
+                      <Component id="btnDelete" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="pwdPassword" alignment="0" pref="199" max="32767" attributes="0"/>
-                              <Component id="txtName" alignment="0" pref="199" max="32767" attributes="0"/>
-                              <Component id="txtUsername" alignment="0" max="32767" attributes="0"/>
-                              <Component id="cmbOrganization" alignment="0" pref="199" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="txtPhone" min="-2" pref="199" max="-2" attributes="0"/>
-                          <Component id="txtEmail" min="-2" pref="199" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="pwdPassword" alignment="0" pref="199" max="32767" attributes="0"/>
+                      <Component id="txtName" alignment="0" pref="199" max="32767" attributes="0"/>
+                      <Component id="txtUsername" alignment="0" max="32767" attributes="0"/>
+                      <Component id="cmbOrganization" alignment="0" pref="199" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="txtPhone" min="-2" pref="199" max="-2" attributes="0"/>
+                  <Component id="txtEmail" min="-2" pref="199" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
@@ -176,6 +171,7 @@
     <Component class="javax.swing.JButton" name="btnAdd">
       <Properties>
         <Property name="font" type="java.awt.Font" resourceKey="btnAdd.font"/>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="btnAdd.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="btnAdd.text"/>
         <Property name="name" type="java.lang.String" value="btnAdd" noResource="true"/>
       </Properties>
@@ -186,6 +182,7 @@
     <Component class="javax.swing.JButton" name="btnDelete">
       <Properties>
         <Property name="font" type="java.awt.Font" resourceKey="btnDelete.font"/>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="btnDelete.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="btnDelete.text"/>
         <Property name="name" type="java.lang.String" value="btnDelete" noResource="true"/>
       </Properties>

@@ -12,6 +12,65 @@
       </Events>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="jPanel1">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="jPanel1" noResource="true"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+              <CardConstraints cardName="card2"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="489" max="-2" attributes="0"/>
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="316" max="-2" attributes="0"/>
+                              <Component id="jLabel2" min="-2" pref="567" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="327" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jLabel2" min="-2" pref="169" max="-2" attributes="0"/>
+                      <EmptySpace pref="299" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="jLabel1.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="jLabel1.text"/>
+                <Property name="name" type="java.lang.String" value="jLabel1" noResource="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel2">
+              <Properties>
+                <Property name="font" type="java.awt.Font" resourceKey="jLabel2.font"/>
+                <Property name="text" type="java.lang.String" resourceKey="jLabel2.text"/>
+                <Property name="name" type="java.lang.String" value="jLabel2" noResource="true"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
     </Container>
     <Container class="javax.swing.JMenuBar" name="menuBar">
       <Properties>
@@ -90,6 +149,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiAddUser">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+S"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" resourceKey="jmiAddUser.font"/>
                 <Property name="text" type="java.lang.String" resourceKey="jmiAddUser.text"/>
                 <Property name="name" type="java.lang.String" value="jmiAddUser" noResource="true"/>
@@ -126,6 +188,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiPharmacyWorkArea">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+W"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" resourceKey="jmiPharmacyWorkArea.font"/>
                 <Property name="text" type="java.lang.String" resourceKey="jmiPharmacyWorkArea.text"/>
                 <Property name="name" type="java.lang.String" value="jmiPharmacyWorkArea" noResource="true"/>
@@ -136,6 +201,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiAddInsurance">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+I"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" resourceKey="jmiAddInsurance.font"/>
                 <Property name="text" type="java.lang.String" resourceKey="jmiAddInsurance.text"/>
                 <Property name="name" type="java.lang.String" value="jmiAddInsurance" noResource="true"/>
@@ -146,6 +214,10 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiClaimInsurance">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+C"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" resourceKey="jmiClaimInsurance.font"/>
                 <Property name="text" type="java.lang.String" resourceKey="jmiClaimInsurance.text"/>
                 <Property name="name" type="java.lang.String" value="jmiClaimInsurance" noResource="true"/>
               </Properties>

@@ -143,6 +143,8 @@ public class PatientPanel extends javax.swing.JPanel {
         txtPatientDOB.setName("txtPatientDOB"); // NOI18N
         txtPatientDOB.setPreferredSize(new java.awt.Dimension(56, 32));
 
+        btnAddPatient.setFont(resourceMap.getFont("btnAddPatient.font")); // NOI18N
+        btnAddPatient.setIcon(resourceMap.getIcon("btnAddPatient.icon")); // NOI18N
         btnAddPatient.setText(resourceMap.getString("btnAddPatient.text")); // NOI18N
         btnAddPatient.setName("btnAddPatient"); // NOI18N
         btnAddPatient.setPreferredSize(new java.awt.Dimension(116, 32));
@@ -200,6 +202,8 @@ public class PatientPanel extends javax.swing.JPanel {
             tblPatient.getColumnModel().getColumn(9).setHeaderValue(resourceMap.getString("tblPatient.columnModel.title7")); // NOI18N
         }
 
+        btnDeletePatient.setFont(resourceMap.getFont("btnAddPatient.font")); // NOI18N
+        btnDeletePatient.setIcon(resourceMap.getIcon("btnDeletePatient.icon")); // NOI18N
         btnDeletePatient.setText(resourceMap.getString("btnDeletePatient.text")); // NOI18N
         btnDeletePatient.setName("btnDeletePatient"); // NOI18N
         btnDeletePatient.addActionListener(new java.awt.event.ActionListener() {
@@ -283,24 +287,25 @@ public class PatientPanel extends javax.swing.JPanel {
                                 .addComponent(lblPatientDOB)
                                 .addGap(50, 50, 50)
                                 .addComponent(txtPatientDOB, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(108, 108, 108)
-                                .addComponent(btnDeletePatient)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAddPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblPatientBloodGroup)
-                                    .addComponent(lblPatientAddress2)
-                                    .addComponent(lblPatientCountry)
-                                    .addComponent(lblPatientState))
-                                .addGap(50, 50, 50)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(comboPatientBloodGroup, 0, 200, Short.MAX_VALUE)
-                                    .addComponent(txtPatientState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtPatientCountry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))))
-                .addGap(160, 202, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(108, 108, 108)
+                                    .addComponent(btnDeletePatient, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnAddPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lblPatientBloodGroup)
+                                        .addComponent(lblPatientAddress2)
+                                        .addComponent(lblPatientCountry)
+                                        .addComponent(lblPatientState))
+                                    .addGap(50, 50, 50)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(comboPatientBloodGroup, 0, 200, Short.MAX_VALUE)
+                                        .addComponent(txtPatientState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtPatientCountry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))))))
+                .addGap(162, 202, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 875, javax.swing.GroupLayout.PREFERRED_SIZE)

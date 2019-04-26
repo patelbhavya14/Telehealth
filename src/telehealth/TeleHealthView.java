@@ -137,6 +137,9 @@ public class TeleHealthView extends FrameView {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         jmiNetwork = new javax.swing.JMenuItem();
@@ -178,9 +181,45 @@ public class TeleHealthView extends FrameView {
         });
         mainPanel.setLayout(new java.awt.CardLayout());
 
-        menuBar.setName("menuBar"); // NOI18N
+        jPanel1.setName("jPanel1"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(telehealth.TeleHealthApp.class).getContext().getResourceMap(TeleHealthView.class);
+        jLabel1.setIcon(resourceMap.getIcon("jLabel1.icon")); // NOI18N
+        jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
+        jLabel1.setName("jLabel1"); // NOI18N
+
+        jLabel2.setFont(resourceMap.getFont("jLabel2.font")); // NOI18N
+        jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
+        jLabel2.setName("jLabel2"); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(489, 489, 489)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(316, 316, 316)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(327, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(167, 167, 167)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(299, Short.MAX_VALUE))
+        );
+
+        mainPanel.add(jPanel1, "card2");
+
+        menuBar.setName("menuBar"); // NOI18N
+
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
         fileMenu.setFont(resourceMap.getFont("fileMenu.font")); // NOI18N
         fileMenu.setMargin(new java.awt.Insets(0, 20, 0, 20));
@@ -230,6 +269,7 @@ public class TeleHealthView extends FrameView {
         });
         fileMenu.add(jmiPatient);
 
+        jmiAddUser.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jmiAddUser.setFont(resourceMap.getFont("jmiAddUser.font")); // NOI18N
         jmiAddUser.setText(resourceMap.getString("jmiAddUser.text")); // NOI18N
         jmiAddUser.setName("jmiAddUser"); // NOI18N
@@ -262,6 +302,7 @@ public class TeleHealthView extends FrameView {
         });
         fileMenu.add(jmiPatientPrescription);
 
+        jmiPharmacyWorkArea.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
         jmiPharmacyWorkArea.setFont(resourceMap.getFont("jmiPharmacyWorkArea.font")); // NOI18N
         jmiPharmacyWorkArea.setText(resourceMap.getString("jmiPharmacyWorkArea.text")); // NOI18N
         jmiPharmacyWorkArea.setName("jmiPharmacyWorkArea"); // NOI18N
@@ -272,6 +313,7 @@ public class TeleHealthView extends FrameView {
         });
         fileMenu.add(jmiPharmacyWorkArea);
 
+        jmiAddInsurance.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         jmiAddInsurance.setFont(resourceMap.getFont("jmiAddInsurance.font")); // NOI18N
         jmiAddInsurance.setText(resourceMap.getString("jmiAddInsurance.text")); // NOI18N
         jmiAddInsurance.setName("jmiAddInsurance"); // NOI18N
@@ -282,6 +324,8 @@ public class TeleHealthView extends FrameView {
         });
         fileMenu.add(jmiAddInsurance);
 
+        jmiClaimInsurance.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        jmiClaimInsurance.setFont(resourceMap.getFont("jmiClaimInsurance.font")); // NOI18N
         jmiClaimInsurance.setText(resourceMap.getString("jmiClaimInsurance.text")); // NOI18N
         jmiClaimInsurance.setName("jmiClaimInsurance"); // NOI18N
         jmiClaimInsurance.addActionListener(new java.awt.event.ActionListener() {
@@ -511,6 +555,9 @@ public class TeleHealthView extends FrameView {
         int selectedOption = JOptionPane.showConfirmDialog(null, "Confirm logout", "Are you sure you want to logout?", JOptionPane.YES_NO_OPTION);
         if (selectedOption == JOptionPane.OK_OPTION) {
             mainPanel.removeAll();
+            mainPanel.add(jPanel1, "Dash");
+            CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
+            cardLayout.next(mainPanel);
             login();
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -596,7 +643,7 @@ public class TeleHealthView extends FrameView {
         Dimension dim = getMainPanelDimension();
         JPanel containerPanel = new JPanel();
         TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
-        titlePanel.setTitle("");
+        titlePanel.setTitle("Patient Prescription");
         titlePanel.setSize(1200, 50);
         titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
         currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
@@ -604,7 +651,7 @@ public class TeleHealthView extends FrameView {
         containerPanel.add(titlePanel);
         containerPanel.add(currentPanel);
 
-        mainPanel.add(containerPanel, "NPatient Prescription");
+        mainPanel.add(containerPanel, "Patient Prescription");
         CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
         cardLayout.next(mainPanel);
 //        mainPanel.add(titlePanel);
@@ -631,7 +678,7 @@ public class TeleHealthView extends FrameView {
         Dimension dim = getMainPanelDimension();
         JPanel containerPanel = new JPanel();
         TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
-        titlePanel.setTitle("");
+        titlePanel.setTitle("Add Insurance");
         titlePanel.setSize(1200, 50);
         titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
         currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
@@ -663,7 +710,7 @@ public class TeleHealthView extends FrameView {
         Dimension dim = getMainPanelDimension();
         JPanel containerPanel = new JPanel();
         TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
-        titlePanel.setTitle("");
+        titlePanel.setTitle("Pharmacy Work Area");
         titlePanel.setSize(1200, 50);
         titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
         currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
@@ -671,7 +718,7 @@ public class TeleHealthView extends FrameView {
         containerPanel.add(titlePanel);
         containerPanel.add(currentPanel);
 
-        mainPanel.add(containerPanel, "NPharmacy Work Area");
+        mainPanel.add(containerPanel, "Pharmacy Work Area");
         CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
         cardLayout.next(mainPanel);
 //        mainPanel.add(titlePanel);
@@ -695,7 +742,7 @@ public class TeleHealthView extends FrameView {
         Dimension dim = getMainPanelDimension();
         JPanel containerPanel = new JPanel();
         TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
-        titlePanel.setTitle("");
+        titlePanel.setTitle("Claim Insurance");
         titlePanel.setSize(1200, 50);
         titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
         currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
@@ -703,7 +750,7 @@ public class TeleHealthView extends FrameView {
         containerPanel.add(titlePanel);
         containerPanel.add(currentPanel);
 
-        mainPanel.add(containerPanel, "NPharmacy Work Area");
+        mainPanel.add(containerPanel, "Claim Insurance");
         CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
         cardLayout.next(mainPanel);
     }//GEN-LAST:event_jmiClaimInsuranceActionPerformed
@@ -840,7 +887,10 @@ public class TeleHealthView extends FrameView {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuItem jmiAddInsurance;

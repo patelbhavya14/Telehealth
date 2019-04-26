@@ -236,6 +236,7 @@
     <Component class="javax.swing.JButton" name="btnAdd">
       <Properties>
         <Property name="font" type="java.awt.Font" resourceKey="btnAdd.font"/>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="btnAdd.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="btnAdd.text"/>
         <Property name="name" type="java.lang.String" value="btnAdd" noResource="true"/>
       </Properties>
@@ -246,6 +247,7 @@
     <Component class="javax.swing.JButton" name="btnDelete">
       <Properties>
         <Property name="font" type="java.awt.Font" resourceKey="btnDelete.font"/>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="btnDelete.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="btnDelete.text"/>
         <Property name="name" type="java.lang.String" value="btnDelete" noResource="true"/>
       </Properties>
