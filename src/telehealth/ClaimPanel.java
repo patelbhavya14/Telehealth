@@ -10,19 +10,17 @@ import com.telehealth.Business.EcoSystem;
 import com.telehealth.Business.Enterprise.Enterprise;
 import com.telehealth.Business.Organization.Organization;
 import com.telehealth.Business.Patient.Patient;
-import com.telehealth.Business.Patient.PatientClaim;
 import com.telehealth.Business.Patient.PatientDiagnosis;
 import com.telehealth.Business.Patient.PatientInsurance;
 import com.telehealth.Business.Patient.PatientPrescription;
 import com.telehealth.Business.UserAccount.UserAccount;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import static telehealth.TeleHealthApp.logger;
 /**
  *
  * @author RASHMI
@@ -471,7 +469,7 @@ public class ClaimPanel extends javax.swing.JPanel {
 //        for(Patient patient: this.system.getPatientDirectory().getPatientList()) {
 //            for(PatientInsurance patientInsurance: patient.getPatientInsuranceList()) {
 //                if(patientInsurance.getInsuranceCompany() == userAccount) {
-//                    System.out.println("here in ins");
+//                    logger.debug("here in ins");
 //                    cmbPatientInsurance.addItem(patient);
 //                }
 //            }

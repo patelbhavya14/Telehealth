@@ -8,15 +8,12 @@ package telehealth;
 import com.telehealth.Business.DB4OUtil.DB4OUtil;
 import com.telehealth.Business.EcoSystem;
 import com.telehealth.Business.Enterprise.Enterprise;
-import com.telehealth.Business.Enterprise.EnterpriseDirectory;
 import com.telehealth.Business.Network.Network;
 import com.telehealth.Business.Organization.Organization;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import com.telehealth.Business.Organization.Organization.Type;
+import static telehealth.TeleHealthApp.logger;
 
 /**
  *
@@ -589,15 +586,15 @@ public class EnterprisePanel extends javax.swing.JPanel {
                 
                 Type type;
                 if(String.valueOf(enterprise.getName()).equals("Hospital Enterprise")) {
-                    System.out.println("here1");
+                    logger.debug("here1");
                     type = Organization.Type.Hospital;
                 }
                 else if(String.valueOf(enterprise.getName()).equals("Pharmacy Enterprise")) {
-                    System.out.println("here2");
+                    logger.debug("here2");
                     type = Organization.Type.Pharmacy;
                 }
                 else {
-                    System.out.println("here3");
+                    logger.debug("here3");
                     type = Organization.Type.Insurance;
                 }
 //                if (network == null || type == null) {

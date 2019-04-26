@@ -7,6 +7,7 @@ package telehealth;
 import com.alee.laf.WebLookAndFeel;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import org.apache.log4j.Logger;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
@@ -15,6 +16,7 @@ import org.jdesktop.application.SingleFrameApplication;
  */
 public class TeleHealthApp extends SingleFrameApplication {
 
+    public final static Logger logger = Logger.getLogger(TeleHealthApp.class);
     /**
      * At startup create and show the main frame of the application.
      */

@@ -18,6 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.Logger;
+import static telehealth.TeleHealthApp.logger;
 
 /**
  *
@@ -37,7 +39,8 @@ public class DiagnosisPanel extends javax.swing.JPanel {
     PatientDiagnosis patientDiagnosis;
     Patient patient;
     Enterprise currentEnterprise;
-    Organization currentOrganization;    
+    Organization currentOrganization;   
+    
     
     public DiagnosisPanel(TeleHealthView teleHealthView, EcoSystem system, Enterprise currentEnterprise, Organization currentOrganization, UserAccount userAccount) {
         initComponents();
@@ -540,6 +543,8 @@ public class DiagnosisPanel extends javax.swing.JPanel {
             
         } catch (NumberFormatException ne){
             JOptionPane.showMessageDialog(null, "Please enter valid values", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            logger.error("Number parse error", ne);
+            ne.printStackTrace();
             return false;
         }
         
@@ -550,6 +555,7 @@ public class DiagnosisPanel extends javax.swing.JPanel {
             }
         } catch (ParseException pe){
             JOptionPane.showMessageDialog(null, "Please enter valid values", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            logger.error("Date parse error", pe);
             return false;
         }
         return true;
