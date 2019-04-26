@@ -360,6 +360,7 @@ public class ClaimPanel extends javax.swing.JPanel {
 
     private void cmbPatientPrescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPatientPrescriptionActionPerformed
         // TODO add your handling code here:
+  
         PatientPrescription pc = (PatientPrescription) cmbPatientPrescription.getSelectedItem();
         txtClaimAmount.setText(String.valueOf(pc.getAmount()));
     }//GEN-LAST:event_cmbPatientPrescriptionActionPerformed
@@ -451,10 +452,11 @@ public class ClaimPanel extends javax.swing.JPanel {
 
         cmbPatientPrescription.removeAllItems();
         Patient patient = (Patient) cmbPatient.getSelectedItem();
-        
+        System.out.println("patient="+patient.getPatientDiagnosisList());
         for(PatientDiagnosis pd: patient.getPatientDiagnosisList()) {
+            
             for(PatientPrescription pc: pd.getPatientPrescriptionList()) {
-                if(pc.getReceiver1() != null && pc.getReceiver2() ==null) {
+                if(pc.getReceiver1() != null && pc.getReceiver2() == null) {
                     cmbPatientPrescription.addItem(pc);
                 }
                 
