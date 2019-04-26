@@ -39,20 +39,20 @@ public class TeleHealthView extends FrameView {
     private EcoSystem system;
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     private String message;
-    private JPanel currentPanel;
-    private TitlePanel titlePanel;
+//    private JPanel currentPanel;
+//    private TitlePanel titlePanel;
     private UserAccount userAccount;
     private Enterprise currentEnterprise;
     private Organization currentOrganization;
-    private JPanel containerPanel;
+//    private JPanel containerPanel;
 
     public TeleHealthView(SingleFrameApplication app) {
         super(app);
 
         initComponents();
-        containerPanel = new JPanel();
-        currentPanel = new JPanel(new BorderLayout());
-        titlePanel = new TitlePanel(mainPanel,containerPanel);
+//        JPanel containerPanel = new JPanel();
+//        JPanel currentPanel = new JPanel(new BorderLayout());
+//        TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
 
 //        GsonBuilder builder = new GsonBuilder();
 //        builder.setPrettyPrinting().serializeNulls();
@@ -368,16 +368,18 @@ public class TeleHealthView extends FrameView {
 
     private void jmiNetworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNetworkActionPerformed
         // TODO add your handling code here:
-        currentPanel.removeAll();
-        currentPanel.invalidate();
+        JPanel currentPanel = new JPanel(new BorderLayout());
 
         NetworkPanel networkPanel = new NetworkPanel(this, system);
         currentPanel.add(networkPanel, BorderLayout.CENTER);
         Dimension dim = getMainPanelDimension();
+        JPanel containerPanel = new JPanel();
+        TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
         titlePanel.setTitle("Network Panel");
         titlePanel.setSize(1200, 50);
         titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
         currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        
         containerPanel.add(titlePanel);
         containerPanel.add(currentPanel);
 
@@ -396,19 +398,20 @@ public class TeleHealthView extends FrameView {
     private void mainPanelComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_mainPanelComponentResized
         // TODO add your handling code here:
         Dimension dim = getMainPanelDimension();
-        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
-        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
+//        currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+//        titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
     }//GEN-LAST:event_mainPanelComponentResized
 
     private void jmiOrganizationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiOrganizationActionPerformed
         // TODO add your handling code here:
 
-        currentPanel.removeAll();
-        currentPanel.invalidate();
+        JPanel currentPanel = new JPanel(new BorderLayout());
 
         EnterprisePanel enterprisePanel = new EnterprisePanel(this, system);
         currentPanel.add(enterprisePanel, BorderLayout.CENTER);
         Dimension dim = getMainPanelDimension();
+        JPanel containerPanel = new JPanel();
+        TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
         titlePanel.setTitle("Enterprise Panel");
         titlePanel.setSize(1200, 50);
         titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
@@ -431,16 +434,18 @@ public class TeleHealthView extends FrameView {
 
     private void jmiPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPatientActionPerformed
         // TODO add your handling code here:
-        currentPanel.removeAll();
-        currentPanel.invalidate();
+        JPanel currentPanel = new JPanel(new BorderLayout());
 
         PatientPanel patientPanel = new PatientPanel(this, system);
         currentPanel.add(patientPanel, BorderLayout.CENTER);
         Dimension dim = getMainPanelDimension();
+        JPanel containerPanel = new JPanel();
+        TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
         titlePanel.setTitle("Patient Panel");
         titlePanel.setSize(1200, 50);
         titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
         currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        
         containerPanel.add(titlePanel);
         containerPanel.add(currentPanel);
 
@@ -460,17 +465,19 @@ public class TeleHealthView extends FrameView {
 
     private void jmiUserAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiUserAccountActionPerformed
         // TODO add your handling code here:
-        currentPanel.removeAll();
-        currentPanel.invalidate();
+        JPanel currentPanel = new JPanel(new BorderLayout());
 
         EnterpriseAdminPanel enterpriseAdminPanel = new EnterpriseAdminPanel(this, system);
         currentPanel.add(enterpriseAdminPanel, BorderLayout.CENTER);
 //        currentPanel = enterpriseAdminPanel;
         Dimension dim = getMainPanelDimension();
+        JPanel containerPanel = new JPanel();
+        TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
         titlePanel.setTitle("User Panel");
         titlePanel.setSize(1200, 50);
         titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
         currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        
         containerPanel.add(titlePanel);
         containerPanel.add(currentPanel);
 
@@ -499,17 +506,19 @@ public class TeleHealthView extends FrameView {
 
     private void jmiAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddUserActionPerformed
         // TODO add your handling code here:
-        currentPanel.removeAll();
-        currentPanel.invalidate();
+        JPanel currentPanel = new JPanel(new BorderLayout());
 
         OrganizationUserPanel organizationUserPanel = new OrganizationUserPanel(this, system, currentEnterprise);
         currentPanel.add(organizationUserPanel, BorderLayout.CENTER);
 //        currentPanel = enterpriseAdminPanel;
         Dimension dim = getMainPanelDimension();
+        JPanel containerPanel = new JPanel();
+        TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
         titlePanel.setTitle("Add User Panel");
         titlePanel.setSize(1200, 50);
         titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
         currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        
         containerPanel.add(titlePanel);
         containerPanel.add(currentPanel);
 
@@ -532,17 +541,19 @@ public class TeleHealthView extends FrameView {
 //        System.out.println("Role: "+userAccount.getRole());
 //        System.out.println("Role: "+new HospitalRole());
         if (userAccount.getRole().toString().equals(new HospitalRole().toString())) {
-            currentPanel.removeAll();
-            currentPanel.invalidate();
+            JPanel currentPanel = new JPanel(new BorderLayout());
 
             DiagnosisPanel diagnosisPanel = new DiagnosisPanel(this, system, currentEnterprise, currentOrganization, userAccount);
             currentPanel.add(diagnosisPanel, BorderLayout.CENTER);
             //        currentPanel = enterpriseAdminPanel;
             Dimension dim = getMainPanelDimension();
+            JPanel containerPanel = new JPanel();
+            TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
             titlePanel.setTitle("Patient Diagnosis");
             titlePanel.setSize(1200, 50);
             titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
             currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+            
             containerPanel.add(titlePanel);
             containerPanel.add(currentPanel);
 
@@ -566,17 +577,19 @@ public class TeleHealthView extends FrameView {
     private void jmiPatientPrescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPatientPrescriptionActionPerformed
         // TODO add your handling code here:
 //        if(userAccount.getRole().toString().equals(new HospitalRole().toString())){
-        currentPanel.removeAll();
-        currentPanel.invalidate();
+        JPanel currentPanel = new JPanel(new BorderLayout());
 
         PrescriptionPanel prescriptionPanel = new PrescriptionPanel(this, system, currentEnterprise, currentOrganization, userAccount);
         currentPanel.add(prescriptionPanel, BorderLayout.CENTER);
         //        currentPanel = enterpriseAdminPanel;
         Dimension dim = getMainPanelDimension();
+        JPanel containerPanel = new JPanel();
+        TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
         titlePanel.setTitle("");
         titlePanel.setSize(1200, 50);
         titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
         currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        
         containerPanel.add(titlePanel);
         containerPanel.add(currentPanel);
 
@@ -599,17 +612,19 @@ public class TeleHealthView extends FrameView {
 
     private void jmiAddInsuranceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddInsuranceActionPerformed
         // TODO add your handling code here:
-        currentPanel.removeAll();
-        currentPanel.invalidate();
+        JPanel currentPanel = new JPanel(new BorderLayout());
 
         InsurancePanel addInsurancePanel = new InsurancePanel(this, system, currentEnterprise, currentOrganization, userAccount);
         currentPanel.add(addInsurancePanel, BorderLayout.CENTER);
         //        currentPanel = enterpriseAdminPanel;
         Dimension dim = getMainPanelDimension();
+        JPanel containerPanel = new JPanel();
+        TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
         titlePanel.setTitle("");
         titlePanel.setSize(1200, 50);
         titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
         currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        
         containerPanel.add(titlePanel);
         containerPanel.add(currentPanel);
 
@@ -629,17 +644,19 @@ public class TeleHealthView extends FrameView {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        currentPanel.removeAll();
-        currentPanel.invalidate();
+        JPanel currentPanel = new JPanel(new BorderLayout());
 
         PharmacyWorkAreaPanel pharmacyWorkAreaPanel = new PharmacyWorkAreaPanel(this, system, currentEnterprise, currentOrganization, userAccount);
         currentPanel.add(pharmacyWorkAreaPanel, BorderLayout.CENTER);
         //        currentPanel = enterpriseAdminPanel;
         Dimension dim = getMainPanelDimension();
+        JPanel containerPanel = new JPanel();
+        TitlePanel titlePanel = new TitlePanel(mainPanel,containerPanel);
         titlePanel.setTitle("");
         titlePanel.setSize(1200, 50);
         titlePanel.setBounds((int) dim.getWidth(), (int) dim.getHeight(), 1200, 50);
         currentPanel.setBounds((int) dim.getWidth(), (int) dim.getHeight() + 55, 1200, 640);
+        
         containerPanel.add(titlePanel);
         containerPanel.add(currentPanel);
 
