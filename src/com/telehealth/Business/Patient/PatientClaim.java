@@ -14,8 +14,12 @@ import java.util.Date;
 public class PatientClaim {
     private Date claimDate;
     private double claimAmount;
+    
+    public PatientClaim(){
+        
+    }
 
-    public PatientClaim(double parseDouble, Date parse) {
+    public PatientClaim(double claimAmount, Date claimDate) {
         
         this.claimAmount = claimAmount;
         this.claimDate = claimDate;

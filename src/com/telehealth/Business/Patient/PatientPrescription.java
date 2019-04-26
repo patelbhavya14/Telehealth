@@ -32,6 +32,7 @@ public class PatientPrescription {
         this.nextPrescription = nextPrescription;
         this.notes = notes;
         prescriptionDrugList = new ArrayList<>();
+        claim = new PatientClaim();
     }
 
     public int getPatientPrescriptionId() {
